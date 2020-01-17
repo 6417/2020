@@ -8,7 +8,17 @@ import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 class LatchedBooleanTest {
  
     @Test
-    void risingEdgeTest() {
+    void defaultConstructorTest() {
+        LatchedBoolean b = new LatchedBoolean();
+        Assertions.assertTrue(b.update(true));
+        Assertions.assertFalse(b.update(true));
+        Assertions.assertFalse(b.update(false));
+        Assertions.assertFalse(b.update(false));
+        Assertions.assertTrue(b.update(true));
+    }
+
+    @Test
+    void risingEdgeTestWhenStartingFalse() {
         LatchedBoolean b = new LatchedBoolean(EdgeDetection.RISING);
         Assertions.assertTrue(b.update(true));
         Assertions.assertFalse(b.update(true));
@@ -18,7 +28,7 @@ class LatchedBooleanTest {
     }
 
     @Test
-    void fallingEdgeTest() {
+    void fallingEdgeTestWhenStartingFalse() {
         LatchedBoolean b = new LatchedBoolean(EdgeDetection.FALLING);
         Assertions.assertFalse(b.update(true));
         Assertions.assertFalse(b.update(true));
@@ -28,7 +38,7 @@ class LatchedBooleanTest {
     }
 
     @Test
-    void risingFallingEdgeTest() {
+    void risingFallingEdgeTestWhenStartingFalse() {
         LatchedBoolean b = new LatchedBoolean(EdgeDetection.BOTH);
         Assertions.assertTrue(b.update(true));
         Assertions.assertFalse(b.update(true));
@@ -36,4 +46,16 @@ class LatchedBooleanTest {
         Assertions.assertFalse(b.update(false));
         Assertions.assertTrue(b.update(true));
     }
+
+    @Test
+    void risingFallingEdgeTestWhenStartingTrue() {
+        LatchedBoolean b = new LatchedBoolean(true, EdgeDetection.BOTH);
+        Assertions.assertFalse(b.update(true));
+        Assertions.assertFalse(b.update(true));
+        Assertions.assertTrue(b.update(false));
+        Assertions.assertFalse(b.update(false));
+        Assertions.assertTrue(b.update(true));
+    }
+
+    
 }
