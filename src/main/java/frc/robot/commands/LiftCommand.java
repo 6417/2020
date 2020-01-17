@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -14,8 +15,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class LiftCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final PneumaticSubsystem m_subsystem;
+  private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
+  boolean isUp;
 
   /**
    * Creates a new LiftCommand.
@@ -31,12 +34,12 @@ public class LiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_subsystem.extendLift();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_subsystem.getReed(m_subsystem.get))
   }
 
   // Called once the command ends or is interrupted.
@@ -47,6 +50,6 @@ public class LiftCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return mPanelSubsystem.getReedLiftTop();
   }
 }

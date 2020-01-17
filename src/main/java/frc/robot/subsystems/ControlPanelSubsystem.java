@@ -50,11 +50,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  boolean getReedLiftTop() {
+  public boolean getReedLiftTop() {
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 
-  boolean getReedBumperFront() {
+  public boolean getReedBumperFront() {
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 }

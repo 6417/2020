@@ -83,9 +83,11 @@ public class PneumaticSubsystem extends SubsystemBase {
     }
   }
 
-  void lift() {
+  public boolean extendLift() {
     set(liftSolenoid, PneumaticState.FORWARD);
+    set(liftSolenoid, PneumaticState.OFF);
+    return true;
   }
 
-  
+
 }
