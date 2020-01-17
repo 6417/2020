@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
+import lombok.Getter;
 
 public class ControlPanelSubsystem extends SubsystemBase {
 
@@ -26,10 +28,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // The system assumes that the valve is not at homed position
   private SystemState state = SystemState.RETRACTING;
 
-  private DigitalInput liftBottomDI = new DigitalInput(RobotContainer.CONTROL_PANEL_SUBSYSTEM_LIFT_BOTTOM_REED_DI_ID);
-  private DigitalInput liftTopDI = new DigitalInput(RobotContainer.CONTROL_PANEL_SUBSYSTEM_LIFT_TOP_REED_DI_ID);
-  private DigitalInput bumperBackDI = new DigitalInput(RobotContainer.CONTROL_PANEL_SUBSYSTEM_BUMPER_BACK_REED_DI_ID);
-  private DigitalInput bumperFrontDI = new DigitalInput(RobotContainer.CONTROL_PANEL_SUBSYSTEM_BUMPER_FRONT_REED_DI_ID);
   private ColorSensorV3 colorSensor = new ColorSensorV3(RobotContainer.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
   private WPI_TalonSRX motor = new WPI_TalonSRX(RobotContainer.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
 
@@ -50,5 +48,13 @@ public class ControlPanelSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  boolean getReedLiftTop() {
+    return motor.isFwdLimitSwitchClosed() == 1;
+  }
+
+  boolean getReedBumperFront() {
+    return motor.isFwdLimitSwitchClosed() == 1;
   }
 }

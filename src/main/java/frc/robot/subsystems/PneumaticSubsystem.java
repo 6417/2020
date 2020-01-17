@@ -16,12 +16,12 @@ import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
+import ch.team6417.lib.utils.LimitSwitchReed.LimitSwitchPort;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.enums.PneumaticState;
 import lombok.extern.java.Log;
 
 @Log
@@ -45,11 +45,7 @@ public class PneumaticSubsystem extends SubsystemBase {
   public enum PneumaticState {
     OFF, FORWARD, REVERSE
   }
-
-  public enum LimitSwitchPort {
-    FORWARD, REVERSE
-  }
-
+  
   public PneumaticSubsystem() {
 
   }
@@ -87,27 +83,9 @@ public class PneumaticSubsystem extends SubsystemBase {
     }
   }
 
-  boolean getReed(WPI_TalonSRX motorController, LimitSwitchPort port) throws Exception {
-    switch (port) {
-    case FORWARD:
-      return motorController.isFwdLimitSwitchClosed() == 1;
-    case REVERSE:
-      return motorController.isRevLimitSwitchClosed() == 1;
-    default:
-      throw new Exception("Somthing with the Port went Wrong with the port: " + String.valueOf(port));
-    }
+  void lift() {
+    set(liftSolenoid, PneumaticState.FORWARD);
   }
 
-  boolean getReed(CANSparkMax motorController, LimitSwitchPort port) throws Exception {
-    switch (port) {
-    case FORWARD:
-      CANDigitalInput digitalInputF = motorController.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
-      return digitalInputF.get();
-    case REVERSE:
-      CANDigitalInput digitalInputR = motorController.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
-      return digitalInputR.get();
-    default:
-      throw new Exception("Somthing with the Port went Wrong with the port: " + String.valueOf(port));
-    }
-  }
+  
 }
