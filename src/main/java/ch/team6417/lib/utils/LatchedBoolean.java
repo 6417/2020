@@ -3,10 +3,16 @@ package ch.team6417.lib.utils;
 /**
  * An iterative boolean latch.
  * <p>
- * Returns true once if and only if the value of newValue changes from false to true.
+ * Returns true once iff the value of newValue changes from:
+ * - false to true when RISING edge detection.
+ * - true to false when FALLING edge detection.
+ * - false to true and true to fals when BOTH edge detection.
+ * 
+ * The return stay false when the newValue stays stable between
+ * iterations.
  */
 public class LatchedBoolean {
-    private boolean mLast = false;
+    private boolean mLast;
     private boolean risingEdge;
     private boolean fallingEdge;
 
@@ -19,6 +25,11 @@ public class LatchedBoolean {
     }
 
     public LatchedBoolean(final LatchedBoolean.EdgeDetection edge) {
+        this(false, edge);
+    }
+
+    public LatchedBoolean(boolean startValue, final LatchedBoolean.EdgeDetection edge) {
+        mLast = startValue;
         switch (edge) {
         case RISING:
             risingEdge = true;
