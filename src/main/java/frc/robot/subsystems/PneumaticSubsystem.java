@@ -10,6 +10,9 @@ package frc.robot.subsystems;
 import java.util.logging.Level;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
@@ -33,57 +36,78 @@ public class PneumaticSubsystem extends SubsystemBase {
       RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
       RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
 
-
   private LatchedBoolean pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
+
   /**
    * Creates a new ExampleSubsystem.
    */
+
+  public enum PneumaticState {
+    OFF, FORWARD, REVERSE
+  }
+
+  public enum LimitSwitchPort {
+    FORWARD, REVERSE
+  }
+
   public PneumaticSubsystem() {
 
   }
 
-  // @Override
-  // public void periodic() {
-  //   if(compressor.getCompressorNotConnectedFault()) {
-  //     log.log(Level.SEVERE, "Compressor not connected!");
-  //   }
-  //   if (compressor.getCompressorCurrentTooHighFault()) {
-  //     log.log(Level.SEVERE, "Compressor current too high!");
-  //   }
-  //   if(compressor.getCompressorShortedFault()) {
-  //     log.log(Level.SEVERE, "Compressor shorted!");
-  //   }
+  @Override
+  public void periodic() {
+    if (compressor.getCompressorNotConnectedFault()) {
+      log.log(Level.SEVERE, "Compressor not connected!");
+    }
+    if (compressor.getCompressorCurrentTooHighFault()) {
+      log.log(Level.SEVERE, "Compressor current too high!");
+    }
+    if (compressor.getCompressorShortedFault()) {
+      log.log(Level.SEVERE, "Compressor shorted!");
+    }
 
-  //   if(pressureTankFull.update(compressor.getPressureSwitchValue()))
-  //   {
-  //     log.log(Level.INFO, "Pressure Tank full!");
-  //   }
-  // }
-  
-  void set(DoubleSolenoid cylinder, PneumaticState state) {
-    switch (state) {
-      case OFF:
-        cylinder.set(Value.kOff);
-        break;
-      
-      case FORWARD:
-        cylinder.set(Value.kForward);
-        break;
-
-      case REVERSE:
-        cylinder.set(Value.kReverse);
-        break;
+    if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
+      log.log(Level.INFO, "Pressure Tank full!");
     }
   }
 
-  boolean getRead(WPI_TalonSRX motorController, int port) throws Exception{
+  void set(DoubleSolenoid cylinder, PneumaticState state) {
+    switch (state) {
+    case OFF:
+      cylinder.set(Value.kOff);
+      break;
+
+    case FORWARD:
+      cylinder.set(Value.kForward);
+      break;
+
+    case REVERSE:
+      cylinder.set(Value.kReverse);
+      break;
+    }
+  }
+
+  boolean getReed(WPI_TalonSRX motorController, LimitSwitchPort port) throws Exception {
     switch (port) {
-      case 1:
-        return motorController.isFwdLimitSwitchClosed() == 1;
-      case 0:
-        return motorController.isRevLimitSwitchClosed() == 1;
-      default:
-        throw new Exception("Port must be 1(forward) or 0(reverse) not " + String.valueOf(port));
+    case FORWARD:
+      return motorController.isFwdLimitSwitchClosed() == 1;
+    case REVERSE:
+      return motorController.isRevLimitSwitchClosed() == 1;
+    default:
+      throw new Exception("Somthing with the Port went Wrong with the port: " + String.valueOf(port));
+    }
+  }
+
+  boolean getReed(CANSparkMax motorController, LimitSwitchPort port) throws Exception {
+    switch (port) {
+    case FORWARD:
+      CANDigitalInput digitalInputF = motorController.getForwardLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
+      return digitalInputF.get();
+    case REVERSE:
+      CANDigitalInput digitalInputR = motorController.getReverseLimitSwitch(LimitSwitchPolarity.kNormallyClosed);
+      return digitalInputR.get();
+    default:
+      throw new Exception("Somthing with the Port went Wrong with the port: " + String.valueOf(port));
     }
   }
 }
