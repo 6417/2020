@@ -57,4 +57,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public boolean getReedBumperFront() {
     return motor.isFwdLimitSwitchClosed() == 1;
   }
+
+  public boolean motorOnForRotations(int rotations) {
+    
+  }
 }
