@@ -20,6 +20,8 @@ import lombok.Getter;
 public class ControlPanelSubsystem extends SubsystemBase {
 
   private static ControlPanelSubsystem mInstance;
+  private final int ticksPerRotation = 4096;
+  private final int range = 50;
 
   private enum SystemState {
     RETRACTED, EXTENDED, CONTACTED, RETRACTING, EXTENDING
@@ -56,5 +58,17 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   public boolean getReedBumperFront() {
     return motor.isFwdLimitSwitchClosed() == 1;
+  }
+ 
+  public boolean motorOnForRotations(int rotations) throws Exception{    
+    if (motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
+      motor.set(1);
+      return false;
+    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation + range) {
+      motor.set(-1);
+      return false;
+    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + rnage) {
+      return true;
+    }
   }
 }
