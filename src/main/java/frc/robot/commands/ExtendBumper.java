@@ -7,32 +7,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class LiftCommand extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final PneumaticSubsystem m_subsystem;
-  private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
-  private final PneumaticState state;
-  boolean isUp;
+public class ECommand extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final ExampleSubsystem m_subsystem;
 
   /**
-   * Creates a new LiftCommand.
+   * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LiftCommand(PneumaticSubsystem subsystem, PneumaticState state) {
+  public ExampleCommand(ExampleSubsystem subsystem) {
     m_subsystem = subsystem;
-    this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
-s
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -41,7 +36,6 @@ s
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.extendLift();
   }
 
   // Called once the command ends or is interrupted.
@@ -52,6 +46,6 @@ s
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return mPanelSubsystem.getReedLiftTop();
+    return false;
   }
 }
