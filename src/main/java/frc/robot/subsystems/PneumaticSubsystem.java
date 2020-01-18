@@ -16,7 +16,6 @@ import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
 
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
-import ch.team6417.lib.utils.LimitSwitchReed.LimitSwitchPort;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -83,15 +82,15 @@ public class PneumaticSubsystem extends SubsystemBase {
     }
   }
 
-  public void extendLift() {
+  public boolean extendLift() {
     set(liftSolenoid, PneumaticState.FORWARD);
     set(liftSolenoid, PneumaticState.OFF);
+    return true;
   }
 
-  public boolean retractLift() {
+  public void retractLift() {
     set(liftSolenoid, PneumaticState.REVERSE);
     set(liftSolenoid, PneumaticState.OFF);
-    return true;
   }
 
   public void closeLift() {

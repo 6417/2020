@@ -52,7 +52,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public boolean getReedLiftTop() {
+  public boolean getReedLiftBotom() {
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 
@@ -71,8 +71,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
     } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation + range) {
       motor.set(-1);
       return false;
-    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + rnage) {
+    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
       return true;
+    } else {
+      return false;
     }
   }
 }

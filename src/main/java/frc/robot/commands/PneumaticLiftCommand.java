@@ -20,7 +20,7 @@ public class PneumaticLiftCommand extends CommandBase {
   private final PneumaticSubsystem m_subsystem;
   private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
   private final PneumaticState state;
-  private boolean isRetracted;
+  private boolean isExtended;
   /**
    * Creates a new LiftCommand.
    *
@@ -43,9 +43,9 @@ public class PneumaticLiftCommand extends CommandBase {
   public void execute() {
     switch (state) {
       case FORWARD:
-        m_subsystem.extendLift();
+        isExtended = m_subsystem.extendLift();
       case REVERSE:
-        isRetracted = m_subsystem.retractLift();
+        m_subsystem.retractLift();
       default:
         System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
     }
@@ -60,9 +60,9 @@ public class PneumaticLiftCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (state == PneumaticState.FORWARD) {
-      return mPanelSubsystem.getReedLiftTop();
+      return isExtended;
     } else {
-      return isRetracted;
+      return mPanelSubsystem.getReedLiftBotom();
     }
   }
 }

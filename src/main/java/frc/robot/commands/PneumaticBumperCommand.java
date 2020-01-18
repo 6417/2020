@@ -44,7 +44,7 @@ public class PneumaticBumperCommand extends CommandBase {
   public void execute() {
       switch(state){
         case FORWARD:
-            if ( m_controlPanelSubsystem.getReedLiftTop()) {
+            if (!m_controlPanelSubsystem.getReedLiftBotom()) {
                 m_subsystem.extendBumper();
                 break;
             }
