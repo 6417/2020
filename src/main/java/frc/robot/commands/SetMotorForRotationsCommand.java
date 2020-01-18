@@ -33,6 +33,7 @@ public class SetMotorForRotationsCommand extends CommandBase {
   @Override
   public void initialize() {
     m_subsystem.setSensorPos(0);
+    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -20,20 +20,21 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import lombok.extern.java.Log;
 
 @Log
 public class PneumaticSubsystem extends SubsystemBase {
 
-  private Compressor compressor = new Compressor(RobotContainer.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
-  private DoubleSolenoid liftSolenoid = new DoubleSolenoid(RobotContainer.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-      RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
-      RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
+  private Compressor compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
+  private DoubleSolenoid liftSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
+      Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
+      Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
 
-  private DoubleSolenoid bumperSolenoid = new DoubleSolenoid(RobotContainer.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-      RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
-      RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
+  private DoubleSolenoid bumperSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
+      Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID,
+      Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID);
 
   private LatchedBoolean pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
 
@@ -84,13 +85,13 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public boolean extendLift() {
     set(liftSolenoid, PneumaticState.FORWARD);
-    set(liftSolenoid, PneumaticState.OFF);
+//    set(liftSolenoid, PneumaticState.OFF);
     return true;
   }
 
   public void retractLift() {
     set(liftSolenoid, PneumaticState.REVERSE);
-    set(liftSolenoid, PneumaticState.OFF);
+//    set(liftSolenoid, PneumaticState.OFF);
   }
 
   public void closeLift() {
@@ -103,7 +104,7 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public boolean retractBumper() {
     set(bumperSolenoid, PneumaticState.REVERSE);
-    set(bumperSolenoid, PneumaticState.OFF);
+//    set(bumperSolenoid, PneumaticState.OFF);
     return true;
   }
 

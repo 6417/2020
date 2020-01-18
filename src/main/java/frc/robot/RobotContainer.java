@@ -36,27 +36,7 @@ public class RobotContainer {
   public Joystick jostk = new Joystick(0);
 
 
-  /**
-   * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
-   */
-
-   public static final int PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID = 0;
-   public static final int PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID = 0;
-   public static final int PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID = 1;
-   public static final int PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID = 2;
-   public static final int PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID = 3;
-
-
-  /**
-   * Control Panel Subsystem constants used in {@link ControlPanelSubsystem}.
-   */
-
-  public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_BOTTOM_REED_DI_ID = 0;
-  public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_TOP_REED_DI_ID = 1;
-  public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_BACK_REED_DI_ID = 2;
-  public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_FRONT_REED_DI_ID = 3;
-  public static final I2C.Port CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT = I2C.Port.kOnboard;
-  public static final int CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID = 48;
+  
 
   public static JoystickButton pneumaticLiftButtonExtend;
   public static JoystickButton pneumaticLiftButtonReject;

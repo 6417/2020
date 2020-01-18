@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ch.team6417.lib.utils.LatchedBooleanTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-01-15T19:44:27" hostname="Software-Laptop-2" time="0.086">
+<testsuite name="ch.team6417.lib.utils.LatchedBooleanTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2020-01-18T17:00:49" hostname="Software-Laptop-2" time="0.057">
   <properties/>
-  <testcase name="risingEdgeTest()" classname="ch.team6417.lib.utils.LatchedBooleanTest" time="0.067"/>
-  <testcase name="risingFallingEdgeTest()" classname="ch.team6417.lib.utils.LatchedBooleanTest" time="0.006"/>
-  <testcase name="fallingEdgeTest()" classname="ch.team6417.lib.utils.LatchedBooleanTest" time="0.002"/>
+  <testcase name="risingEdgeTest()" classname="ch.team6417.lib.utils.LatchedBooleanTest" time="0.05"/>
+  <testcase name="risingFallingEdgeTest()" classname="ch.team6417.lib.utils.LatchedBooleanTest" time="0.002"/>
+  <testcase name="fallingEdgeTest()" classname="ch.team6417.lib.utils.LatchedBooleanTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

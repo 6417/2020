@@ -36,6 +36,7 @@ public class PneumaticLiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("lift command initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,8 +45,10 @@ public class PneumaticLiftCommand extends CommandBase {
     switch (state) {
       case FORWARD:
         isExtended = m_subsystem.extendLift();
+        break;
       case REVERSE:
         m_subsystem.retractLift();
+        break;
       default:
         System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
     }
