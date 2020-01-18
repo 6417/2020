@@ -9,10 +9,17 @@ package frc.robot.subsystems;
 
 import java.util.logging.Level;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANDigitalInput;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
+
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
+import ch.team6417.lib.utils.LimitSwitchReed.LimitSwitchPort;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import lombok.extern.java.Log;
@@ -29,32 +36,76 @@ public class PneumaticSubsystem extends SubsystemBase {
       RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
       RobotContainer.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
 
-
   private LatchedBoolean pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
+
   /**
    * Creates a new ExampleSubsystem.
    */
+
+  public enum PneumaticState {
+    OFF, FORWARD, REVERSE
+  }
+  
   public PneumaticSubsystem() {
 
   }
 
   @Override
   public void periodic() {
-    if(compressor.getCompressorNotConnectedFault()) {
+    if (compressor.getCompressorNotConnectedFault()) {
       log.log(Level.SEVERE, "Compressor not connected!");
     }
     if (compressor.getCompressorCurrentTooHighFault()) {
       log.log(Level.SEVERE, "Compressor current too high!");
     }
-    if(compressor.getCompressorShortedFault()) {
+    if (compressor.getCompressorShortedFault()) {
       log.log(Level.SEVERE, "Compressor shorted!");
     }
 
-    if(pressureTankFull.update(compressor.getPressureSwitchValue()))
-    {
+    if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
       log.log(Level.INFO, "Pressure Tank full!");
     }
   }
 
+  void set(DoubleSolenoid cylinder, PneumaticState state) {
+    switch (state) {
+    case OFF:
+      cylinder.set(Value.kOff);
+      break;
+
+    case FORWARD:
+      cylinder.set(Value.kForward);
+      break;
+
+    case REVERSE:
+      cylinder.set(Value.kReverse);
+      break;
+    }
+  }
+
+  public boolean extendLift() {
+    set(liftSolenoid, PneumaticState.FORWARD);
+    set(liftSolenoid, PneumaticState.OFF);
+    return true;
+  }
+
+  public boolean retractLift() {
+    set(liftSolenoid, PneumaticState.REVERSE);
+    set(liftSolenoid, PneumaticState.OFF);
+    return true;
+  }
+
+  public boolean extendBumper() {
+    set(bumperSolenoid, PneumaticState.FORWARD);
+    return true;
+  }
+
+  public boolean retractBumper() {
+    set(bumperSolenoid, PneumaticState.REVERSE);
+    set(bumperSolenoid, PneumaticState.OFF);
+    return true;
+  }
   
+
+
 }
