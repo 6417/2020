@@ -83,10 +83,9 @@ public class PneumaticSubsystem extends SubsystemBase {
     }
   }
 
-  public boolean extendLift() {
+  public void extendLift() {
     set(liftSolenoid, PneumaticState.FORWARD);
     set(liftSolenoid, PneumaticState.OFF);
-    return true;
   }
 
   public boolean retractLift() {
@@ -95,14 +94,12 @@ public class PneumaticSubsystem extends SubsystemBase {
     return true;
   }
 
-  public boolean closeLift() {
+  public void closeLift() {
     set(liftSolenoid, PneumaticState.OFF);
-    return true;
   }
 
-  public boolean extendBumper() {
+  public void extendBumper() {
     set(bumperSolenoid, PneumaticState.FORWARD);
-    return true;
   }
 
   public boolean retractBumper() {
@@ -110,7 +107,9 @@ public class PneumaticSubsystem extends SubsystemBase {
     set(bumperSolenoid, PneumaticState.OFF);
     return true;
   }
-  
 
-
+  public boolean closeBumper() {
+    set(bumperSolenoid, PneumaticState.OFF);
+    return true;
+  }
 }
