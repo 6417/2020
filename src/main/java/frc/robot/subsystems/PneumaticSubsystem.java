@@ -95,6 +95,11 @@ public class PneumaticSubsystem extends SubsystemBase {
     return true;
   }
 
+  public boolean closeLift() {
+    set(liftSolenoid, PneumaticState.OFF);
+    return true;
+  }
+
   public boolean extendBumper() {
     set(bumperSolenoid, PneumaticState.FORWARD);
     return true;
