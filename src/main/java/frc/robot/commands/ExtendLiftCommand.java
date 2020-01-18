@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class LiftCommand extends CommandBase {
+public class ExtendLiftCommand extends CommandBase {
   @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private final PneumaticSubsystem m_subsystem;
   private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
@@ -25,7 +25,7 @@ public class LiftCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public LiftCommand(PneumaticSubsystem subsystem) {
+  public ExtendLiftCommand(PneumaticSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
