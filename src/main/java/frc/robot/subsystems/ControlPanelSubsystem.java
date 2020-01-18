@@ -59,8 +59,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public boolean getReedBumperFront() {
     return motor.isFwdLimitSwitchClosed() == 1;
   }
+
+  public void setSensorPos(int pos) {
+    motor.setSelectedSensorPosition(pos);
+  }
  
-  public boolean motorOnForRotations(int rotations) throws Exception{    
+  public boolean setMotorForRotations(int rotations){    
     if (motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
       motor.set(1);
       return false;

@@ -8,27 +8,23 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class PneumaticLiftCommand extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final PneumaticSubsystem m_subsystem;
-  private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
-  private final PneumaticState state;
-  private boolean isRetracted;
+public class SetMotorForRotationsCommand extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final ControlPanelSubsystem m_subsystem;
+  private boolean finished;
+
   /**
-   * Creates a new LiftCommand.
+   * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PneumaticLiftCommand(PneumaticSubsystem subsystem, PneumaticState state) {
+  public SetMotorForRotationsCommand(ControlPanelSubsystem subsystem) {
     m_subsystem = subsystem;
-    this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -36,19 +32,13 @@ public class PneumaticLiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_subsystem.setSensorPos(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    switch (state) {
-      case FORWARD:
-        m_subsystem.extendLift();
-      case REVERSE:
-        isRetracted = m_subsystem.retractLift();
-      default:
-        System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
-    }
+    finished = m_subsystem.setMotorForRotations(1);
   }
 
   // Called once the command ends or is interrupted.
@@ -59,10 +49,6 @@ public class PneumaticLiftCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (state == PneumaticState.FORWARD) {
-      return mPanelSubsystem.getReedLiftTop();
-    } else {
-      return isRetracted;
-    }
+    return finished;
   }
 }
