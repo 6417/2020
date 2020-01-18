@@ -43,7 +43,6 @@ s
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.extendLift();
     switch (state) {
       case FORWARD:
         m_subsystem.extendLift();
@@ -51,7 +50,6 @@ s
         m_subsystem.retractLift();
       default:
         System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
-s
     }
   }
 
