@@ -43,13 +43,12 @@ public class PneumaticBumperCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      System.out.println(m_controlPanelSubsystem.getReedLiftBotom());
-
+      System.out.println("executing Bumper Command");
       switch(state){
         case FORWARD:
-            if (!
-            m_controlPanelSubsystem.getReedLiftBotom()) {
+            if (!m_controlPanelSubsystem.getReedLiftBotom()) {
                 m_subsystem.extendBumper();
+                System.out.println("extendBumper " + m_controlPanelSubsystem.getReedBumperFront());
                 break;
             }
             else {
@@ -77,7 +76,7 @@ public class PneumaticBumperCommand extends CommandBase {
     if(state == PneumaticState.FORWARD){
         return m_controlPanelSubsystem.getReedBumperFront();
     }
-    else{
+    else {
         return isRetracted;
     }
   }

@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 
@@ -17,7 +19,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   private static ControlPanelSubsystem mInstance;
   private final int ticksPerRotation = 10000;
-  private final int range = 75;
+  private final int range = 100;
 
   private enum SystemState {
     RETRACTED, EXTENDED, CONTACTED, RETRACTING, EXTENDING
@@ -33,7 +35,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
    * Creates a new ControlPanelSubsystem.
    */
   public ControlPanelSubsystem() {
-    
+    motor.configFactoryDefault();
+    motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+    motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+
   }
 
   public static ControlPanelSubsystem getInstance() {
@@ -53,7 +58,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public boolean getReedBumperFront() {
-    return motor.isFwdLimitSwitchClosed() == 0;
+    System.out.println(motor.isFwdLimitSwitchClosed());
+    return motor.isFwdLimitSwitchClosed() == 1;
   }
 
   public void setSensorPos(int pos) {
@@ -63,16 +69,20 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public boolean setMotorForRotations(int rotations){
     if (motor.getSelectedSensorPosition() < rotations * ticksPerRotation - range) {
       motor.set(0.2);
+      System.out.println("if " + motor.getSelectedSensorPosition());
       return false;
     } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation + range) {
       motor.set(-0.2);
+      System.out.println("else if " + motor.getSelectedSensorPosition());
       return false;
     } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
       motor.stopMotor();
+      System.out.println("true");
       return true;
     } else {
       System.out.println("else");
       return false;
     }
-  }
+
+    }
 }

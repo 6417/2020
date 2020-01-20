@@ -39,12 +39,20 @@ public class SetMotorForRotationsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    finished = m_subsystem.setMotorForRotations(1);
+    if (m_subsystem.getReedBumperFront() && !m_subsystem.getReedLiftBotom()){ 
+      finished = m_subsystem.setMotorForRotations(1);
+      System.out.println("executing Motor Command");
+    }
+    else {System.out.println("You have to extend the cylinders first to rotate the Motor!");
+      finished = true;  
+    }
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_subsystem.motor.stopMotor();
   }
 
   // Returns true when the command should end.

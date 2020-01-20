@@ -10,6 +10,9 @@ package frc.robot.commands;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
+
+import java.lang.reflect.Executable;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -42,12 +45,20 @@ public class PneumaticLiftCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("executing LiftCommand");
     switch (state) {
       case FORWARD:
-        isExtended = m_subsystem.extendLift();
+        
+        isExtended = m_subsystem.extendLift();          
+        
         break;
+        
       case REVERSE:
-        m_subsystem.retractLift();
+        if (!mPanelSubsystem.getReedBumperFront()){
+          m_subsystem.retractLift();
+        }
+        else {System.out.println("You can't retract the lift when the bumper is extended!");}
+
         break;
       default:
         System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
