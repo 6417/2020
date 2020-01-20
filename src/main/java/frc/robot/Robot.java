@@ -7,9 +7,14 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.core.StreamReadFeature;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,6 +27,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  public static ControlPanelSubsystem controlPanelSubsystem;
+  public static PneumaticSubsystem pneumaticSubsystem;
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -30,7 +38,12 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
+    pneumaticSubsystem = new PneumaticSubsystem();
+    controlPanelSubsystem = new ControlPanelSubsystem();
+
     m_robotContainer = new RobotContainer();
+
   }
 
   /**

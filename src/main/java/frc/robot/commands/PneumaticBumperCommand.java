@@ -7,29 +7,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
-
-import java.lang.reflect.Executable;
-
+import frc.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class PneumaticLiftCommand extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
+public class PneumaticBumperCommand extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final PneumaticSubsystem m_subsystem;
-  private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
+  private final ControlPanelSubsystem m_controlPanelSubsystem = ControlPanelSubsystem.getInstance();
   private final PneumaticState state;
-  private boolean isExtended;
+  private boolean isRetracted;
+
   /**
-   * Creates a new LiftCommand.
+   * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PneumaticLiftCommand(PneumaticSubsystem subsystem, PneumaticState state) {
+  public PneumaticBumperCommand(PneumaticSubsystem subsystem, PneumaticState state) {
     m_subsystem = subsystem;
     this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,30 +37,32 @@ public class PneumaticLiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("lift command initialized");
+      System.out.println("bumper command initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("executing LiftCommand");
-    switch (state) {
-      case FORWARD:
+      System.out.println("executing Bumper Command");
+      switch(state){
+        case FORWARD:
+            if (!m_controlPanelSubsystem.getReedLiftBotom()) {
+                m_subsystem.extendBumper();
+                System.out.println("extendBumper " + m_controlPanelSubsystem.getReedBumperFront());
+                break;
+            }
+            else {
+                System.out.println("The lift cylider must be in the top position to extend the Bumper");
+            }
+            
+        case REVERSE:
+            isRetracted = m_subsystem.retractBumper();
+            System.out.println(isRetracted);
+            break;
+        default:
+            System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
         
-        isExtended = m_subsystem.extendLift();          
-        
-        break;
-        
-      case REVERSE:
-        if (!mPanelSubsystem.getReedBumperFront()){
-          m_subsystem.retractLift();
-        }
-        else {System.out.println("You can't retract the lift when the bumper is extended!");}
-
-        break;
-      default:
-        System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
-    }
+      }
   }
 
   // Called once the command ends or is interrupted.
@@ -73,10 +73,11 @@ public class PneumaticLiftCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (state == PneumaticState.FORWARD) {
-      return isExtended;
-    } else {
-      return mPanelSubsystem.getReedLiftBotom();
+    if(state == PneumaticState.FORWARD){
+        return m_controlPanelSubsystem.getReedBumperFront();
+    }
+    else {
+        return isRetracted;
     }
   }
 }

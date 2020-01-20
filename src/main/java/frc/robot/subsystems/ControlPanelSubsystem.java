@@ -7,19 +7,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorSensorV3;
 
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
-import lombok.Getter;
+import frc.robot.Constants;
 
 public class ControlPanelSubsystem extends SubsystemBase {
 
   private static ControlPanelSubsystem mInstance;
+  private final int ticksPerRotation = 10000;
+  private final int range = 100;
 
   private enum SystemState {
     RETRACTED, EXTENDED, CONTACTED, RETRACTING, EXTENDING
@@ -28,14 +28,17 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // The system assumes that the valve is not at homed position
   private SystemState state = SystemState.RETRACTING;
 
-  private ColorSensorV3 colorSensor = new ColorSensorV3(RobotContainer.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
-  private WPI_TalonSRX motor = new WPI_TalonSRX(RobotContainer.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
+  private ColorSensorV3 colorSensor = new ColorSensorV3(Constants.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
+  public WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
 
   /**
    * Creates a new ControlPanelSubsystem.
    */
   public ControlPanelSubsystem() {
-    
+    motor.configFactoryDefault();
+    motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+    motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+
   }
 
   public static ControlPanelSubsystem getInstance() {
@@ -50,15 +53,36 @@ public class ControlPanelSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public boolean getReedLiftTop() {
-    return motor.isFwdLimitSwitchClosed() == 1;
+  public boolean getReedLiftBotom() {
+    return motor.isRevLimitSwitchClosed() == 1;
   }
 
   public boolean getReedBumperFront() {
+    System.out.println(motor.isFwdLimitSwitchClosed());
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 
-  public boolean motorOnForRotations(int rotations) {
-    
+  public void setSensorPos(int pos) {
+    motor.setSelectedSensorPosition(pos);
   }
+ 
+  public boolean setMotorForRotations(int rotations){
+    if (motor.getSelectedSensorPosition() < rotations * ticksPerRotation - range) {
+      motor.set(0.2);
+      System.out.println("if " + motor.getSelectedSensorPosition());
+      return false;
+    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation + range) {
+      motor.set(-0.2);
+      System.out.println("else if " + motor.getSelectedSensorPosition());
+      return false;
+    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
+      motor.stopMotor();
+      System.out.println("true");
+      return true;
+    } else {
+      System.out.println("else");
+      return false;
+    }
+
+    }
 }
