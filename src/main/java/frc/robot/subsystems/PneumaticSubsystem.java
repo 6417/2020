@@ -117,6 +117,6 @@ public class PneumaticSubsystem extends SubsystemBase {
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
-    builder.addDoubleProperty("Pressure", () -> compressor., null);
+    // builder.addDoubleProperty("Pressure", () -> , null);
   }
 }

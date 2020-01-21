@@ -39,8 +39,11 @@ public class SetMotorForRotationsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (m_subsystem.getReedBumperFront() && !m_subsystem.getReedLiftBotom()){ 
+    if (!m_subsystem.getReedLiftBotom() && !m_subsystem.getReedBumperFront()){
       m_subsystem.setMotorForRotations(rotations);
+    }
+    else if(m_subsystem.getReedBumperFront()){
+      System.out.println("The robot has no contact to the control panel!");
     }
     else {System.out.println("You have to extend the cylinders first to rotate the Motor!");}    
   }
@@ -54,6 +57,10 @@ public class SetMotorForRotationsCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_subsystem.isMotorInRnage();
+  
+    if(!m_subsystem.getReedLiftBotom() && !m_subsystem.getReedBumperFront()){
+      return m_subsystem.isMotorInRnage();
+    }
+    else{return true;}
   }
 }

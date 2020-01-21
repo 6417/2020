@@ -38,7 +38,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   private ColorSensorV3 colorSensor = new ColorSensorV3(Constants.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
   public WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
-
   /**
    * A Rev Color Match object is used to register and detect known colors. This
    * can be calibrated ahead of time or during operation.

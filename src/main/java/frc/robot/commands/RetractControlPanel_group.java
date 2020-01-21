@@ -20,6 +20,6 @@ public class RetractControlPanel_group extends SequentialCommandGroup {
    */
 
   public RetractControlPanel_group(PneumaticSubsystem m_subsystem) {
-    super(new PneumaticLiftCommand(m_subsystem, PneumaticState.FORWARD), new PneumaticBumperCommand(m_subsystem, PneumaticState.FORWARD));
+    super(new PneumaticBumperCommand(m_subsystem, PneumaticState.REVERSE), new PneumaticLiftCommand(m_subsystem, PneumaticState.REVERSE));
   }
 }
