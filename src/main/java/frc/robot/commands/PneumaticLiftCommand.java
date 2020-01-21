@@ -39,13 +39,11 @@ public class PneumaticLiftCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("lift command initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("executing LiftCommand");
     switch (state) {
       case FORWARD:
         

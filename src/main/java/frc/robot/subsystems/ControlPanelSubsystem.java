@@ -47,6 +47,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
    * with given confidence range.
    */
   private final ColorMatch m_colorMatcher = new ColorMatch();
+  private int rotations;
 
   /**
    * Note: Any example colors should be calibrated as the user needs, these are
@@ -109,7 +110,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public boolean getReedBumperFront() {
-    System.out.println(motor.isFwdLimitSwitchClosed());
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 
@@ -117,24 +117,26 @@ public class ControlPanelSubsystem extends SubsystemBase {
     motor.setSelectedSensorPosition(pos);
   }
 
-  public boolean setMotorForRotations(int rotations) {
-    if (motor.getSelectedSensorPosition() < rotations * ticksPerRotation - range) {
+  public void setMotorForRotations(int rotations) {
+    this.rotations = rotations;
+    if (motor.getSelectedSensorPosition() < this.rotations * ticksPerRotation - range) {
       motor.set(0.2);
-      System.out.println("if " + motor.getSelectedSensorPosition());
-      return false;
-    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation + range) {
+    } else if (motor.getSelectedSensorPosition() > this.rotations * ticksPerRotation + range) {
       motor.set(-0.2);
-      System.out.println("else if " + motor.getSelectedSensorPosition());
-      return false;
-    } else if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range
-        && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
+    } 
+  }
+
+  public boolean isMotorInRnage() {
+    if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
       motor.stopMotor();
-      System.out.println("true");
       return true;
     } else {
-      System.out.println("else");
       return false;
     }
+  }
+
+  public void stopMotor() {
+    motor.stopMotor();
   }
 
   @Override
