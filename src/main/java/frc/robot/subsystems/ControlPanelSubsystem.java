@@ -105,7 +105,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public boolean getReedBumperFront() {
-    System.out.println(motor.isFwdLimitSwitchClosed());
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 
