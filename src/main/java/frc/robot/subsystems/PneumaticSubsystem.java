@@ -19,6 +19,7 @@ import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -47,7 +48,12 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
   
   public PneumaticSubsystem() {
-
+    SendableRegistry.addChild(this, liftSolenoid);
+    SendableRegistry.addChild(this, bumperSolenoid);
+    SendableRegistry.addChild(this, compressor);
+    SendableRegistry.setName(liftSolenoid, "Lift");
+    SendableRegistry.setName(bumperSolenoid, "Bumper");
+    SendableRegistry.setName(compressor, "Compressor");
   }
 
   @Override
