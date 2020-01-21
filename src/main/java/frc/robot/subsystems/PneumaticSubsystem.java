@@ -9,20 +9,15 @@ package frc.robot.subsystems;
 
 import java.util.logging.Level;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANDigitalInput;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANDigitalInput.LimitSwitchPolarity;
-
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import lombok.extern.java.Log;
 
 @Log
@@ -117,5 +112,11 @@ public class PneumaticSubsystem extends SubsystemBase {
   public boolean closeBumper() {
     set(bumperSolenoid, PneumaticState.OFF);
     return true;
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
+    builder.addDoubleProperty("Pressure", () -> compressor., null);
   }
 }

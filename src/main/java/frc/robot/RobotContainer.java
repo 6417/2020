@@ -12,8 +12,10 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.ExtendControlPanel_group;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
+import frc.robot.commands.RetractControlPanel_group;
 import frc.robot.commands.SetMotorForRotationsCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -39,10 +41,8 @@ public class RobotContainer {
 
   
 
-  public static JoystickButton pneumaticLiftButtonExtend;
-  public static JoystickButton pneumaticLiftButtonReject;
-  public static JoystickButton pneumaticBumperButtonExtend;
-  public static JoystickButton pneumaticBumperButtonReject;
+  public static JoystickButton controlPanelButtonExtend;
+  public static JoystickButton controlPanelButtonReject;
   public static JoystickButton setMotorForRotationsButton;
 
   /**
@@ -60,16 +60,13 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    pneumaticLiftButtonExtend = new JoystickButton(jostk, 1);
-    pneumaticLiftButtonReject = new JoystickButton(jostk, 2);
-    pneumaticBumperButtonExtend = new JoystickButton(jostk, 3);
-    pneumaticBumperButtonReject = new JoystickButton(jostk, 4);
+    controlPanelButtonExtend = new JoystickButton(jostk, 1);
+    controlPanelButtonReject = new JoystickButton(jostk, 2);
+
     setMotorForRotationsButton = new JoystickButton(jostk, 5);
 
-    pneumaticLiftButtonExtend.whenPressed(new PneumaticLiftCommand(Robot.pneumaticSubsystem, PneumaticState.FORWARD));
-    pneumaticLiftButtonReject.whenPressed(new PneumaticLiftCommand(Robot.pneumaticSubsystem, PneumaticState.REVERSE));
-    pneumaticBumperButtonExtend.whenPressed(new PneumaticBumperCommand(Robot.pneumaticSubsystem, PneumaticState.FORWARD));
-    pneumaticBumperButtonReject.whenPressed(new PneumaticBumperCommand(Robot.pneumaticSubsystem, PneumaticState.REVERSE));
+    controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group(Robot.pneumaticSubsystem));
+    controlPanelButtonReject.whenPressed(new RetractControlPanel_group(Robot.pneumaticSubsystem));
     setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(Robot.controlPanelSubsystem));
   }
 
