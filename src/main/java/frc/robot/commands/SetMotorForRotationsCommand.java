@@ -17,14 +17,16 @@ public class SetMotorForRotationsCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ControlPanelSubsystem m_subsystem;
   private boolean finished;
+  private int rotations;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SetMotorForRotationsCommand(ControlPanelSubsystem subsystem) {
+  public SetMotorForRotationsCommand(ControlPanelSubsystem subsystem, int rotations) {
     m_subsystem = subsystem;
+    this.rotations = rotations;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -33,31 +35,26 @@ public class SetMotorForRotationsCommand extends CommandBase {
   @Override
   public void initialize() {
     m_subsystem.setSensorPos(0);
-    finished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (m_subsystem.getReedBumperFront() && !m_subsystem.getReedLiftBotom()){ 
-      finished = m_subsystem.setMotorForRotations(1);
-      System.out.println("executing Motor Command");
+      m_subsystem.setMotorForRotations(rotations);
     }
-    else {System.out.println("You have to extend the cylinders first to rotate the Motor!");
-      finished = true;  
-    }
-    
+    else {System.out.println("You have to extend the cylinders first to rotate the Motor!");}    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_subsystem.motor.stopMotor();
+    m_subsystem.stopMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished;
+    return m_subsystem.isMotorInRnage();
   }
 }

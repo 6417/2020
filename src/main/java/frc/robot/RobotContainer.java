@@ -8,18 +8,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.SetMotorForRotationsCommand;
-import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -70,7 +68,7 @@ public class RobotContainer {
     pneumaticLiftButtonReject.whenPressed(new PneumaticLiftCommand(Robot.pneumaticSubsystem, PneumaticState.REVERSE));
     pneumaticBumperButtonExtend.whenPressed(new PneumaticBumperCommand(Robot.pneumaticSubsystem, PneumaticState.FORWARD));
     pneumaticBumperButtonReject.whenPressed(new PneumaticBumperCommand(Robot.pneumaticSubsystem, PneumaticState.REVERSE));
-    setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(Robot.controlPanelSubsystem));
+    setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(Robot.controlPanelSubsystem, 1));
   }
 
   /**
