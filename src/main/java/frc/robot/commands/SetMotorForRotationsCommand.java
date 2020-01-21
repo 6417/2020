@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class SetMotorForRotationsCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ControlPanelSubsystem m_subsystem;
-  private boolean finished;
   private int rotations;
 
   /**
