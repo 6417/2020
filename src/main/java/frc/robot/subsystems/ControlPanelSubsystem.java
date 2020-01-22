@@ -117,6 +117,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
     motor.setSelectedSensorPosition(pos);
   }
 
+  
+
   public void setMotorForRotations(int rotations) {
     this.rotations = rotations;
     if (motor.getSelectedSensorPosition() < this.rotations * ticksPerRotation - range) {
