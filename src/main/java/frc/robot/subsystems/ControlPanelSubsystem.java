@@ -122,9 +122,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public void setMotorForRotations(int rotations) {
     this.rotations = rotations;
     if (motor.getSelectedSensorPosition() < this.rotations * ticksPerRotation - range) {
-      motor.set(Math.atan((rotations * ticksPerRotation) - motor.getSelectedSensorPosition() + 0.05) / (Math.PI * 0.5));
+      motor.set(Math.atan((this.rotations * ticksPerRotation) - motor.getSelectedSensorPosition() + 0.05) / (Math.PI * 0.5));
     } else if (motor.getSelectedSensorPosition() > this.rotations * ticksPerRotation + range) {
-      motor.set(-(Math.atan((rotations * ticksPerRotation) - motor.getSelectedSensorPosition() + 0.05) / (Math.PI * 0.5)));
+      motor.set(-(Math.atan((this.rotations * ticksPerRotation) - motor.getSelectedSensorPosition() + 0.05) / (Math.PI * 0.5)));
     } 
   }
 
