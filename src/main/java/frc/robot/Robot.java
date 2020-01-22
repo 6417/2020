@@ -47,6 +47,8 @@ public class Robot extends TimedRobot {
 
     Joystick yst = new Joystick(0);
 
+   
+
     
 
   }
@@ -107,6 +109,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    controlPanelSubsystem.setSensorPos(0);
 
   }
 
@@ -120,12 +123,7 @@ public class Robot extends TimedRobot {
      */
     // Joystick yst = new Joystick(0);
     // motorSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
-    
-    
-    
-
-    
-      
+    System.out.println(controlPanelSubsystem.motor.getSelectedSensorPosition());
   }
 
   @Override
