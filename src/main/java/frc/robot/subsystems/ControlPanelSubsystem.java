@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -63,17 +64,27 @@ public class ControlPanelSubsystem extends SubsystemBase {
    */
   public ControlPanelSubsystem() {
     SendableRegistry.addChild(this, motor);
-
-    motor.configFactoryDefault();
-    motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
-    motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     SendableRegistry.setName(motor, "Control Panel Motor");
+    configMotor();
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
     m_colorMatcher.addColorMatch(kRedTarget);
     m_colorMatcher.addColorMatch(kYellowTarget);
     m_colorMatcher.setConfidenceThreshold(0.95);
+  }
+
+  private void configMotor() {
+    motor.configFactoryDefault();
+    motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+    motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+    /* Configure Sensor Source for Pirmary PID */
+    motor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 20);
+    motor.selectProfileSlot(0, 0);
+		motor.config_kF(0, 0, 20);
+		motor.config_kP(0, 0, 20);
+		motor.config_kI(0, 0, 20);
+		motor.config_kD(0, 0, 20);
   }
 
   public static ControlPanelSubsystem getInstance() {

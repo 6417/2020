@@ -53,19 +53,19 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (compressor.getCompressorNotConnectedFault()) {
-      log.log(Level.SEVERE, "Compressor not connected!");
-    }
-    if (compressor.getCompressorCurrentTooHighFault()) {
-      log.log(Level.SEVERE, "Compressor current too high!");
-    }
-    if (compressor.getCompressorShortedFault()) {
-      log.log(Level.SEVERE, "Compressor shorted!");
-    }
+    // if (compressor.getCompressorNotConnectedFault()) {
+    //   log.log(Level.SEVERE, "Compressor not connected!");
+    // }
+    // if (compressor.getCompressorCurrentTooHighFault()) {
+    //   log.log(Level.SEVERE, "Compressor current too high!");
+    // }
+    // if (compressor.getCompressorShortedFault()) {
+    //   log.log(Level.SEVERE, "Compressor shorted!");
+    // }
 
-    if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
-      log.log(Level.INFO, "Pressure Tank full!");
-    }
+    // if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
+    //   log.log(Level.INFO, "Pressure Tank full!");
+    // }
   }
 
   void set(DoubleSolenoid cylinder, PneumaticState state) {
@@ -117,6 +117,6 @@ public class PneumaticSubsystem extends SubsystemBase {
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
-    builder.addDoubleProperty("Pressure", () -> compressor., null);
+    // builder.addDoubleProperty("Pressure", () -> compressor., null);
   }
 }

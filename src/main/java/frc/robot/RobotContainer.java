@@ -7,10 +7,14 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ExtendControlPanel_group;
@@ -18,6 +22,7 @@ import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.RetractControlPanel_group;
 import frc.robot.commands.SetMotorForRotationsCommand;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
 
@@ -66,6 +71,36 @@ public class RobotContainer {
     controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group(Robot.pneumaticSubsystem));
     controlPanelButtonReject.whenPressed(new RetractControlPanel_group(Robot.pneumaticSubsystem));
     setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(Robot.controlPanelSubsystem, 1));
+    SmartDashboard.putData(new CommandBase() {
+    @Override
+    public void initialize() {
+      super.initialize();
+      ControlPanelSubsystem.getInstance().motor.set(ControlMode.MotionMagic, 4000);
+    }
+    });
+    SmartDashboard.putData(new CommandBase() {
+      @Override
+      public void initialize() {
+        super.initialize();
+        ControlPanelSubsystem.getInstance().motor.set(ControlMode.MotionMagic, 0);
+      }
+      });
+
+      SmartDashboard.putData(new CommandBase() {
+        @Override
+        public void initialize() {
+          super.initialize();
+          ControlPanelSubsystem.getInstance().motor.set(ControlMode.PercentOutput, 1.0);
+        }
+        });
+
+    SmartDashboard.putData(new CommandBase() {
+     @Override
+     public void initialize() {
+       super.initialize();
+       ControlPanelSubsystem.getInstance().motor.setSelectedSensorPosition(0);
+     } 
+    });
   }
 
   /**
