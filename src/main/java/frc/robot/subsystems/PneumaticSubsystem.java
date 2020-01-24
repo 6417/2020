@@ -34,6 +34,8 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   private LatchedBoolean pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
 
+  private static PneumaticSubsystem mInstance;
+
   /**
    * Creates a new ExampleSubsystem.
    */
@@ -42,13 +44,15 @@ public class PneumaticSubsystem extends SubsystemBase {
     OFF, FORWARD, REVERSE
   }
   
-  public PneumaticSubsystem() {
+  private PneumaticSubsystem() {
     SendableRegistry.addChild(this, liftSolenoid);
     SendableRegistry.addChild(this, bumperSolenoid);
-    SendableRegistry.addChild(this, compressor);
+    // SendableRegistry.addChild(this, compressor);
     SendableRegistry.setName(liftSolenoid, "Lift");
     SendableRegistry.setName(bumperSolenoid, "Bumper");
-    SendableRegistry.setName(compressor, "Compressor");
+    // SendableRegistry.setName(compressor, "Compressor");
+
+    compressor.setClosedLoopControl(false);
   }
 
   @Override
@@ -66,6 +70,15 @@ public class PneumaticSubsystem extends SubsystemBase {
     // if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
     //   log.log(Level.INFO, "Pressure Tank full!");
     // }
+  }
+
+  public static PneumaticSubsystem getInstance() {
+    if (mInstance == null) {
+      mInstance = new PneumaticSubsystem();
+      return mInstance;
+    } else {
+      return mInstance;
+    }
   }
 
   void set(DoubleSolenoid cylinder, PneumaticState state) {
@@ -117,6 +130,9 @@ public class PneumaticSubsystem extends SubsystemBase {
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
-    // builder.addDoubleProperty("Pressure", () -> compressor., null);
+
+    builder.addBooleanProperty("Compressor connected", () -> compressor.getCompressorNotConnectedFault(), null);
+    builder.addBooleanProperty("Compressor current too high", () -> compressor.getCompressorCurrentTooHighFault(), null);
+
   }
 }

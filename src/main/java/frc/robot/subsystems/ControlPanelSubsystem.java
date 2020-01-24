@@ -62,7 +62,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates a new ControlPanelSubsystem.
    */
-  public ControlPanelSubsystem() {
+  private ControlPanelSubsystem() {
     SendableRegistry.addChild(this, motor);
     SendableRegistry.setName(motor, "Control Panel Motor");
     configMotor();
@@ -75,7 +75,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   private void configMotor() {
-    motor.configFactoryDefault();
+    // motor.configFactoryDefault();
     motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     /* Configure Sensor Source for Pirmary PID */
