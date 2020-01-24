@@ -126,6 +126,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
     } 
   }
 
+  public void setMotor(double speed) {
+    motor.set(speed);
+  }
+
+  public int getEndcoderValue() {
+    return motor.getSelectedSensorPosition();
+  }
+
   public boolean isMotorInRnage() {
     if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
       motor.stopMotor();

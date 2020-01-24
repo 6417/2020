@@ -115,6 +115,11 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+<<<<<<< Updated upstream
+=======
+    TestRobotContainer.getInstance();
+    ControlPanelSubsystem.getInstance().setSensorPos(0);
+>>>>>>> Stashed changes
   }
 
   /**
@@ -122,5 +127,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    TestRobotContainer.getInstance().update();
+    double speed = TestRobotContainer.getInstance().getMotorSlider();
+    ControlPanelSubsystem.getInstance().setMotor(speed);
   }
 }

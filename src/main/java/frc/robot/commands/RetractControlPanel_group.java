@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
@@ -21,5 +22,11 @@ public class RetractControlPanel_group extends SequentialCommandGroup {
 
   public RetractControlPanel_group(PneumaticSubsystem m_subsystem) {
     super(new PneumaticLiftCommand(m_subsystem, PneumaticState.FORWARD), new PneumaticBumperCommand(m_subsystem, PneumaticState.FORWARD));
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    // TODO Auto-generated method stub
+    super.initSendable(builder);
   }
 }

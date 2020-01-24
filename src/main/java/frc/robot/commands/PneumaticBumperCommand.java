@@ -10,6 +10,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -79,5 +80,11 @@ public class PneumaticBumperCommand extends CommandBase {
     else {
         return isRetracted;
     }
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+      // TODO Auto-generated method stub
+      super.initSendable(builder);
   }
 }

@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.ControlPanelSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -55,5 +56,11 @@ public class SetMotorForRotationsCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     return m_subsystem.isMotorInRnage();
+  }
+  
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    // TODO Auto-generated method stub
+    super.initSendable(builder);
   }
 }
