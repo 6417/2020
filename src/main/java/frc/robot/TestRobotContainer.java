@@ -21,6 +21,17 @@ public class TestRobotContainer extends RobotContainer {
     private NetworkTableEntry liftReed;
     private NetworkTableEntry bumperReed;
     private NetworkTableEntry endcoderValue;
+    private final string t = "Test Mode"
+    private ShuffleBoardInformation extendLiftButton;
+    private ShuffleBoardInformation rejectLiftButton;
+    private ShuffleBoardInformation liftReed;
+    private ShuffleBoardInformation bumperReed;
+    private ShuffleBoardInformation extendBumperButton;
+    private ShuffleBoardInformation rejectBumperButton;
+    private ShuffleBoardInformation speedSlider;
+    private ShuffleBoardInformation encoderValue;
+    
+    
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -35,31 +46,26 @@ public class TestRobotContainer extends RobotContainer {
         }
     }
 
-    private void showOnShuffleBoard() {
-        Shuffleboard.getTab("Test Mode").add("Extend ControlPanel Module", new PneumaticLiftCommand(PneumaticSubsystem.getInstance(), PneumaticState.FORWARD));
-        Shuffleboard.getTab("Test Mode").add("Reject ControlPanel Module", new PneumaticLiftCommand(PneumaticSubsystem.getInstance(), PneumaticState.REVERSE));
-        liftReed = Shuffleboard.getTab("Test Mode").add("Reed switch of botom Lift", ControlPanelSubsystem.getInstance().getReedLiftBotom()).getEntry();
-        bumperReed = Shuffleboard.getTab("Test Mode").add("Reed switch of front Bumper", ControlPanelSubsystem.getInstance().getReedBumperFront()).getEntry();
-        Shuffleboard.getTab("Test Mode").add("Extend ControlPanel Bumper", new PneumaticBumperCommand(PneumaticSubsystem.getInstance(), PneumaticState.FORWARD));
-        Shuffleboard.getTab("Test Mode").add("Reject ControlPanel Bumper", new PneumaticBumperCommand(PneumaticSubsystem.getInstance(), PneumaticState.REVERSE));
-               
-        controlPanelMotorSlider = Shuffleboard.getTab("Test Mode")
-        .add("ControlPanel Motor", 0)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .withProperties(Map.of("min", -1, "max", 1))
-        .getEntry();
 
-        endcoderValue = Shuffleboard.getTab("Test Mode").add("Control panel motor Endcoder", ControlPanelSubsystem.getInstance().getEndcoderValue()).getEntry();
-        // Shuffleboard.getTab("Test Mode").add("Compressor", PneumaticSubsystem.getInstance().initSendable(new SendableBuilder()));
+    private void showOnShuffleBoard() {
+        
+        extendLiftButton = new ShuffleBoardInformation(t ,"Extend ControlPanel Module", new PneumaticLiftCommand(PneumaticSubsystem.getInstance(), PneumaticState.FORWARD));
+        rejectLiftButton = new ShuffleBoardInformation(t, "Reject ControlPanel Module", new PneumaticLiftCommand(PneumaticSubsystem.getInstance(), PneumaticState.REVERSE));
+        liftReed = new ShuffleBoardInformation(t, "Reed switch of bottom Lift", ControlPanelSubsystem.getInstance().getReedLiftBotom());
+        bumperReed = new ShuffleBoardInformation(t, "Reed switch of front Bumper", ControlPanelSubsystem.getInstance().getReedBumperFront());
+        extendBumperButton = new ShuffleBoardInformation(t, "Extend ControlPanel Bumper", new PneumaticBumperCommand(PneumaticSubsystem.getInstance(), PneumaticState.FORWARD));
+        rejectBumperButton = new ShuffleBoardInformation(t, "Reject ControlPanel Bumper", new PneumaticBumperCommand(PneumaticSubsystem.getInstance(), PneumaticState.REVERSE));
+        speedSlider = new ShuffleBoardInformation(t, "ControlPanel Motor", -1, 1, 0);
+        encoderValue = new ShuffleBoardInformation(t, "ControlPanel Motor Encoder", ControlPanelSubsystem.getInstance().getEndcoderValue());
     }
 
     public void update() {
-        liftReed.setBoolean(ControlPanelSubsystem.getInstance().getReedLiftBotom());
-        bumperReed.setBoolean(ControlPanelSubsystem.getInstance().getReedBumperFront());
-        endcoderValue.setDouble(ControlPanelSubsystem.getInstance().getEndcoderValue());
+        liftReed.update(ControlPanelSubsystem.getInstance().getReedLiftBotom());
+        bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
+        encoderValue.update(ControlPanelSubsystem.getInstance().getEndcoderValue());
     }
 
     public double getMotorSlider() {
-        return controlPanelMotorSlider.getDouble(0);
+        return speedSlider.getSliderPosition();
     }
 }
