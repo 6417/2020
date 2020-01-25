@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleConsumer;
+
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -63,12 +65,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
    * Creates a new ControlPanelSubsystem.
    */
   private ControlPanelSubsystem() {
-    SendableRegistry.addChild(this, motor);
+    addChild("Control Panel Motor", motor);
 
     motor.configFactoryDefault();
     motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
-    SendableRegistry.setName(motor, "Control Panel Motor");
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -152,5 +153,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
     builder.addStringProperty("Color", () -> this.getColor().toString(), null);
+    builder.addDoubleProperty("Encoder", () -> this.getEndcoderValue(), (double pos) -> this.motor.setSelectedSensorPosition((int)pos));
   }
 }
