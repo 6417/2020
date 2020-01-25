@@ -16,17 +16,27 @@ public class MotorSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
+  private static MotorSubsystem mInstance;
   public WPI_TalonSRX tankLeftFront = new WPI_TalonSRX(Constants.Tank_Left_1_ID);
   public WPI_TalonSRX tankLeftBack = new WPI_TalonSRX(Constants.Tank_Left_2_ID);
   public WPI_TalonSRX tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_1_ID);
   public WPI_TalonSRX tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_2_ID);
   
   
-  public MotorSubsystem() {
+  private MotorSubsystem() {
     tankLeftFront.configFactoryDefault();
     tankLeftBack.configFactoryDefault();
     tankRightFront.configFactoryDefault();
     tankRightBack.configFactoryDefault();
+  }
+
+  public static MotorSubsystem getInstace() {
+    if (mInstance == null) {
+      mInstance = new MotorSubsystem();
+      return mInstance;
+    } else {
+      return mInstance;
+    }
   }
 
   @Override

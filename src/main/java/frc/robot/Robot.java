@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 
     pneumaticSubsystem = new PneumaticSubsystem();
     controlPanelSubsystem = new ControlPanelSubsystem();
-    motorSubsystem = new MotorSubsystem();
+    motorSubsystem = MotorSubsystem.getInstace();
 
     m_robotContainer = new RobotContainer();
 
