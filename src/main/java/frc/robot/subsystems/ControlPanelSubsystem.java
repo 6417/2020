@@ -36,8 +36,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // The system assumes that the valve is not at homed position
   // private SystemState state = SystemState.RETRACTING;
 
+  
   private ColorSensorV3 colorSensor = new ColorSensorV3(Constants.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
-  public WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
+  private WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
 
   /**
    * A Rev Color Match object is used to register and detect known colors. This
@@ -61,7 +62,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates a new ControlPanelSubsystem.
    */
-  public ControlPanelSubsystem() {
+  private ControlPanelSubsystem() {
     SendableRegistry.addChild(this, motor);
 
     motor.configFactoryDefault();
