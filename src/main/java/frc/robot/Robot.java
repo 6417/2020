@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.TestCommands.TurnLeftCommand;
+import frc.robot.commands.TestCommands.TurnRightCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.MotorSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
@@ -124,7 +126,7 @@ public class Robot extends TimedRobot {
      */
     // Joystick yst = new Joystick(0);
     // motorSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
-    System.out.println(controlPanelSubsystem.motor.getSelectedSensorPosition());
+    System.out.println(controlPanelSubsystem.getInstance().getEncoderValue());
   }
 
   @Override
@@ -143,5 +145,8 @@ public class Robot extends TimedRobot {
     TestRobotContainer.getInstance().update();
     double speed = TestRobotContainer.getInstance().getMotorSlider();
     ControlPanelSubsystem.getInstance().setMotor(speed);
+
+    new TurnLeftCommand(TestRobotContainer.getInstance().getDriveLeftPos());
+    new TurnRightCommand(TestRobotContainer.getInstance().getDriveRightPos());
   }
 }
