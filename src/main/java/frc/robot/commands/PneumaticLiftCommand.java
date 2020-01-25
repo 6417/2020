@@ -13,6 +13,7 @@ import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
 
 import java.lang.reflect.Executable;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -68,6 +69,11 @@ public class PneumaticLiftCommand extends CommandBase {
   public void end(boolean interrupted) {
   }
 
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    // TODO Auto-generated method stub
+    super.initSendable(builder);
+  }
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
