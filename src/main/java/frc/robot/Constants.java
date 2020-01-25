@@ -42,4 +42,17 @@ public final class Constants {
   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_FRONT_REED_DI_ID = 3;
   public static final I2C.Port CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT = I2C.Port.kOnboard;
   public static final int CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID = 48;
+
+  /** 
+ * Motor Subsystem constants used in {@link MotorSubsystem}.
+ */
+
+ public static final int Tank_Left_1_ID = 7;
+ public static final int Tank_Left_2_ID = 5;
+ public static final int Tank_Right_1_ID = 4;
+ public static final int Tank_Right_2_ID = 6;
+ 
 }
+
+
+

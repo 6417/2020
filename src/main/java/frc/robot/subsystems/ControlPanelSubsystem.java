@@ -24,8 +24,8 @@ import frc.robot.Constants;
 
 public class ControlPanelSubsystem extends SubsystemBase {
   private static ControlPanelSubsystem mInstance;
-  private final int ticksPerRotation = 10000;
-  private final int range = 100;
+  private final int ticksPerRotation = 4096;
+  private final int range = 25;
 
   private enum SystemState {
     RETRACTED, EXTENDED, CONTACTED, RETRACTING, EXTENDING
@@ -121,9 +121,9 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   public void setMotorForRotations(int rotations) {
     this.rotations = rotations;
-    if (motor.getSelectedSensorPosition() < this.rotations * ticksPerRotation - range) {
+    if (motor.getSelectedSensorPosition() < (this.rotations * ticksPerRotation) - range) {
       motor.set(0.2);
-    } else if (motor.getSelectedSensorPosition() > this.rotations * ticksPerRotation + range) {
+    } else if (motor.getSelectedSensorPosition() > (this.rotations * ticksPerRotation) + range) {
       motor.set(-0.2);
     } 
   }
@@ -137,7 +137,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public boolean isMotorInRnage() {
-    if (motor.getSelectedSensorPosition() > rotations * ticksPerRotation - range && motor.getSelectedSensorPosition() < rotations * ticksPerRotation + range) {
+    if (motor.getSelectedSensorPosition() > (rotations * ticksPerRotation) - range && motor.getSelectedSensorPosition() < (rotations * ticksPerRotation) + range) {
       motor.stopMotor();
       return true;
     } else {

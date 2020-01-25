@@ -7,13 +7,12 @@
 
 package frc.robot;
 
-import com.fasterxml.jackson.core.StreamReadFeature;
-
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.MotorSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 
 /**
@@ -29,6 +28,7 @@ public class Robot extends TimedRobot {
 
   public static ControlPanelSubsystem controlPanelSubsystem;
   public static PneumaticSubsystem pneumaticSubsystem;
+  public static MotorSubsystem motorSubsystem;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,10 +39,18 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
+    motorSubsystem = MotorSubsystem.getInstace();
     pneumaticSubsystem = PneumaticSubsystem.getInstance();
     controlPanelSubsystem = ControlPanelSubsystem.getInstance();
 
+
     m_robotContainer = new RobotContainer();
+
+    Joystick yst = new Joystick(0);
+
+   
+
+    
 
   }
 
@@ -102,6 +110,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    controlPanelSubsystem.setSensorPos(0);
+
   }
 
   /**
@@ -109,6 +119,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    /**
+     * I disabled these two lines because we have to wait for the chassis team to fix the right gearbox wich isn't built correctly
+     */
+    // Joystick yst = new Joystick(0);
+    // motorSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
+    System.out.println(controlPanelSubsystem.motor.getSelectedSensorPosition());
   }
 
   @Override

@@ -78,8 +78,9 @@ public class PneumaticBumperCommand extends CommandBase {
         return m_controlPanelSubsystem.getReedBumperFront();
     }
     else {
-        return isRetracted;
+        return true;
     }
+    // return true;
   }
 
   @Override

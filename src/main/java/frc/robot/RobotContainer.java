@@ -43,6 +43,7 @@ public class RobotContainer {
   public static JoystickButton controlPanelButtonReject;
   public static JoystickButton setMotorForRotationsButton;
 
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -65,7 +66,7 @@ public class RobotContainer {
 
     controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group(Robot.pneumaticSubsystem));
     controlPanelButtonReject.whenPressed(new RetractControlPanel_group(Robot.pneumaticSubsystem));
-    setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(Robot.controlPanelSubsystem, 1));
+    setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(Robot.controlPanelSubsystem, -1));
   }
 
   /**
