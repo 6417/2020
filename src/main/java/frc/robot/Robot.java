@@ -39,9 +39,10 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
-    pneumaticSubsystem = new PneumaticSubsystem();
-    controlPanelSubsystem = new ControlPanelSubsystem();
     motorSubsystem = MotorSubsystem.getInstace();
+    pneumaticSubsystem = PneumaticSubsystem.getInstance();
+    controlPanelSubsystem = ControlPanelSubsystem.getInstance();
+
 
     m_robotContainer = new RobotContainer();
 
@@ -130,6 +131,8 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    TestRobotContainer.getInstance();
+    ControlPanelSubsystem.getInstance().setSensorPos(0);
   }
 
   /**
@@ -137,5 +140,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    TestRobotContainer.getInstance().update();
+    double speed = TestRobotContainer.getInstance().getMotorSlider();
+    ControlPanelSubsystem.getInstance().setMotor(speed);
   }
 }

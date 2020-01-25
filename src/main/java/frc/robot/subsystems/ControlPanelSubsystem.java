@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleConsumer;
+
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -36,8 +38,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // The system assumes that the valve is not at homed position
   // private SystemState state = SystemState.RETRACTING;
 
+  
   private ColorSensorV3 colorSensor = new ColorSensorV3(Constants.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
-  public WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
+  private WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
+
   /**
    * A Rev Color Match object is used to register and detect known colors. This
    * can be calibrated ahead of time or during operation.
@@ -60,13 +64,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates a new ControlPanelSubsystem.
    */
-  public ControlPanelSubsystem() {
-    SendableRegistry.addChild(this, motor);
+  private ControlPanelSubsystem() {
+    addChild("Control Panel Motor", motor);
 
     motor.configFactoryDefault();
     motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
-    SendableRegistry.setName(motor, "Control Panel Motor");
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -125,6 +128,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
     } 
   }
 
+  public void setMotor(double speed) {
+    motor.set(speed);
+  }
+
+  public int getEndcoderValue() {
+    return motor.getSelectedSensorPosition();
+  }
+
   public boolean isMotorInRnage() {
     if (motor.getSelectedSensorPosition() > (rotations * ticksPerRotation) - range && motor.getSelectedSensorPosition() < (rotations * ticksPerRotation) + range) {
       motor.stopMotor();
@@ -142,5 +153,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
     builder.addStringProperty("Color", () -> this.getColor().toString(), null);
+    builder.addDoubleProperty("Encoder", () -> this.getEndcoderValue(), (double pos) -> this.motor.setSelectedSensorPosition((int)pos));
   }
 }
