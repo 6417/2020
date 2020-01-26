@@ -53,7 +53,7 @@ public class ShuffleBoardInformation {
         if (this.information != null){
             return information.getDouble(defaultValue);
         } else {
-            throw new IllegalArgumentException("ther is no Slider");
+            throw new IllegalArgumentException("This is not a Slider");
         }
     }    
 }

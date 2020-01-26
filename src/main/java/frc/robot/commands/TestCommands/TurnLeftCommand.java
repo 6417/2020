@@ -1,10 +1,10 @@
 package frc.robot.commands.TestCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MotorSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TurnLeftCommand extends CommandBase {
-    private static MotorSubsystem mSubsystem = MotorSubsystem.getInstace();
+    private static DriveSubsystem mSubsystem = DriveSubsystem.getInstace();
     private double speed;
 
     public TurnLeftCommand(double speed) {

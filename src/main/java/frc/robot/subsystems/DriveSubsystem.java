@@ -12,27 +12,27 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class MotorSubsystem extends SubsystemBase {
+public class DriveSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  private static MotorSubsystem mInstance;
+  private static DriveSubsystem mInstance;
   private WPI_TalonSRX tankLeftFront = new WPI_TalonSRX(Constants.Tank_Left_1_ID);
   private WPI_TalonSRX tankLeftBack = new WPI_TalonSRX(Constants.Tank_Left_2_ID);
   private WPI_TalonSRX tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_1_ID);
   private WPI_TalonSRX tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_2_ID);
   
   
-  private MotorSubsystem() {
+  private DriveSubsystem() {
     tankLeftFront.configFactoryDefault();
     tankLeftBack.configFactoryDefault();
     tankRightFront.configFactoryDefault();
     tankRightBack.configFactoryDefault();
   }
 
-  public static MotorSubsystem getInstace() {
+  public static DriveSubsystem getInstace() {
     if (mInstance == null) {
-      mInstance = new MotorSubsystem();
+      mInstance = new DriveSubsystem();
       return mInstance;
     } else {
       return mInstance;

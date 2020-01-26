@@ -77,8 +77,7 @@ public class PneumaticLiftCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (state == PneumaticState.FORWARD) {
-      
+    if (state == PneumaticState.FORWARD) {      
       return true;
     } else {
       return mPanelSubsystem.getReedLiftBotom();

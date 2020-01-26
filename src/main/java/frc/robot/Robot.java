@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TestCommands.TurnLeftCommand;
 import frc.robot.commands.TestCommands.TurnRightCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.MotorSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 
 /**
@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
 
   public static ControlPanelSubsystem controlPanelSubsystem;
   public static PneumaticSubsystem pneumaticSubsystem;
-  public static MotorSubsystem motorSubsystem;
+  public static DriveSubsystem driveSubsystem;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
-    motorSubsystem = MotorSubsystem.getInstace();
+    driveSubsystem = DriveSubsystem.getInstace();
     pneumaticSubsystem = PneumaticSubsystem.getInstance();
     controlPanelSubsystem = ControlPanelSubsystem.getInstance();
 
@@ -49,11 +49,6 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     Joystick yst = new Joystick(0);
-
-   
-
-    
-
   }
 
   /**
@@ -125,7 +120,7 @@ public class Robot extends TimedRobot {
      * I disabled these two lines because we have to wait for the chassis team to fix the right gearbox wich isn't built correctly
      */
     // Joystick yst = new Joystick(0);
-    // motorSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
+    // DriveSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
     System.out.println(controlPanelSubsystem.getInstance().getEncoderValue());
   }
 
@@ -143,7 +138,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     TestRobotContainer.getInstance().update();
-    double speed = TestRobotContainer.getInstance().getMotorSlider();
+    double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
     ControlPanelSubsystem.getInstance().setMotor(speed);
 
     new TurnLeftCommand(TestRobotContainer.getInstance().getDriveLeftPos());
