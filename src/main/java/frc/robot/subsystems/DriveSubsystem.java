@@ -10,8 +10,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.DriveCommand;
 
 public class DriveSubsystem extends SubsystemBase {
   /**
@@ -22,23 +25,31 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonSRX tankLeftBack = new WPI_TalonSRX(Constants.Tank_Left_BACK_ID);
   private WPI_TalonSRX tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_FRONT_ID);
   private WPI_TalonSRX tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_BACK_ID);
+  private DifferentialDrive diffdrive = new DifferentialDrive(tankLeftBack, tankRightBack);
   
   
   private DriveSubsystem() {
-    tankLeftFront.configFactoryDefault();
-    tankLeftBack.configFactoryDefault();
-    tankRightFront.configFactoryDefault();
     tankRightBack.configFactoryDefault();
     tankRightBack.setInverted(InvertType.InvertMotorOutput);
-    tankRightFront.follow(tankRightFront);
-    tankLeftFront.follow(tankLeftFront);
-    tankRightFront.setInverted(InvertType.InvertMotorOutput);
-    tankLeftFront.setInverted(InvertType.InvertMotorOutput);
+    
+    tankRightFront.configFactoryDefault();
+    tankRightFront.follow(tankRightBack);
+    tankRightFront.setInverted(InvertType.FollowMaster);
+    
+    tankLeftBack.configFactoryDefault();
+    tankLeftBack.setInverted(InvertType.None);
+
+    tankLeftFront.configFactoryDefault();
+    tankLeftFront.follow(tankLeftBack);
+    tankLeftFront.setInverted(InvertType.FollowMaster);
+    
+    diffdrive.setRightSideInverted(false);
   }
 
   public static DriveSubsystem getInstance() {
     if (mInstance == null) {
       mInstance = new DriveSubsystem();
+      mInstance.setDefaultCommand(new DriveCommand());
       return mInstance;
     } else {
       return mInstance;
@@ -48,19 +59,25 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
   }
-  private void driveLeft(double l_percentage){
+
+  public void driveLeft(double l_percentage){
       tankLeftBack.set(l_percentage);
   }
-  private void driveRight(double r_percentage){    
+
+  public void driveRight(double r_percentage){    
       tankRightBack.set(r_percentage);
   }
-  public void drive(double l_percentage, double r_percentage){
-    driveRight(r_percentage);
-    driveLeft(l_percentage);
+
+  public void drive(){
+    diffdrive.arcadeDrive(-RobotContainer.mainDriver.getY(), RobotContainer.mainDriver.getX());
+  }
+
+  public void drive(double xSpeed, double ySpeed) {
+    diffdrive.arcadeDrive(xSpeed, ySpeed);
   }
 
   public void stopDrive() {
-    drive(0, 0);
+    getDefaultCommand().cancel();
   }
 }
 

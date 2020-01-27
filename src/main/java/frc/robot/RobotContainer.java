@@ -31,7 +31,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  public Joystick jostk = new Joystick(0); 
+  public static Joystick mainDriver = new Joystick(0);
 
   public static JoystickButton controlPanelButtonExtend;
   public static JoystickButton controlPanelButtonReject;
@@ -40,10 +40,8 @@ public class RobotContainer {
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
-   * 
-   * @throws Exception
    */
-  public RobotContainer() throws Exception {
+  public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -53,14 +51,12 @@ public class RobotContainer {
    * created by instantiating a {@link GenericHID} or one of its subclasses
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   * 
-   * @throws Exception
    */
   private void configureButtonBindings() {
-    controlPanelButtonExtend = new JoystickButton(jostk, 1);
-    controlPanelButtonReject = new JoystickButton(jostk, 2);
+    controlPanelButtonExtend = new JoystickButton(mainDriver, 1);
+    controlPanelButtonReject = new JoystickButton(mainDriver, 2);
 
-    setMotorForRotationsButton = new JoystickButton(jostk, 5);
+    setMotorForRotationsButton = new JoystickButton(mainDriver, 5);
 
     if (Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
       controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group());

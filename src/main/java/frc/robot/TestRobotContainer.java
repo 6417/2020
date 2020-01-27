@@ -63,9 +63,11 @@ public class TestRobotContainer {
     }
 
     public void update() {
-        liftReed.update(ControlPanelSubsystem.getInstance().getReedLiftBotom());
-        bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
-        encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
+        if(Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
+            liftReed.update(ControlPanelSubsystem.getInstance().getReedLiftBotom());            
+            bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
+            encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
+        }
     }
 
     public double getControlPanelMotorSlider() {

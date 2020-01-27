@@ -7,12 +7,14 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,8 +27,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
-
-  private Joystick jst = new Joystick(0);
+  private PowerDistributionPanel pdp = new PowerDistributionPanel();
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -38,13 +39,7 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    try {
-      m_robotContainer = new RobotContainer();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
-    Joystick yst = new Joystick(0);
+    m_robotContainer = new RobotContainer();
   }
 
   /**
@@ -119,12 +114,14 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
   }
-
+  DriveCommand testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     ControlPanelSubsystem.getInstance().setSensorPos(0);
+    TestRobotContainer.getInstance();
+    testDriveCommand.schedule(false);
   }
 
   /**
@@ -133,10 +130,9 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     TestRobotContainer.getInstance().update();
-    double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
-    ControlPanelSubsystem.getInstance().setMotor(speed);
-
-    DriveSubsystem.getInstance().drive(TestRobotContainer.getInstance().getDriveLeftPos(),
-    TestRobotContainer.getInstance().getDriveRightPos());
+    if(Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
+      double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
+      ControlPanelSubsystem.getInstance().setMotor(speed);
+    }
   }
 }

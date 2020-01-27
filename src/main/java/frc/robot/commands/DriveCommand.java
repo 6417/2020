@@ -7,14 +7,29 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
+
 
 public class DriveCommand extends CommandBase {
+  DoubleSupplier xSpeed, ySpeed;
+  boolean fixSpeed = false;
+
   /**
    * Creates a new DriveCommand.
    */
+  private DriveSubsystem m_subsystem = DriveSubsystem.getInstance();
   public DriveCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(m_subsystem);
+  }
+
+  public DriveCommand(DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
+    this();
+    this.xSpeed = xSpeed;
+    this.ySpeed = ySpeed;
+    this.fixSpeed = true;
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +40,12 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(fixSpeed) {
+      m_subsystem.drive(xSpeed.getAsDouble(), ySpeed.getAsDouble());
+    }
+    else {
+      m_subsystem.drive();
+    }
   }
 
   // Called once the command ends or is interrupted.
