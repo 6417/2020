@@ -132,7 +132,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     motor.set(speed);
   }
 
-  public int getEndcoderValue() {
+  public int getEncoderValue() {
     return motor.getSelectedSensorPosition();
   }
 
@@ -153,6 +153,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
     builder.addStringProperty("Color", () -> this.getColor().toString(), null);
-    builder.addDoubleProperty("Encoder", () -> this.getEndcoderValue(), (double pos) -> this.motor.setSelectedSensorPosition((int)pos));
+    builder.addDoubleProperty("Encoder", () -> this.getEncoderValue(), (double pos) -> this.motor.setSelectedSensorPosition((int)pos));
   }
 }
