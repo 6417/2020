@@ -7,16 +7,15 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ControlPanelSubsystem;
 
 /**
  * An example command that uses an example subsystem.
  */
 public class SetMotorForRotationsCommand extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ControlPanelSubsystem m_subsystem;
+  private final ControlPanelSubsystem m_subsystem = ControlPanelSubsystem.getInstance();
   private int rotations;
 
   /**
@@ -24,11 +23,9 @@ public class SetMotorForRotationsCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SetMotorForRotationsCommand(ControlPanelSubsystem subsystem, int rotations) {
-    m_subsystem = subsystem;
+  public SetMotorForRotationsCommand(int rotations) {
     this.rotations = rotations;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.

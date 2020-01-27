@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
+import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -18,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class PneumaticBumperCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final PneumaticSubsystem m_subsystem;
+  private final PneumaticSubsystem m_subsystem = PneumaticSubsystem.getInstance();
   private final ControlPanelSubsystem m_controlPanelSubsystem = ControlPanelSubsystem.getInstance();
   private final PneumaticState state;
   private boolean isRetracted;
@@ -28,23 +29,19 @@ public class PneumaticBumperCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PneumaticBumperCommand(PneumaticSubsystem subsystem, PneumaticState state) {
-    m_subsystem = subsystem;
+  public PneumaticBumperCommand(PneumaticState state) {
     this.state = state;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      System.out.println("bumper command initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      System.out.println("executing Bumper Command");
       switch(state){
         case FORWARD:
             if (!m_controlPanelSubsystem.getReedLiftBotom()) {

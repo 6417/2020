@@ -18,10 +18,12 @@ import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
 public class ExtendControlPanel_group extends SequentialCommandGroup {
   /**
    * Creates a new ControlPanelCommand.
+   * 
+   * 
    */
 
-  public ExtendControlPanel_group(PneumaticSubsystem m_subsystem) {
-    super(new PneumaticLiftCommand(m_subsystem, PneumaticState.FORWARD), new PneumaticBumperCommand(m_subsystem, PneumaticState.FORWARD));
+  public ExtendControlPanel_group() {
+    super(new PneumaticLiftCommand(PneumaticState.FORWARD), new PneumaticBumperCommand(PneumaticState.FORWARD));
   }
 
   @Override

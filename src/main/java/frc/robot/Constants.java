@@ -20,6 +20,9 @@ import edu.wpi.first.wpilibj.I2C;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
+    public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
 
     /**
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}

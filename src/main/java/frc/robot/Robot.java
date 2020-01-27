@@ -11,16 +11,14 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.TestCommands.TurnLeftCommand;
-import frc.robot.commands.TestCommands.TurnRightCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to each mode, as described in the TimedRobot
+ * documentation. If you change the name of this class or the package after
+ * creating this project, you must also update the build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -28,42 +26,44 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static ControlPanelSubsystem controlPanelSubsystem;
-  public static PneumaticSubsystem pneumaticSubsystem;
-  public static DriveSubsystem driveSubsystem;
   private Joystick jst = new Joystick(0);
 
   /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
+   * This function is run when the robot is first started up and should be used
+   * for any initialization code.
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+    // Instantiate our RobotContainer. This will perform all our button bindings,
+    // and put our
     // autonomous chooser on the dashboard.
 
-    driveSubsystem = DriveSubsystem.getInstace();
-    // pneumaticSubsystem = PneumaticSubsystem.getInstance();
-    // controlPanelSubsystem = ControlPanelSubsystem.getInstance();
-
-
-    // m_robotContainer = new RobotContainer();
+    try {
+      m_robotContainer = new RobotContainer();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     Joystick yst = new Joystick(0);
   }
 
   /**
-   * This function is called every robot packet, no matter the mode. Use this for items like
-   * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
+   * This function is called every robot packet, no matter the mode. Use this for
+   * items like diagnostics that you want ran during disabled, autonomous,
+   * teleoperated and test.
    *
-   * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * <p>
+   * This runs after the mode specific periodic functions, but before LiveWindow
+   * and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
+    // Runs the Scheduler. This is responsible for polling buttons, adding
+    // newly-scheduled
+    // commands, running already-scheduled commands, removing finished or
+    // interrupted commands,
+    // and running subsystem periodic() methods. This must be called from the
+    // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
@@ -80,7 +80,8 @@ public class Robot extends TimedRobot {
   }
 
   /**
-   * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+   * This autonomous runs the autonomous command selected by your
+   * {@link RobotContainer} class.
    */
   @Override
   public void autonomousInit() {
@@ -105,10 +106,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    // if (m_autonomousCommand != null) {
-    //   m_autonomousCommand.cancel();
-    // }
-    // controlPanelSubsystem.setSensorPos(0);
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+    ControlPanelSubsystem.getInstance().setSensorPos(0);
 
   }
 
@@ -117,20 +118,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    /**
-     * I disabled these two lines because we have to wait for the chassis team to fix the right gearbox wich isn't built correctly
-     */
-    // Joystick yst = new Joystick(0);
-    // DriveSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
-    // System.out.println(controlPanelSubsystem.getInstance().getEncoderValue());
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    TestRobotContainer.getInstance();
-    // ControlPanelSubsystem.getInstance().setSensorPos(0);
+    ControlPanelSubsystem.getInstance().setSensorPos(0);
   }
 
   /**
@@ -139,10 +133,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     TestRobotContainer.getInstance().update();
-    // double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
-    // ControlPanelSubsystem.getInstance().setMotor(speed);
+    double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
+    ControlPanelSubsystem.getInstance().setMotor(speed);
 
-    driveSubsystem.drive(TestRobotContainer.getInstance().getDriveLeftPos(), TestRobotContainer.getInstance().getDriveRightPos());
-    // driveSubsystem.drive(jst.getY()+jst.getX(), jst.getY() - jst.getX());
+    DriveSubsystem.getInstance().drive(TestRobotContainer.getInstance().getDriveLeftPos(),
+    TestRobotContainer.getInstance().getDriveRightPos());
   }
 }
