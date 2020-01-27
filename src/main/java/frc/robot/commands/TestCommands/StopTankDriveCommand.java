@@ -5,10 +5,9 @@ import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class StopTankDriveCommand extends CommandBase {
-    private static DriveSubsystem mSubsystem = DriveSubsystem.getInstace();
+    private static DriveSubsystem mSubsystem = DriveSubsystem.getInstance();
 
     public StopTankDriveCommand() {
-
     }
 
           // Called when the command is initially scheduled.

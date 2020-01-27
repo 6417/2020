@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
     tankLeftFront.setInverted(InvertType.InvertMotorOutput);
   }
 
-  public static DriveSubsystem getInstace() {
+  public static DriveSubsystem getInstance() {
     if (mInstance == null) {
       mInstance = new DriveSubsystem();
       return mInstance;

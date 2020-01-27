@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
@@ -20,8 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class PneumaticLiftCommand extends CommandBase {
-  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
-  private final PneumaticSubsystem m_subsystem;
+  private final PneumaticSubsystem m_subsystem = PneumaticSubsystem.getInstance();
   private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
   private final PneumaticState state;
   private boolean isExtended;
@@ -30,11 +30,8 @@ public class PneumaticLiftCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public PneumaticLiftCommand(PneumaticSubsystem subsystem, PneumaticState state) {
-    m_subsystem = subsystem;
+  public PneumaticLiftCommand(PneumaticState state) {
     this.state = state;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -71,7 +68,6 @@ public class PneumaticLiftCommand extends CommandBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    // TODO Auto-generated method stub
     super.initSendable(builder);
   }
   // Returns true when the command should end.

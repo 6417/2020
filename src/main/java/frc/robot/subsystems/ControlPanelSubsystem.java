@@ -7,8 +7,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.function.DoubleConsumer;
-
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -17,7 +15,6 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,10 +23,6 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private static ControlPanelSubsystem mInstance;
   private final int ticksPerRotation = 4096;
   private final int range = 25;
-
-  private enum SystemState {
-    RETRACTED, EXTENDED, CONTACTED, RETRACTING, EXTENDING
-  }
 
   public enum ColorDetected {
     RED, GREEN, BLUE, YELLOW, NONE

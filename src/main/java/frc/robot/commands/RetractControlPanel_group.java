@@ -20,8 +20,8 @@ public class RetractControlPanel_group extends SequentialCommandGroup {
    * Creates a new ControlPanelCommand.
    */
 
-  public RetractControlPanel_group(PneumaticSubsystem m_subsystem) {
-    super(new PneumaticBumperCommand(m_subsystem, PneumaticState.REVERSE), new PneumaticLiftCommand(m_subsystem, PneumaticState.REVERSE));
+  public RetractControlPanel_group() {
+    super(new PneumaticBumperCommand(PneumaticState.REVERSE),new PneumaticLiftCommand(PneumaticState.REVERSE));
   }
 
   @Override
