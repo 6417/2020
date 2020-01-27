@@ -1,6 +1,7 @@
 package frc.robot.commands.TestCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class StopTankDriveCommand extends CommandBase {
@@ -19,6 +20,7 @@ public class StopTankDriveCommand extends CommandBase {
   @Override
   public void execute() {
       mSubsystem.stopDrive();
+      TestRobotContainer.setDriveSlider(0, 0);
   }
 
   // Called once the command ends or is interrupted.

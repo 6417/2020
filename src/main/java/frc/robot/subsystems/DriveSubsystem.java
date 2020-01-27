@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,10 +18,10 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   private static DriveSubsystem mInstance;
-  private WPI_TalonSRX tankLeftFront = new WPI_TalonSRX(Constants.Tank_Left_1_ID);
-  private WPI_TalonSRX tankLeftBack = new WPI_TalonSRX(Constants.Tank_Left_2_ID);
-  private WPI_TalonSRX tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_1_ID);
-  private WPI_TalonSRX tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_2_ID);
+  private WPI_TalonSRX tankLeftFront = new WPI_TalonSRX(Constants.Tank_Left_FRONT_ID);
+  private WPI_TalonSRX tankLeftBack = new WPI_TalonSRX(Constants.Tank_Left_BACK_ID);
+  private WPI_TalonSRX tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_FRONT_ID);
+  private WPI_TalonSRX tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_BACK_ID);
   
   
   private DriveSubsystem() {
@@ -28,6 +29,11 @@ public class DriveSubsystem extends SubsystemBase {
     tankLeftBack.configFactoryDefault();
     tankRightFront.configFactoryDefault();
     tankRightBack.configFactoryDefault();
+    tankRightBack.setInverted(InvertType.InvertMotorOutput);
+    tankRightFront.follow(tankRightFront);
+    tankLeftFront.follow(tankLeftFront);
+    tankRightFront.setInverted(InvertType.InvertMotorOutput);
+    tankLeftFront.setInverted(InvertType.InvertMotorOutput);
   }
 
   public static DriveSubsystem getInstace() {
@@ -43,12 +49,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
   }
   private void driveLeft(double l_percentage){
-      tankLeftFront.set(l_percentage);
       tankLeftBack.set(l_percentage);
   }
-  private void driveRight(double r_percentage){
+  private void driveRight(double r_percentage){    
       tankRightBack.set(r_percentage);
-      tankRightFront.set(r_percentage);
   }
   public void drive(double l_percentage, double r_percentage){
     driveRight(r_percentage);

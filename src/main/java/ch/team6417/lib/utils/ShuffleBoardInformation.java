@@ -55,5 +55,9 @@ public class ShuffleBoardInformation {
         } else {
             throw new IllegalArgumentException("This is not a Slider");
         }
-    }    
+    }
+
+    public void setSlierPos(double value) {
+        information.setDouble(value);
+    }
 }

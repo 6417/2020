@@ -47,11 +47,10 @@ public final class Constants {
  * Motor Subsystem constants used in {@link MotorSubsystem}.
  */
 
- public static final int Tank_Left_1_ID = 7;
- public static final int Tank_Left_2_ID = 5;
- public static final int Tank_Right_1_ID = 4;
- public static final int Tank_Right_2_ID = 6;
- 
+ public static final int Tank_Left_BACK_ID = 5;
+ public static final int Tank_Left_FRONT_ID = 6;
+ public static final int Tank_Right_BACK_ID = 4;
+ public static final int Tank_Right_FRONT_ID = 7; 
 }
 
 

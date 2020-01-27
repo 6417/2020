@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
   public static ControlPanelSubsystem controlPanelSubsystem;
   public static PneumaticSubsystem pneumaticSubsystem;
   public static DriveSubsystem driveSubsystem;
+  private Joystick jst = new Joystick(0);
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -42,11 +43,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     driveSubsystem = DriveSubsystem.getInstace();
-    pneumaticSubsystem = PneumaticSubsystem.getInstance();
-    controlPanelSubsystem = ControlPanelSubsystem.getInstance();
+    // pneumaticSubsystem = PneumaticSubsystem.getInstance();
+    // controlPanelSubsystem = ControlPanelSubsystem.getInstance();
 
 
-    m_robotContainer = new RobotContainer();
+    // m_robotContainer = new RobotContainer();
 
     Joystick yst = new Joystick(0);
   }
@@ -104,10 +105,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
-    controlPanelSubsystem.setSensorPos(0);
+    // if (m_autonomousCommand != null) {
+    //   m_autonomousCommand.cancel();
+    // }
+    // controlPanelSubsystem.setSensorPos(0);
 
   }
 
@@ -121,7 +122,7 @@ public class Robot extends TimedRobot {
      */
     // Joystick yst = new Joystick(0);
     // DriveSubsystem.drive(yst.getY()+yst.getX(), yst.getY()+yst.getX());
-    System.out.println(controlPanelSubsystem.getInstance().getEncoderValue());
+    // System.out.println(controlPanelSubsystem.getInstance().getEncoderValue());
   }
 
   @Override
@@ -129,7 +130,7 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     TestRobotContainer.getInstance();
-    ControlPanelSubsystem.getInstance().setSensorPos(0);
+    // ControlPanelSubsystem.getInstance().setSensorPos(0);
   }
 
   /**
@@ -138,10 +139,10 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     TestRobotContainer.getInstance().update();
-    double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
-    ControlPanelSubsystem.getInstance().setMotor(speed);
+    // double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
+    // ControlPanelSubsystem.getInstance().setMotor(speed);
 
-    new TurnLeftCommand(TestRobotContainer.getInstance().getDriveLeftPos());
-    new TurnRightCommand(TestRobotContainer.getInstance().getDriveRightPos());
+    driveSubsystem.drive(TestRobotContainer.getInstance().getDriveLeftPos(), TestRobotContainer.getInstance().getDriveRightPos());
+    // driveSubsystem.drive(jst.getY()+jst.getX(), jst.getY() - jst.getX());
   }
 }
