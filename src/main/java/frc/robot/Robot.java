@@ -130,9 +130,7 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     TestRobotContainer.getInstance().update();
-    if(Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
-      double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
-      ControlPanelSubsystem.getInstance().setMotor(speed);
-    }
+    double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
+    ControlPanelSubsystem.getInstance().setMotor(speed);
   }
 }

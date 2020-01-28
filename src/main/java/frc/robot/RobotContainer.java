@@ -58,14 +58,10 @@ public class RobotContainer {
 
     setMotorForRotationsButton = new JoystickButton(mainDriver, 5);
 
-    if (Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
-      controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group());
-      controlPanelButtonReject.whenPressed(new RetractControlPanel_group());
-    }
+    controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group());
+    controlPanelButtonReject.whenPressed(new RetractControlPanel_group());
 
-    if (Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
-      setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(1));
-    }
+    setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(1));
   }
 
   /**

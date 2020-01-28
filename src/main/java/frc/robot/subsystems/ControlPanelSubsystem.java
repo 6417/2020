@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.emptySubsystems.EmptyControlPanelSubsystem;
 
 public class ControlPanelSubsystem extends SubsystemBase {
   private static ControlPanelSubsystem mInstance;
@@ -32,8 +33,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
   // private SystemState state = SystemState.RETRACTING;
 
   
-  private ColorSensorV3 colorSensor = new ColorSensorV3(Constants.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
-  private WPI_TalonSRX motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
+  private ColorSensorV3 colorSensor;
+  private WPI_TalonSRX motor;
 
   /**
    * A Rev Color Match object is used to register and detect known colors. This
@@ -57,7 +58,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates a new ControlPanelSubsystem.
    */
-  private ControlPanelSubsystem() {
+  protected ControlPanelSubsystem() {
+    constructor();
+  }
+
+  protected void constructor() {
+    colorSensor = new ColorSensorV3(Constants.CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT);
+    motor = new WPI_TalonSRX(Constants.CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID);
+
     addChild("Control Panel Motor", motor);
 
     motor.configFactoryDefault();
@@ -72,10 +80,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public static ControlPanelSubsystem getInstance() {
-    if (mInstance == null) {
-      mInstance = new ControlPanelSubsystem();
+    if (Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
+      if (mInstance == null) {
+         mInstance = new ControlPanelSubsystem();
+      }
+      return mInstance;
+    } else {
+      return new EmptyControlPanelSubsystem();
     }
-    return mInstance;
   }
 
   public ColorDetected getColor() {
