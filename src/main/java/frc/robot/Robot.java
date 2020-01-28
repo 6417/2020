@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
 /**
@@ -132,5 +133,9 @@ public class Robot extends TimedRobot {
     TestRobotContainer.getInstance().update();
     double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
     ControlPanelSubsystem.getInstance().setMotor(speed);
+
+    BallShooterSubsystem.getInstance().setShooter(TestRobotContainer.getInstance().getShooterSlider());
+    BallShooterSubsystem.getInstance().setLoader(TestRobotContainer.getInstance().getLoadSlider());
+    TestRobotContainer.getInstance().transportMotor.set(TestRobotContainer.getInstance().getTransportSlider());
   }
 }

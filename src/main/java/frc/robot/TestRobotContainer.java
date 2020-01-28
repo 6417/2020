@@ -1,8 +1,12 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.SparkMax;
+
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
+import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
@@ -16,6 +20,10 @@ public class TestRobotContainer {
     private ShuffleBoardInformation encoderValue;
     private static ShuffleBoardInformation driveLeftSlider;
     private static ShuffleBoardInformation driveRightSlider;
+    private ShuffleBoardInformation loadSlider;
+    private ShuffleBoardInformation shooterSlider;
+    private ShuffleBoardInformation transportSlider;
+    public WPI_TalonSRX transportMotor = new WPI_TalonSRX(Constants.BALL_TRANSPORT_MOTOR_CAN_ID);
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -55,6 +63,11 @@ public class TestRobotContainer {
         driveRightSlider = new ShuffleBoardInformation(tab, "Turn right", -1, 1, 0);
         driveLeftSlider = new ShuffleBoardInformation(tab, "Turn left", -1, 1, 0);
         new ShuffleBoardInformation(tab, "Stop tankdrive", new StopTankDriveCommand());
+
+        loadSlider = new ShuffleBoardInformation(tab, "Load motor speed", -1, 1, 0);
+        transportSlider = new ShuffleBoardInformation(tab, "Transport motor speed", -1, 1, 0);
+        shooterSlider = new ShuffleBoardInformation(tab, "Shoot motor speed", -1, 1, 0);
+        new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
     }
 
     public void update() {
@@ -78,5 +91,29 @@ public class TestRobotContainer {
     public static void setDriveSlider(double left, double right) {
         driveLeftSlider.setSlierPos(left);
         driveRightSlider.setSlierPos(right);
+    }
+
+    public double getLoadSlider() {
+        return loadSlider.getSliderPosition();
+    }
+
+    public double getTransportSlider() {
+        return transportSlider.getSliderPosition();
+    }
+
+    public double getShooterSlider() {
+        return shooterSlider.getSliderPosition();
+    }
+
+    public void setShooterSliderPos(double pos) {
+        shooterSlider.setSlierPos(pos);
+    }
+
+    public void setLoadSliderPos(double pos) {
+        loadSlider.setSlierPos(pos);
+    }
+
+    public void setTransportSliderPos(double pos) {
+        transportSlider.setSlierPos(pos);
     }
 }
