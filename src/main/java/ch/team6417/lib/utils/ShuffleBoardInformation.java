@@ -57,7 +57,7 @@ public class ShuffleBoardInformation {
         }
     }
 
-    public void setSlierPos(double value) {
+    public void setSliderPos(double value) {
         information.setDouble(value);
     }
 }

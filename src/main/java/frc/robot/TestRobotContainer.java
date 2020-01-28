@@ -89,8 +89,8 @@ public class TestRobotContainer {
     }
 
     public static void setDriveSlider(double left, double right) {
-        driveLeftSlider.setSlierPos(left);
-        driveRightSlider.setSlierPos(right);
+        driveLeftSlider.setSliderPos(left);
+        driveRightSlider.setSliderPos(right);
     }
 
     public double getLoadSlider() {
@@ -106,14 +106,14 @@ public class TestRobotContainer {
     }
 
     public void setShooterSliderPos(double pos) {
-        shooterSlider.setSlierPos(pos);
+        shooterSlider.setSliderPos(pos);
     }
 
     public void setLoadSliderPos(double pos) {
-        loadSlider.setSlierPos(pos);
+        loadSlider.setSliderPos(pos);
     }
 
     public void setTransportSliderPos(double pos) {
-        transportSlider.setSlierPos(pos);
+        transportSlider.setSliderPos(pos);
     }
 }

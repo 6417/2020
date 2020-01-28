@@ -24,6 +24,7 @@ public class StopAllBallSubsystemsCommand extends CommandBase {
       TestRobotContainer.getInstance().setShooterSliderPos(0);
       TestRobotContainer.getInstance().setTransportSliderPos(0);
       TestRobotContainer.getInstance().transportMotor.set(0);
+      
   }
 
   // Called once the command ends or is interrupted.
