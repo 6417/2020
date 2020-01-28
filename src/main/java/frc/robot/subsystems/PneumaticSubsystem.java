@@ -18,21 +18,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.emptySubsystems.EmptyPneumaticSubsystem;
 import lombok.extern.java.Log;
 
 @Log
 public class PneumaticSubsystem extends SubsystemBase {
 
-  private Compressor compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
-  private DoubleSolenoid liftSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-      Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
-      Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
+  private Compressor compressor;
+  private DoubleSolenoid liftSolenoid;
 
-  private DoubleSolenoid bumperSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-      Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID,
-      Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID);
+  private DoubleSolenoid bumperSolenoid;
 
-  private LatchedBoolean pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
+  private LatchedBoolean pressureTankFull;
 
   private static PneumaticSubsystem mInstance;
 
@@ -44,11 +41,22 @@ public class PneumaticSubsystem extends SubsystemBase {
     OFF, FORWARD, REVERSE
   }
   
-  private PneumaticSubsystem() {
+  protected PneumaticSubsystem() {
     constructor();
   }
 
   protected void constructor() {
+    compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
+    liftSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
+        Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
+        Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
+  
+    bumperSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
+        Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID,
+        Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID);
+  
+    pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
+
     SendableRegistry.addChild(this, liftSolenoid);
     SendableRegistry.addChild(this, bumperSolenoid);
     // SendableRegistry.addChild(this, compressor);
@@ -77,15 +85,19 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
 
   public static PneumaticSubsystem getInstance() {
-    if (mInstance == null) {
-      mInstance = new PneumaticSubsystem();
-      return mInstance;
+    if (Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
+      if (mInstance == null) {
+        mInstance = new PneumaticSubsystem();
+        return mInstance;
+      } else {
+        return mInstance;
+      }
     } else {
-      return mInstance;
+      return new EmptyPneumaticSubsystem();
     }
   }
 
-  void set(DoubleSolenoid cylinder, PneumaticState state) {
+  private void set(DoubleSolenoid cylinder, PneumaticState state) {
     switch (state) {
     case OFF:
       cylinder.set(Value.kOff);

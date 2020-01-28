@@ -30,4 +30,9 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
     public void stopDrive() {
 
     }
+
+    @Override
+    public void periodic() {
+        
+    }
 }

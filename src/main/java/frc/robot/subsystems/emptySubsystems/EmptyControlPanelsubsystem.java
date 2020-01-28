@@ -16,11 +16,11 @@ public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
     }
 
     public boolean getReedLiftBotom() {
-        return false;
+        return true;
     }
 
     public boolean getReedBumperFront() {
-        return false;
+        return true;
     }
 
     public void setSensorPos(int pos) {
@@ -45,6 +45,14 @@ public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
+    }
+
+    @Override
+    public void periodic() {
+        
+    }
+
+    public void setMotor(double speed) {
+
     }
 } 
