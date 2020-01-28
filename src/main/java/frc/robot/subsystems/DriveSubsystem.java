@@ -28,7 +28,11 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive diffdrive = new DifferentialDrive(tankLeftBack, tankRightBack);
   
   
-  private DriveSubsystem() {
+  protected DriveSubsystem() {
+    constructor();
+  }
+
+  protected void constructor() {
     tankRightBack.configFactoryDefault();
     tankRightBack.setInverted(InvertType.InvertMotorOutput);
     

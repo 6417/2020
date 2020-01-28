@@ -45,6 +45,10 @@ public class PneumaticSubsystem extends SubsystemBase {
   }
   
   private PneumaticSubsystem() {
+    constructor();
+  }
+
+  protected void constructor() {
     SendableRegistry.addChild(this, liftSolenoid);
     SendableRegistry.addChild(this, bumperSolenoid);
     // SendableRegistry.addChild(this, compressor);

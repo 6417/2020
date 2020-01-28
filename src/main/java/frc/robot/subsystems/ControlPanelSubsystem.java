@@ -57,7 +57,11 @@ public class ControlPanelSubsystem extends SubsystemBase {
   /**
    * Creates a new ControlPanelSubsystem.
    */
-  private ControlPanelSubsystem() {
+  protected ControlPanelSubsystem() {
+    constructor();
+  }
+
+  protected void constructor() {
     addChild("Control Panel Motor", motor);
 
     motor.configFactoryDefault();
