@@ -14,4 +14,8 @@ public class EmptyBallTransportSubsystem extends BallTransportSubsystem {
     public void setTransportMotor(double speed) {
         
     }
+
+    public void stopTransportMotor() {
+        
+    }
 }

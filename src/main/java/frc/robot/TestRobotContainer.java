@@ -23,7 +23,7 @@ public class TestRobotContainer {
     private ShuffleBoardInformation loadSlider;
     private ShuffleBoardInformation shooterSlider;
     private ShuffleBoardInformation transportSlider;
-    public WPI_TalonSRX transportMotor = new WPI_TalonSRX(Constants.BALL_TRANSPORT_MOTOR_CAN_ID);
+    private ShuffleBoardInformation  pickUpSlider;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -67,6 +67,7 @@ public class TestRobotContainer {
         loadSlider = new ShuffleBoardInformation(tab, "Load motor speed", -1, 1, 0);
         transportSlider = new ShuffleBoardInformation(tab, "Transport motor speed", -1, 1, 0);
         shooterSlider = new ShuffleBoardInformation(tab, "Shoot motor speed", -1, 1, 0);
+        pickUpSlider = new ShuffleBoardInformation(tab, "Pick up motor speed", -1,  1, 0);
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
     }
 
@@ -105,6 +106,10 @@ public class TestRobotContainer {
         return shooterSlider.getSliderPosition();
     }
 
+    public double getPickUpSlider() {
+        return pickUpSlider.getSliderPosition();
+    }
+
     public void setShooterSliderPos(double pos) {
         shooterSlider.setSliderPos(pos);
     }
@@ -115,5 +120,9 @@ public class TestRobotContainer {
 
     public void setTransportSliderPos(double pos) {
         transportSlider.setSliderPos(pos);
+    }
+
+    public void setPickUpSliderPos(double pos) {
+        pickUpSlider.setSliderPos(pos);
     }
 }

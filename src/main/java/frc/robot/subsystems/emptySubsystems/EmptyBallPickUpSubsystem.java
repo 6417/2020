@@ -14,4 +14,8 @@ public class EmptyBallPickUpSubsystem extends BallPickUpSubsystem {
     public void setPickUpMotor(double speed) {
         
     }
+
+    public void stopPickUpMotor() {
+        
+    }
 }

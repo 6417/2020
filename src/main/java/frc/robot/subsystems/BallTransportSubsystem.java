@@ -34,4 +34,8 @@ public class BallTransportSubsystem extends SubsystemBase {
     public void setTransportMotor(double speed) {
         transportMotor.set(speed);
     }
+
+    public void stopTransportMotor() {
+        transportMotor.stopMotor();
+    }
 }

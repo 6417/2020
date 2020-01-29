@@ -10,14 +10,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.BallShooterSubsystem;
 
-public class BallShooter_loaderCommand extends CommandBase {
+public class BallLoaderCommand extends CommandBase {
   /**
    * Creates a new BallShooter_loaderCommand.
    */
   private static BallShooterSubsystem m_subsystem = BallShooterSubsystem.getInstance();
   private double loaderSpeed;
 
-  public BallShooter_loaderCommand(double loaderSpeed) {
+  public BallLoaderCommand(double loaderSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.loaderSpeed = loaderSpeed;
   }
