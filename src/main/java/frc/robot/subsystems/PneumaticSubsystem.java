@@ -25,9 +25,6 @@ import lombok.extern.java.Log;
 public class PneumaticSubsystem extends SubsystemBase {
 
   private Compressor compressor;
-  private DoubleSolenoid liftSolenoid;
-
-  private DoubleSolenoid bumperSolenoid;
 
   private LatchedBoolean pressureTankFull;
 
@@ -36,10 +33,6 @@ public class PneumaticSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-
-  public enum PneumaticState {
-    OFF, FORWARD, REVERSE
-  }
   
   protected PneumaticSubsystem() {
     constructor();
@@ -47,21 +40,10 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   protected void constructor() {
     compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
-    liftSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-        Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
-        Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
-  
-    bumperSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-        Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID,
-        Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID);
   
     pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
 
-    SendableRegistry.addChild(this, liftSolenoid);
-    SendableRegistry.addChild(this, bumperSolenoid);
-    // SendableRegistry.addChild(this, compressor);
-    SendableRegistry.setName(liftSolenoid, "Lift");
-    SendableRegistry.setName(bumperSolenoid, "Bumper");
+
     // SendableRegistry.setName(compressor, "Compressor");
 
     compressor.setClosedLoopControl(false);
@@ -95,52 +77,6 @@ public class PneumaticSubsystem extends SubsystemBase {
     } else {
       return new EmptyPneumaticSubsystem();
     }
-  }
-
-  private void set(DoubleSolenoid cylinder, PneumaticState state) {
-    switch (state) {
-    case OFF:
-      cylinder.set(Value.kOff);
-      break;
-
-    case FORWARD:
-      cylinder.set(Value.kForward);
-      break;
-
-    case REVERSE:
-      cylinder.set(Value.kReverse);
-      break;
-    }
-  }
-
-  public boolean extendLift() {
-    set(liftSolenoid, PneumaticState.FORWARD);
-//    set(liftSolenoid, PneumaticState.OFF);
-    return true;
-  }
-
-  public void retractLift() {
-    set(liftSolenoid, PneumaticState.REVERSE);
-//    set(liftSolenoid, PneumaticState.OFF);
-  }
-
-  public void closeLift() {
-    set(liftSolenoid, PneumaticState.OFF);
-  }
-
-  public void extendBumper() {
-    set(bumperSolenoid, PneumaticState.FORWARD);
-  }
-
-  public boolean retractBumper() {
-    set(bumperSolenoid, PneumaticState.REVERSE);
-//    set(bumperSolenoid, PneumaticState.OFF);
-    return true;
-  }
-
-  public boolean closeBumper() {
-    set(bumperSolenoid, PneumaticState.OFF);
-    return true;
   }
 
   @Override

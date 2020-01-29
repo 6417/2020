@@ -43,9 +43,6 @@ public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
 
     }
 
-    @Override
-    public void initSendable(SendableBuilder builder) {
-    }
 
     @Override
     public void periodic() {
@@ -54,5 +51,29 @@ public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
 
     public void setMotor(double speed) {
 
+    }
+
+    public boolean extendLift() {
+        return true;
+    }
+
+    public void retractLift() {
+
+    }
+
+    public void closeLift() {
+
+    }
+
+    public void extendBumper() {
+
+    }
+
+    public boolean retractBumper() {
+        return true;
+    }
+
+    public boolean closeBumper() {
+        return true;
     }
 } 

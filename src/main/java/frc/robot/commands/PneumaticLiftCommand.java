@@ -10,7 +10,7 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
+import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 import java.lang.reflect.Executable;
 
@@ -21,8 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class PneumaticLiftCommand extends CommandBase {
-  private final PneumaticSubsystem m_subsystem = PneumaticSubsystem.getInstance();
-  private final ControlPanelSubsystem mPanelSubsystem = ControlPanelSubsystem.getInstance();
+  private final ControlPanelSubsystem m_subsystem = ControlPanelSubsystem.getInstance();
   private final PneumaticState state;
   private boolean isExtended;
   /**
@@ -50,7 +49,7 @@ public class PneumaticLiftCommand extends CommandBase {
         break;
         
       case REVERSE:
-        if (!mPanelSubsystem.getReedBumperFront()){
+        if (!m_subsystem.getReedBumperFront()){
           m_subsystem.retractLift();
         }
         else {System.out.println("You can't retract the lift when the bumper is extended!");}
@@ -76,7 +75,7 @@ public class PneumaticLiftCommand extends CommandBase {
     if (state == PneumaticState.FORWARD) {      
       return true;
     } else {
-      return mPanelSubsystem.getReedLiftBotom();
+      return m_subsystem.getReedLiftBotom();
     }
     // return true;
   }

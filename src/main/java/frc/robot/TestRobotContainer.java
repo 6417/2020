@@ -9,7 +9,7 @@ import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
+import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
