@@ -8,15 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.BallTransportSubsystem;
+import frc.robot.subsystems.BallPickUpSubsystem;
 
-public class BallTransportCommand extends CommandBase {
+public class BallPickupMotorCommand extends CommandBase {
   /**
-   * Creates a new BallTransportCommand.
+   * Creates a new BallPickupCommand.
    */
-  double speed;
-  private BallTransportSubsystem m_subsystem = BallTransportSubsystem.getInstance();
-  public BallTransportCommand(double speed) {
+  private static BallPickUpSubsystem m_subsytem = BallPickUpSubsystem.getInstance();
+  private double speed;
+  public BallPickupMotorCommand(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speed;
   }
@@ -29,7 +29,7 @@ public class BallTransportCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setTransportMotor(speed);
+    m_subsytem.setPickUpMotor(speed);
   }
 
   // Called once the command ends or is interrupted.
