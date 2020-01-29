@@ -8,13 +8,13 @@ import frc.robot.subsystems.emptySubsystems.EmptyBallTransportSubsystem;
 
 public class BallTransportSubsystem extends SubsystemBase {
     private WPI_TalonSRX transportMotor;
-    private BallTransportSubsystem mInstance;
+    private static BallTransportSubsystem mInstance;
 
     protected BallTransportSubsystem() {
         consuctor();
     }
 
-    public BallTransportSubsystem getInstance() {
+    public static BallTransportSubsystem getInstance() {
         if (Constants.BALL_TRANSPORT_SUBSYSTEM_ENABLED) {
             if (mInstance == null) {
                 mInstance = new BallTransportSubsystem();
