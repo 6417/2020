@@ -6,7 +6,7 @@ import frc.robot.TestRobotContainer;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
-import frc.robot.commands.BallTransportCommand;
+import frc.robot.commands.TransportBallCommand;
 import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
@@ -28,7 +28,7 @@ public class StopAllBallSubsystemsCommand extends CommandBase {
       // mPickUpSubsystem.stopPickUpMotor();
       // mTransportSubsystem.stopTransportMotor();
 
-      new BallTransportCommand(0).schedule();
+      new TransportBallCommand(true).schedule();
       new BallLoaderCommand(0).schedule();
       new BallShooterCommand(0, false).schedule();
       new BallPickupMotorCommand(0).schedule();

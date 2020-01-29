@@ -5,37 +5,36 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.TestCommands;
 
-import ch.team6417.lib.utils.LatchedBoolean;
-import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.BallShooterSubsystem;
-import frc.robot.subsystems.BallTransportSubsystem;
 
-public class BallLoaderCommand extends CommandBase {
+public class BallShooterCommand extends CommandBase {
   /**
-   * Creates a new BallShooter_loaderCommand.
+   * Creates a new BallShooterCommand.
    */
   private static BallShooterSubsystem m_subsystem = BallShooterSubsystem.getInstance();
-  private double loaderSpeed;
+  private double shooterSpeed;
+  private boolean FixedSpeed;
 
-  public BallLoaderCommand(double loaderSpeed) {
+  public BallShooterCommand(double shooterSpeed, boolean FixedSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.loaderSpeed = loaderSpeed;
+    this.shooterSpeed = shooterSpeed;
+    this.FixedSpeed = FixedSpeed;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    TestRobotContainer.getInstance().setLoadSliderPos(loaderSpeed);
+    TestRobotContainer.getInstance().setShooterSliderPos(shooterSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setLoader(loaderSpeed);
+    m_subsystem.setShooter(shooterSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -46,6 +45,15 @@ public class BallLoaderCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return BallTransportSubsystem.getInstance().getSensor();
+    if (FixedSpeed){
+      if (m_subsystem.getSpeed() > 5400){
+         return true;
+      } else {
+        return false;
+      }
+    }
+    else{
+      return true;
+    }
   }
 }

@@ -3,7 +3,7 @@ package frc.robot;
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
-import frc.robot.commands.TestCommands.BallShooterGroup;
+import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
@@ -24,7 +24,6 @@ public class TestRobotContainer {
     private ShuffleBoardInformation transportSlider;
     private ShuffleBoardInformation  pickUpSlider;
     private ShuffleBoardInformation shooterSpeed;
-    private ShuffleBoardInformation shooterCommandGroup;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -71,7 +70,7 @@ public class TestRobotContainer {
         pickUpSlider = new ShuffleBoardInformation(tab, "Pick up motor speed", -1,  1, 0);
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
         shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
-        shooterCommandGroup = new ShuffleBoardInformation(tab, "test command Group", new BallShooterGroup());
+        new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
     }
 
     public void update() {
