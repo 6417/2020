@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -14,6 +15,7 @@ public class BallShooterSubsystem extends SubsystemBase {
     private CANSparkMax shooterLeft;
     private CANSparkMax shooterMaster;
     private CANSparkMax shooterRight;
+    private CANEncoder masterEncoder;
 
     protected BallShooterSubsystem() {
         constructor();
@@ -28,6 +30,7 @@ public class BallShooterSubsystem extends SubsystemBase {
             MotorType.kBrushless);
 
         shooterRight.follow(shooterMaster, true);
+        masterEncoder = shooterMaster.getEncoder();
     }
 
     public static BallShooterSubsystem getInstance() {
@@ -58,4 +61,10 @@ public class BallShooterSubsystem extends SubsystemBase {
     public void stopLoader() {
         loader.stopMotor();
     }
+
+    public double getSpeed(){
+        return(masterEncoder.getVelocity());
+    }
+    
+
 }

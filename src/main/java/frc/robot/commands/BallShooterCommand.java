@@ -41,6 +41,9 @@ public class BallShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (m_subsystem.getSpeed() > 10){
+      return true;
+    }
     return false;
   }
 }
