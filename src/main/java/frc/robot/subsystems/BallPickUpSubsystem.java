@@ -7,7 +7,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyBallPickUpSubsystem;
 
 public class BallPickUpSubsystem extends SubsystemBase {
-    private BallPickUpSubsystem mInstance;
+    private static BallPickUpSubsystem mInstance;
     private WPI_TalonSRX pickUpMotor;
 
     protected BallPickUpSubsystem() {
@@ -18,7 +18,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
         pickUpMotor = new WPI_TalonSRX(Constants.BALL_PICKUP_MOTOR_CAN_ID);
     }
 
-    public BallPickUpSubsystem getInstance() {
+    public static BallPickUpSubsystem getInstance() {
         if (Constants.BALL_PICKUP_SUBSYSTEM_ENABLED) {
             if (mInstance == null) {
                mInstance = new BallPickUpSubsystem();
