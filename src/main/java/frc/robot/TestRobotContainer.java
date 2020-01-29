@@ -4,10 +4,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.SparkMax;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
+import frc.robot.commands.BallShooterGroup;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
+import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
@@ -24,6 +26,8 @@ public class TestRobotContainer {
     private ShuffleBoardInformation shooterSlider;
     private ShuffleBoardInformation transportSlider;
     private ShuffleBoardInformation  pickUpSlider;
+    private ShuffleBoardInformation shooterSpeed;
+    private ShuffleBoardInformation shooterCommandGroup;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -69,12 +73,15 @@ public class TestRobotContainer {
         shooterSlider = new ShuffleBoardInformation(tab, "Shoot motor speed", -1, 1, 0);
         pickUpSlider = new ShuffleBoardInformation(tab, "Pick up motor speed", -1,  1, 0);
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
+        shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
+        shooterCommandGroup = new ShuffleBoardInformation(tab, "test command Group", new BallShooterGroup());
     }
 
     public void update() {
         liftReed.update(ControlPanelSubsystem.getInstance().getReedLiftBotom());            
         bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
+        shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
     }
 
     public double getControlPanelMotorSlider() {

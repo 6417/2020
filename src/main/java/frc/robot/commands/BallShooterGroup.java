@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -17,6 +18,11 @@ public class BallShooterGroup extends SequentialCommandGroup {
    * Creates a new BallShooterGroup.
    */
   public BallShooterGroup() {
-    super(new BallShooterCommand(1), new BallLoaderCommand(0.5));
+    super(new BallShooterCommand(1, true), new BallLoaderCommand(0.25));
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder){
+    super.initSendable(builder);
   }
 }

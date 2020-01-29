@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.BallShooterSubsystem;
 
 public class BallShooterCommand extends CommandBase {
@@ -16,10 +17,12 @@ public class BallShooterCommand extends CommandBase {
    */
   private static BallShooterSubsystem m_subsystem = BallShooterSubsystem.getInstance();
   private double shooterSpeed;
+  private boolean FixedSpeed;
 
-  public BallShooterCommand(double shooterSpeed) {
+  public BallShooterCommand(double shooterSpeed, boolean FixedSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shooterSpeed = shooterSpeed;
+    this.FixedSpeed = FixedSpeed;
   }
 
   // Called when the command is initially scheduled.
@@ -30,6 +33,7 @@ public class BallShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    TestRobotContainer.getInstance().setShooterSliderPos(shooterSpeed);
     m_subsystem.setShooter(shooterSpeed);
   }
 
@@ -41,9 +45,15 @@ public class BallShooterCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_subsystem.getSpeed() > 10){
+    if (FixedSpeed){
+      if (m_subsystem.getSpeed() > 5400){
+         return true;
+      } else {
+        return false;
+      }
+    }
+    else{
       return true;
     }
-    return false;
   }
 }

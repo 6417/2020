@@ -15,6 +15,7 @@ public class BallShooterSubsystem extends SubsystemBase {
     private CANSparkMax shooterMaster;
     private CANSparkMax shooterRight;
     private CANEncoder masterEncoder;
+    public double shooterSpeed;
 
     protected BallShooterSubsystem() {
         constructor();
@@ -63,7 +64,8 @@ public class BallShooterSubsystem extends SubsystemBase {
     }
 
     public double getSpeed(){
-        return(masterEncoder.getVelocity());
+        double shooterSpeed = masterEncoder.getVelocity();
+        return(shooterSpeed);
     }
     
 

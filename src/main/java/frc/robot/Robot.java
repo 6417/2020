@@ -139,7 +139,7 @@ public class Robot extends TimedRobot {
     double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
     ControlPanelSubsystem.getInstance().setMotor(speed);
     
-    new BallShooterCommand(TestRobotContainer.getInstance().getShooterSlider()).schedule(false);
+    new BallShooterCommand(TestRobotContainer.getInstance().getShooterSlider(), false).schedule(false);
     new BallLoaderCommand(TestRobotContainer.getInstance().getLoadSlider()).schedule(false);
     new BallTransportCommand(TestRobotContainer.getInstance().getTransportSlider()).schedule(false);
     new BallPickupMotorCommand(TestRobotContainer.getInstance().getPickUpSlider()).schedule(false);

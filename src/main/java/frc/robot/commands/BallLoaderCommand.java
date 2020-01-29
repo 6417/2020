@@ -8,6 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.BallShooterSubsystem;
 
 public class BallLoaderCommand extends CommandBase {
@@ -30,6 +31,7 @@ public class BallLoaderCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    TestRobotContainer.getInstance().setLoadSliderPos(loaderSpeed);
     m_subsystem.setLoader(loaderSpeed);
   }
 
