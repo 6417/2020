@@ -76,4 +76,9 @@ public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
     public boolean closeBumper() {
         return true;
     }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        
+    }
 } 

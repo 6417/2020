@@ -38,4 +38,8 @@ public class BallTransportSubsystem extends SubsystemBase {
     public void stopTransportMotor() {
         transportMotor.stopMotor();
     }
+
+    public boolean getSensor() {
+        return transportMotor.isFwdLimitSwitchClosed() == 1;
+    }
 }

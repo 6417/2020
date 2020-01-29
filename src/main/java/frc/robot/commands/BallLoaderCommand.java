@@ -26,12 +26,12 @@ public class BallLoaderCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    TestRobotContainer.getInstance().setLoadSliderPos(loaderSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TestRobotContainer.getInstance().setLoadSliderPos(loaderSpeed);
     m_subsystem.setLoader(loaderSpeed);
   }
 

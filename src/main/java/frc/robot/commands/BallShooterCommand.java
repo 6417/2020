@@ -28,12 +28,12 @@ public class BallShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    TestRobotContainer.getInstance().setShooterSliderPos(shooterSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TestRobotContainer.getInstance().setShooterSliderPos(shooterSpeed);
     m_subsystem.setShooter(shooterSpeed);
   }
 

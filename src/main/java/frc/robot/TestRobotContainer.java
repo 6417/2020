@@ -1,12 +1,9 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.SparkMax;
-
 import ch.team6417.lib.utils.ShuffleBoardInformation;
-import frc.robot.commands.BallShooterGroup;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
+import frc.robot.commands.TestCommands.BallShooterGroup;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
