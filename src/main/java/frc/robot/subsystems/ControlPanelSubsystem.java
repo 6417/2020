@@ -89,12 +89,12 @@ public class ControlPanelSubsystem extends SubsystemBase {
     m_colorMatcher.setConfidenceThreshold(0.95);
 
     liftSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-    Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
-    Constants.PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
+    Constants.CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID,
+    Constants.CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID);
 
     bumperSolenoid = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID,
-        Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID,
-        Constants.PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID);
+        Constants.CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID,
+        Constants.CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID);
 
     SendableRegistry.addChild(this, liftSolenoid);
     SendableRegistry.addChild(this, bumperSolenoid);
