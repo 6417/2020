@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import frc.robot.subsystems.PneumaticSubsystem;
-import frc.robot.subsystems.PneumaticSubsystem.PneumaticState;
+import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
@@ -19,8 +19,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class PneumaticBumperCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final PneumaticSubsystem m_subsystem = PneumaticSubsystem.getInstance();
-  private final ControlPanelSubsystem m_controlPanelSubsystem = ControlPanelSubsystem.getInstance();
+  private final ControlPanelSubsystem m_subsystem = ControlPanelSubsystem.getInstance();
   private final PneumaticState state;
   private boolean isRetracted;
 
@@ -44,9 +43,9 @@ public class PneumaticBumperCommand extends CommandBase {
   public void execute() {
       switch(state){
         case FORWARD:
-            if (!m_controlPanelSubsystem.getReedLiftBotom()) {
+            if (!m_subsystem.getReedLiftBotom()) {
                 m_subsystem.extendBumper();
-                System.out.println("extendBumper " + m_controlPanelSubsystem.getReedBumperFront());
+                System.out.println("extendBumper " + m_subsystem.getReedBumperFront());
                 break;
             }
             else {
@@ -72,7 +71,7 @@ public class PneumaticBumperCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if(state == PneumaticState.FORWARD){
-        return m_controlPanelSubsystem.getReedBumperFront();
+        return m_subsystem.getReedBumperFront();
     }
     else {
         return true;

@@ -1,5 +1,6 @@
 package frc.robot.subsystems.emptySubsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.subsystems.PneumaticSubsystem;
 
 public class EmptyPneumaticSubsystem extends PneumaticSubsystem {
@@ -12,28 +13,9 @@ public class EmptyPneumaticSubsystem extends PneumaticSubsystem {
 
     }
 
-    public boolean extendLift() {
-        return true;
-    }
-
-    public void retractLift() {
-
-    }
-
-    public void closeLift() {
-
-    }
-
-    public void extendBumper() {
-
-    }
-
-    public boolean retractBumper() {
-        return true;
-    }
-
-    public boolean closeBumper() {
-        return true;
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        
     }
 
     @Override

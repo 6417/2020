@@ -32,10 +32,10 @@ public final class Constants {
    */
 
    public static final int PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID = 20;
-   public static final int PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID = 0;
-   public static final int PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID = 1;
-   public static final int PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID = 2;
-   public static final int PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID = 3;
+   public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID = 0;
+   public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID = 1;
+   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID = 2;
+   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID = 3;
 
 
   /**
