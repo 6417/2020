@@ -12,7 +12,6 @@ import frc.robot.subsystems.emptySubsystems.EmptyBallShooterSubsystem;
 public class BallShooterSubsystem extends SubsystemBase {
     private static BallShooterSubsystem mInstance;
     private CANSparkMax loader;
-    private CANSparkMax shooterLeft;
     private CANSparkMax shooterMaster;
     private CANSparkMax shooterRight;
     private CANEncoder masterEncoder;
@@ -22,10 +21,11 @@ public class BallShooterSubsystem extends SubsystemBase {
     }
 
     protected void constructor() {
-        loader = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_LOADER_CAN_ID, MotorType.kBrushed);
-        shooterLeft = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_SHOOTER_LEFT_CAN_ID,
+        loader = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_LOADER_CAN_ID, MotorType.kBrushless);
+        loader.setInverted(true);
+
+        shooterMaster = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_SHOOTER_LEFT_CAN_ID,
             MotorType.kBrushless);
-        shooterMaster = shooterLeft;
         shooterRight = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_SHOOTER_RIGHT_CAN_ID,
             MotorType.kBrushless);
 
