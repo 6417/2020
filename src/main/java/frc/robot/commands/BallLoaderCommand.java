@@ -18,7 +18,7 @@ public class BallLoaderCommand extends CommandBase {
   /**
    * Creates a new BallShooter_loaderCommand.
    */
-  private static BallShooterSubsystem m_subsystem = BallShooterSubsystem.getInstance();
+  private BallShooterSubsystem m_subsystem = BallShooterSubsystem.getInstance();
   private double loaderSpeed;
 
   public BallLoaderCommand(double loaderSpeed) {
@@ -46,6 +46,6 @@ public class BallLoaderCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return BallTransportSubsystem.getInstance().getSensor();
+    return true;
   }
 }

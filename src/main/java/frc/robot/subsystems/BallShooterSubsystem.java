@@ -30,6 +30,9 @@ public class BallShooterSubsystem extends SubsystemBase {
         shooterRight = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_SHOOTER_RIGHT_CAN_ID,
             MotorType.kBrushless);
 
+        shooterMaster.restoreFactoryDefaults();
+        shooterRight.restoreFactoryDefaults();
+
         shooterRight.follow(shooterMaster, true);
         masterEncoder = shooterMaster.getEncoder();
     }

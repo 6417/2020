@@ -35,7 +35,7 @@ public class StopAllBallSubsystemsCommand extends CommandBase {
 
       TestRobotContainer.getInstance().setLoadSliderPos(0);
       TestRobotContainer.getInstance().setShooterSliderPos(0);
-      TestRobotContainer.getInstance().setTransportSliderPos(0);     
+      TestRobotContainer.getInstance().setTransportSliderPos(0);
       TestRobotContainer.getInstance().setPickUpSliderPos(0);
   }
 

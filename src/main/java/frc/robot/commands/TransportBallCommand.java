@@ -10,6 +10,7 @@ package frc.robot.commands;
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.BallTransportSubsystem;
 
 public class TransportBallCommand extends CommandBase {
@@ -23,7 +24,11 @@ public class TransportBallCommand extends CommandBase {
 
   public TransportBallCommand(double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.speed = speed;
+    if (speed == 0) {
+      this.speed = speed;
+    } else {
+      this.speed = 0.25;
+    }
   }
 
   public TransportBallCommand(boolean stop) {
@@ -35,6 +40,7 @@ public class TransportBallCommand extends CommandBase {
   @Override
   public void initialize() {
     finished = new LatchedBoolean(EdgeDetection.FALLING);
+    TestRobotContainer.getInstance().setTransportSliderPos(this.speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,11 +52,12 @@ public class TransportBallCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_subsystem.stopTransportMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return finished.update(m_subsystem.getSensor()) || stop;
+    return false; //finished.update(m_subsystem.getSensor()) || stop;
   }
 }

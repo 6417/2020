@@ -7,6 +7,7 @@ import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
@@ -24,6 +25,7 @@ public class TestRobotContainer {
     private ShuffleBoardInformation transportSlider;
     private ShuffleBoardInformation  pickUpSlider;
     private ShuffleBoardInformation shooterSpeed;
+    private ShuffleBoardInformation transportSpeed;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -71,6 +73,8 @@ public class TestRobotContainer {
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
         shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
         new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
+
+        transportSpeed = new ShuffleBoardInformation(tab, "transportSpeed", BallTransportSubsystem.getInstance().getPercents());
     }
 
     public void update() {
@@ -78,6 +82,8 @@ public class TestRobotContainer {
         bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
+        transportSpeed.update(BallTransportSubsystem.getInstance().getPercents());
+
     }
 
     public double getControlPanelMotorSlider() {

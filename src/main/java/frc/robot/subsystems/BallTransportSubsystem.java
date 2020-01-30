@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -32,14 +33,19 @@ public class BallTransportSubsystem extends SubsystemBase {
     }
 
     public void setTransportMotor(double speed) {
-        transportMotor.set(speed);
+        transportMotor.set(ControlMode.PercentOutput, speed);
     }
 
     public void stopTransportMotor() {
-        transportMotor.stopMotor();
+        System.out.println("stop");
+       // transportMotor.stopMotor();
     }
 
+    public double getPercents() {
+        return(transportMotor.get());
+    } 
+
     public boolean getSensor() {
-        return transportMotor.isFwdLimitSwitchClosed() == 1;
+        return true;//transportMotor.isFwdLimitSwitchClosed() == 1;
     }
 }
