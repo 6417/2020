@@ -19,16 +19,14 @@ public class BallPickUpSubsystem extends SubsystemBase {
     }
 
     public static BallPickUpSubsystem getInstance() {
-        if (Constants.BALL_PICKUP_SUBSYSTEM_ENABLED) {
-            if (mInstance == null) {
-               mInstance = new BallPickUpSubsystem();
-               return mInstance;
+        if (mInstance == null) {
+            if (Constants.BALL_PICKUP_SUBSYSTEM_ENABLED) {
+                mInstance = new BallPickUpSubsystem();
             } else {
-                return mInstance;
+                mInstance = new EmptyBallPickUpSubsystem();
             }
-        } else {
-            return new EmptyBallPickUpSubsystem();
         }
+        return mInstance;
     }
 
     public void setPickUpMotor(double speed) {
