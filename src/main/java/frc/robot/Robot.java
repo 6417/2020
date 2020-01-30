@@ -18,6 +18,7 @@ import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.BallShooterCommand;
+import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
@@ -139,9 +140,9 @@ public class Robot extends TimedRobot {
     double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
     ControlPanelSubsystem.getInstance().setMotor(speed);
     
-    new BallShooterCommand(TestRobotContainer.getInstance().getShooterSlider(), false).schedule(false);
-    new BallLoaderCommand(TestRobotContainer.getInstance().getLoadSlider()).schedule(false);
-    new TransportBallCommand(TestRobotContainer.getInstance().getTransportSlider()).schedule(false);
-    new BallPickupMotorCommand(TestRobotContainer.getInstance().getPickUpSlider()).schedule(false);
+    BallShooterSubsystem.getInstance().setShooter(TestRobotContainer.getInstance().getShooterSlider());
+    BallShooterSubsystem.getInstance().setLoader(TestRobotContainer.getInstance().getLoadSlider());
+    BallTransportSubsystem.getInstance().setTransportMotor(TestRobotContainer.getInstance().getTransportSlider());
+    BallPickUpSubsystem.getInstance().setPickUpMotor(TestRobotContainer.getInstance().getPickUpSlider());
   }
 }
