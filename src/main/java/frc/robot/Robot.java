@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
   DriveCommand testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
   BallLoaderCommand loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
   BallShooterCommand ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
-  TransportBallCommand transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), false);
+  TransportBallCommand transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);
   BallPickupMotorCommand pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
 
   @Override
@@ -154,5 +154,7 @@ public class Robot extends TimedRobot {
     loadBallCommmand.schedule(false);
     ballShooterCommand.schedule(false);
     pickUpMotorCommand.schedule(false);
+    transportBallcommand.schedule(false);
+    
   }
 }

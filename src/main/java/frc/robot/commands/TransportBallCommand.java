@@ -19,7 +19,7 @@ public class TransportBallCommand extends CommandBase {
   /**
    * Creates a new BallTransportCommand.
    */
-  private double speed;
+  private DoubleSupplier speed;
   private BallTransportSubsystem m_subsystem = BallTransportSubsystem.getInstance();
   private LatchedBoolean finished;
   private boolean stop = false;
@@ -29,14 +29,14 @@ public class TransportBallCommand extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shoot = shoot;
     if (speed.getAsDouble() == 0) {
-      this.speed = speed.getAsDouble();
+      this.speed = speed;
     } else {
-      this.speed = 0.25;
+      this.speed = () -> 0.25;
     }
   }
 
   public TransportBallCommand(boolean stop) {
-    this.speed = 0;
+    this.speed = () -> 0;
     this.stop = stop;
   }
 
@@ -48,13 +48,13 @@ public class TransportBallCommand extends CommandBase {
     } else {
       finished = new LatchedBoolean(EdgeDetection.RISING);
     }
-    TestRobotContainer.getInstance().setTransportSliderPos(this.speed);
+    TestRobotContainer.getInstance().setTransportSliderPos(this.speed.getAsDouble());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      m_subsystem.setTransportMotor(speed);
+      m_subsystem.setTransportMotor(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
@@ -67,9 +67,9 @@ public class TransportBallCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (shoot) {
-      return finished.update(m_subsystem.getSensor()) || stop;
+      return false; // finished.update(m_subsystem.getSensor()) || stop;
     } else {
-      return finished.update(m_subsystem.getSensor()) || stop || m_subsystem.getSensor();
+      return false; // finished.update(m_subsystem.getSensor()) || stop || m_subsystem.getSensor();
     }
   }
 }

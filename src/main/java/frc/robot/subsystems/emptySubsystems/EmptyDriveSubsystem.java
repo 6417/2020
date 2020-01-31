@@ -48,6 +48,5 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
 
     @Override
     public void periodic() {
-        
     }
 }
