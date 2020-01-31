@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
@@ -10,21 +12,36 @@ public class ShootBallCommand extends SequentialCommandGroup {
    */
 
   public ShootBallCommand() {
-    super(new BallShooterCommand(Constants.standardShooterSpeed, true),
-          new BallLoaderCommand(Constants.standardLoaderSpeed),
-          new TransportBallCommand(Constants.standardTransportSpeed));
+    super(new BallShooterCommand(() -> Constants.standardShooterSpeed, true),
+          new BallLoaderCommand(() -> Constants.standardLoaderSpeed),
+          new TransportBallCommand(() -> Constants.standardTransportSpeed, true));
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed) {
-    super(new BallShooterCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[0], true),
-          new BallLoaderCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[2]),
-          new TransportBallCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[1]));
+    super(new BallShooterCommand(() -> actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[0], true),
+          new BallLoaderCommand(() -> actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[2]),
+          new TransportBallCommand(() -> actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[1], true));
   }
 
-  public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed, boolean speedEquaZero) {
-    super(new BallShooterCommand(shooterSpeed, true), new TransportBallCommand(transportSpeed),
-        new BallLoaderCommand(loaderSpeed));
+  public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed, boolean speedEqualZero) {
+    super(new BallShooterCommand(() -> actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[0], true),
+          new BallLoaderCommand(() -> actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[2]),
+          new TransportBallCommand(() -> actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[1], true));
   }
+
+  public ShootBallCommand(DoubleSupplier shooterSpeed, DoubleSupplier loaderSpeed, DoubleSupplier transportSpeed) {
+    super(new BallShooterCommand(() -> actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[0], true),
+          new BallLoaderCommand(() -> actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[2]),
+          new TransportBallCommand(() -> actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[1], true));
+  }
+
+  public ShootBallCommand(DoubleSupplier shooterSpeed, DoubleSupplier loaderSpeed, DoubleSupplier transportSpeed, boolean speedEqualZero) {
+    super(new BallShooterCommand(() -> actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[0], true),
+          new BallLoaderCommand(() -> actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[2]),
+          new TransportBallCommand(() -> actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[1], true));
+  }
+
+
 
   private static double[] actualSpeed(double shooterSpeed, double loaderSpeed, double transportSpeed) {
     double[] speeds = new double[3];
@@ -47,6 +64,15 @@ public class ShootBallCommand extends SequentialCommandGroup {
     }
 
     return speeds;
+  }
+
+  private static double[] actualSpeed(double shooterSpeed, double loaderSpeed, double transportSpeed, boolean speedEqualZero) {
+    if (speedEqualZero) {
+      double[] speed = {shooterSpeed, loaderSpeed, transportSpeed};
+      return speed;
+    } else {
+      return actualSpeed(shooterSpeed, loaderSpeed, transportSpeed);
+    }
   }
 
   @Override

@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,11 +23,13 @@ public class TransportBallCommand extends CommandBase {
   private BallTransportSubsystem m_subsystem = BallTransportSubsystem.getInstance();
   private LatchedBoolean finished;
   private boolean stop = false;
+  private boolean shoot = false;
 
-  public TransportBallCommand(double speed) {
+  public TransportBallCommand(DoubleSupplier speed, boolean shoot) {
     // Use addRequirements() here to declare subsystem dependencies.
-    if (speed == 0) {
-      this.speed = speed;
+    this.shoot = shoot;
+    if (speed.getAsDouble() == 0) {
+      this.speed = speed.getAsDouble();
     } else {
       this.speed = 0.25;
     }
@@ -39,7 +43,11 @@ public class TransportBallCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    finished = new LatchedBoolean(EdgeDetection.FALLING);
+    if (shoot) {
+      finished = new LatchedBoolean(EdgeDetection.FALLING);
+    } else {
+      finished = new LatchedBoolean(EdgeDetection.RISING);
+    }
     TestRobotContainer.getInstance().setTransportSliderPos(this.speed);
   }
 
@@ -58,6 +66,10 @@ public class TransportBallCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false; //finished.update(m_subsystem.getSensor()) || stop;
+    if (shoot) {
+      return finished.update(m_subsystem.getSensor()) || stop;
+    } else {
+      return finished.update(m_subsystem.getSensor()) || stop || m_subsystem.getSensor();
+    }
   }
 }

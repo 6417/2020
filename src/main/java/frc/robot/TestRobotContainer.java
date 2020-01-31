@@ -77,7 +77,7 @@ public class TestRobotContainer {
         pickUpSlider = new ShuffleBoardInformation(tab, "Pick up motor speed", -1,  1, 0);
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
         shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
-        new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
+        // new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
 
         transportSpeed = new ShuffleBoardInformation(tab, "transportSpeed", BallTransportSubsystem.getInstance().getPercents());
     }

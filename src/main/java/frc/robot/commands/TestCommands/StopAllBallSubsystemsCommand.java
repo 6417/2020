@@ -12,9 +12,9 @@ public class StopAllBallSubsystemsCommand extends ParallelCommandGroup {
   public StopAllBallSubsystemsCommand() {
     super(
         new TransportBallCommand(true), 
-        new BallLoaderCommand(0), 
-        new BallShooterCommand(0, false),
-        new BallPickupMotorCommand(0), 
+        new BallLoaderCommand(() -> 0), 
+        new BallShooterCommand(() -> 0, false),
+        new BallPickupMotorCommand(() -> 0), 
         new CommandBase() {
           @Override
           public void initialize() {

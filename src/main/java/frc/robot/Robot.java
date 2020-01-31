@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
+import frc.robot.commands.BallShooterCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
-import frc.robot.commands.TestCommands.BallShooterCommand;
 import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
@@ -126,19 +126,17 @@ public class Robot extends TimedRobot {
   }
 
   DriveCommand testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
-  BallLoaderCommand loadBallCommmand = new BallLoaderCommand(TestRobotContainer.getInstance().getLoadSlider());
-  BallShooterCommand ballShooterCommand  = new BallShooterCommand(TestRobotContainer.getInstance().getShooterSlider(), false);
-  TransportBallCommand transportBallcommand = new TransportBallCommand(TestRobotContainer.getInstance().getTransportSlider());
-  BallPickupMotorCommand pickUpMotorCommand = new BallPickupMotorCommand(TestRobotContainer.getInstance().getPickUpSlider());
-
-
+  BallLoaderCommand loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
+  BallShooterCommand ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
+  TransportBallCommand transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), false);
+  BallPickupMotorCommand pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     ControlPanelSubsystem.getInstance().setSensorPos(0);
-    
+
     DriveSubsystem.getInstance().resetEncoders();
     TestRobotContainer.getInstance();
   }
