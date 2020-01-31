@@ -44,8 +44,6 @@ public class TestRobotContainer {
     }
 
     private void showOnShuffleBoard() {
-        DriveSubsystem.getInstance().resetEncoders();
-
         new ShuffleBoardInformation(tab, "Extend ControlPanel Module",
                 new PneumaticLiftCommand(PneumaticState.FORWARD));
         new ShuffleBoardInformation(tab, "Reject ControlPanel Module",
