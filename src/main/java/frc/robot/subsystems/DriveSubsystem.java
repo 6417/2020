@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -53,6 +54,9 @@ public class DriveSubsystem extends SubsystemBase {
     tankLeftFront.configFactoryDefault();
     tankLeftFront.follow(tankLeftBack);
     tankLeftFront.setInverted(InvertType.FollowMaster);
+
+    tankLeftBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    tankRightBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     
     diffdrive.setRightSideInverted(false);
   }
@@ -93,6 +97,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void stopDrive() {
     getDefaultCommand().cancel();
+  }
+
+  public void resetEncoders(){
+    tankLeftBack.setSelectedSensorPosition(0);
+    tankRightBack.setSelectedSensorPosition(0);
+  }
+
+  public double getEncoderLeft() {
+    return tankLeftBack.getSelectedSensorPosition();
+  }
+
+  public double getEncoderRight() {
+    return tankRightBack.getSelectedSensorPosition();
   }
 }
 

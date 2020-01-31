@@ -9,6 +9,7 @@ import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 public class TestRobotContainer {
@@ -26,6 +27,8 @@ public class TestRobotContainer {
     private ShuffleBoardInformation  pickUpSlider;
     private ShuffleBoardInformation shooterSpeed;
     private ShuffleBoardInformation transportSpeed;
+    private ShuffleBoardInformation encoderValueDriveLeft;
+    private ShuffleBoardInformation encoderValueDriveRight;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -41,6 +44,8 @@ public class TestRobotContainer {
     }
 
     private void showOnShuffleBoard() {
+        DriveSubsystem.getInstance().resetEncoders();
+
         new ShuffleBoardInformation(tab, "Extend ControlPanel Module",
                 new PneumaticLiftCommand(PneumaticState.FORWARD));
         new ShuffleBoardInformation(tab, "Reject ControlPanel Module",
@@ -65,6 +70,8 @@ public class TestRobotContainer {
         driveRightSlider = new ShuffleBoardInformation(tab, "Turn right", -1, 1, 0);
         driveLeftSlider = new ShuffleBoardInformation(tab, "Turn left", -1, 1, 0);
         new ShuffleBoardInformation(tab, "Stop tankdrive", new StopTankDriveCommand());
+        encoderValueDriveLeft = new ShuffleBoardInformation(tab, "encoder drive motor left", DriveSubsystem.getInstance().getEncoderLeft());
+        encoderValueDriveRight = new ShuffleBoardInformation(tab, "encoder drive motor right", DriveSubsystem.getInstance().getEncoderRight());
 
         loadSlider = new ShuffleBoardInformation(tab, "Load motor speed", -1, 1, 0);
         transportSlider = new ShuffleBoardInformation(tab, "Transport motor speed", -1, 1, 0);
@@ -83,7 +90,8 @@ public class TestRobotContainer {
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
         transportSpeed.update(BallTransportSubsystem.getInstance().getPercents());
-
+        encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
+        encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
     }
 
     public double getControlPanelMotorSlider() {
