@@ -32,6 +32,21 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
     }
 
     @Override
+    public double getEncoderLeft() {
+        return 0;
+    }
+
+    @Override
+    public double getEncoderRight() {
+        return 0;
+    }
+
+    @Override
+    public void resetEncoders() {
+        
+    }
+
+    @Override
     public void periodic() {
         
     }

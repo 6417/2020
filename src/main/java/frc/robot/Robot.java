@@ -11,16 +11,20 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.BallLoaderCommand;
+import frc.robot.commands.BallPickupMotorCommand;
+import frc.robot.commands.BallShooterCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.TestCommands.BallLoaderCommand;
-import frc.robot.commands.TestCommands.BallPickupMotorCommand;
-import frc.robot.commands.TestCommands.BallShooterCommand;
-import frc.robot.commands.TestCommands.BallTransportCommand;
+import frc.robot.commands.ShootBallCommand;
+import frc.robot.commands.TransportBallCommand;
+import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -120,14 +124,21 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
   }
+
   DriveCommand testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
+  BallLoaderCommand loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
+  BallShooterCommand ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
+  TransportBallCommand transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), false);
+  BallPickupMotorCommand pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
+
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     ControlPanelSubsystem.getInstance().setSensorPos(0);
+
+    DriveSubsystem.getInstance().resetEncoders();
     TestRobotContainer.getInstance();
-    testDriveCommand.schedule(false);
   }
 
   /**
@@ -138,10 +149,10 @@ public class Robot extends TimedRobot {
     TestRobotContainer.getInstance().update();
     double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
     ControlPanelSubsystem.getInstance().setMotor(speed);
-    
-    new BallShooterCommand(TestRobotContainer.getInstance().getShooterSlider(), false).schedule(false);
-    new BallLoaderCommand(TestRobotContainer.getInstance().getLoadSlider()).schedule(false);
-    new BallTransportCommand(TestRobotContainer.getInstance().getTransportSlider()).schedule(false);
-    new BallPickupMotorCommand(TestRobotContainer.getInstance().getPickUpSlider()).schedule(false);
+
+    testDriveCommand.schedule(false);
+    loadBallCommmand.schedule(false);
+    ballShooterCommand.schedule(false);
+    pickUpMotorCommand.schedule(false);
   }
 }

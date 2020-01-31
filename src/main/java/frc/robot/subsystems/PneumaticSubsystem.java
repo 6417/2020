@@ -51,32 +51,30 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (compressor.getCompressorNotConnectedFault()) {
-      log.log(Level.SEVERE, "Compressor not connected!");
-    }
-    if (compressor.getCompressorCurrentTooHighFault()) {
-      log.log(Level.SEVERE, "Compressor current too high!");
-    }
-    if (compressor.getCompressorShortedFault()) {
-      log.log(Level.SEVERE, "Compressor shorted!");
-    }
+    //   if (compressor.getCompressorNotConnectedFault()) {
+    //    log.log(Level.SEVERE, "Compressor not connected!");
+    //   }
+    //   if (compressor.getCompressorCurrentTooHighFault()) {
+    //    log.log(Level.SEVERE, "Compressor current too high!");
+    //  }
+    //   if (compressor.getCompressorShortedFault()) {
+    //    log.log(Level.SEVERE, "Compressor shorted!");
+    //  }
 
-    if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
-      log.log(Level.INFO, "Pressure Tank full!");
-    }
+    //  if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
+    //    log.log(Level.INFO, "Pressure Tank full!");
+    //  }
   }
 
   public static PneumaticSubsystem getInstance() {
-    if (Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
-      if (mInstance == null) {
+    if (mInstance == null) {
+      if (Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
         mInstance = new PneumaticSubsystem();
-        return mInstance;
       } else {
-        return mInstance;
+        mInstance = new EmptyPneumaticSubsystem();
       }
-    } else {
-      return new EmptyPneumaticSubsystem();
     }
+    return mInstance;
   }
 
   @Override

@@ -26,4 +26,9 @@ public class EmptyBallShooterSubsystem extends BallShooterSubsystem {
     public void stopLoader() {
         
     }
+
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
 }

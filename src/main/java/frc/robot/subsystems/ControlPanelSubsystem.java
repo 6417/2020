@@ -104,14 +104,14 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public static ControlPanelSubsystem getInstance() {
-    if (Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
-      if (mInstance == null) {
-         mInstance = new ControlPanelSubsystem();
+    if (mInstance == null) {
+      if (Constants.CONTROL_PANEL_SUBSYSTEM_ENABLED) {
+        mInstance = new ControlPanelSubsystem();
+      } else {
+        mInstance = new EmptyControlPanelSubsystem();
       }
-      return mInstance;
-    } else {
-      return new EmptyControlPanelSubsystem();
     }
+    return mInstance;
   }
 
   public ColorDetected getColor() {

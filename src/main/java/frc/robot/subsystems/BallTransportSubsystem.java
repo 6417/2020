@@ -1,45 +1,51 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyBallTransportSubsystem;
+import lombok.Getter;
+import lombok.Setter;
 
 public class BallTransportSubsystem extends SubsystemBase {
     private WPI_TalonSRX transportMotor;
     private static BallTransportSubsystem mInstance;
 
     protected BallTransportSubsystem() {
-        consuctor();
+        constructor();
     }
 
     public static BallTransportSubsystem getInstance() {
-        if (Constants.BALL_TRANSPORT_SUBSYSTEM_ENABLED) {
-            if (mInstance == null) {
+        if (mInstance == null) {
+            if (Constants.BALL_TRANSPORT_SUBSYSTEM_ENABLED) {
                 mInstance = new BallTransportSubsystem();
-                return mInstance;
             } else {
-                return mInstance;
+                mInstance = new EmptyBallTransportSubsystem();
             }
-        } else {
-            return new EmptyBallTransportSubsystem();
         }
+        return mInstance;
     }
 
-    protected void consuctor() {
+    protected void constructor() {
         transportMotor = new WPI_TalonSRX(Constants.BALL_TRANSPORT_MOTOR_CAN_ID);
     }
 
     public void setTransportMotor(double speed) {
-        transportMotor.set(speed);
+        transportMotor.set(ControlMode.PercentOutput, speed);
     }
 
     public void stopTransportMotor() {
-        transportMotor.stopMotor();
+        System.out.println("stop");
+       // transportMotor.stopMotor();
     }
 
+    public double getPercents() {
+        return(transportMotor.get());
+    } 
+
     public boolean getSensor() {
-        return transportMotor.isFwdLimitSwitchClosed() == 1;
+        return true;//transportMotor.isFwdLimitSwitchClosed() == 1;
     }
 }
