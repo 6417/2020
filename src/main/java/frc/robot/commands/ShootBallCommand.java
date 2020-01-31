@@ -2,19 +2,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 
 public class ShootBallCommand extends SequentialCommandGroup {
   /**
    * Creates a new ControlPanelCommand.
    */
-  private static double standardShooterSpeed = 0.9;
-  private static double standardLoaderSpeed = 0.25;
-  private static double standardTransportSpeed = 0.25;
 
   public ShootBallCommand() {
-    super(new BallShooterCommand(standardShooterSpeed, true),
-          new BallLoaderCommand(standardLoaderSpeed),
-          new TransportBallCommand(standardTransportSpeed));
+    super(new BallShooterCommand(Constants.standardShooterSpeed, true),
+          new BallLoaderCommand(Constants.standardLoaderSpeed),
+          new TransportBallCommand(Constants.standardTransportSpeed));
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed) {
@@ -31,19 +29,19 @@ public class ShootBallCommand extends SequentialCommandGroup {
   private static double[] actualSpeed(double shooterSpeed, double loaderSpeed, double transportSpeed) {
     double[] speeds = new double[3];
     if (shooterSpeed == 0) {
-      speeds[0] = standardShooterSpeed;
+      speeds[0] = Constants.standardShooterSpeed;
     } else {
       speeds[0] = shooterSpeed;
     }
 
     if (loaderSpeed == 0) {
-      speeds[1] = standardLoaderSpeed;
+      speeds[1] = Constants.standardLoaderSpeed;
     } else {
       speeds[1] = loaderSpeed;
     }
 
     if (transportSpeed == 0) {
-      speeds[2] = standardTransportSpeed;
+      speeds[2] = Constants.standardTransportSpeed;
     } else {
       speeds[2] = transportSpeed;
     }

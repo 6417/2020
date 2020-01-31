@@ -19,6 +19,7 @@ import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.BallShooterCommand;
+import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
@@ -146,12 +147,5 @@ public class Robot extends TimedRobot {
     new BallLoaderCommand(TestRobotContainer.getInstance().getLoadSlider()).schedule(false);
     new TransportBallCommand(TestRobotContainer.getInstance().getTransportSlider()).schedule(false);
     new BallPickupMotorCommand(TestRobotContainer.getInstance().getPickUpSlider()).schedule(false);
-
-    // testDriveCommand.schedule(false);
-
-    DriveSubsystem.getInstance().drive();
-
-    // DriveSubsystem.getInstance().driveRight(TestRobotContainer.getInstance().getDriveRightPos());
-    // DriveSubsystem.getInstance().driveLeft(TestRobotContainer.getInstance().getDriveLeftPos());
   }
 }
