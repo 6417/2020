@@ -8,7 +8,7 @@ public class EmptyBallTransportSubsystem extends BallTransportSubsystem {
         super();
     }
 
-    protected void consuctor() {
+    protected void constructor() {
         
     }
 
@@ -22,5 +22,10 @@ public class EmptyBallTransportSubsystem extends BallTransportSubsystem {
 
     public boolean getSensor() {
         return true;
+    }
+
+    @Override
+    public double getPercents() {
+        return 0;
     }
 }
