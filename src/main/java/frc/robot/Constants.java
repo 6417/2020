@@ -25,7 +25,7 @@ public final class Constants {
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
-    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
 
     /**
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
