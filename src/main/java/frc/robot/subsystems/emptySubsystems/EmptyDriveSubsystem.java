@@ -33,8 +33,16 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
 
     }
 
-    public Pose2d getPose() {
-        return new Pose2d(0, 0, new Rotation2d(0));
+    public void resetEncoders(){
+
+    }
+
+    public double getEncoderLeft(){
+        return 0;
+    }
+    
+    public double getEncoderRight(){
+        return 0;
     }
 
     public double getEncoderLeftMetric() {
@@ -45,6 +53,12 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
         return 0;
     }
 
+
+    public Pose2d getPose() {
+        return new Pose2d(0, 0, new Rotation2d(0));
+    }
+
+    
     @Override
     public void periodic() {
         
