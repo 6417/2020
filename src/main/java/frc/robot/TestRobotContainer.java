@@ -29,6 +29,7 @@ public class TestRobotContainer {
     private ShuffleBoardInformation transportSpeed;
     private ShuffleBoardInformation encoderValueDriveLeft;
     private ShuffleBoardInformation encoderValueDriveRight;
+    private ShuffleBoardInformation pose;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -80,6 +81,10 @@ public class TestRobotContainer {
         new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
 
         transportSpeed = new ShuffleBoardInformation(tab, "transportSpeed", BallTransportSubsystem.getInstance().getPercents());
+
+        pose = new ShuffleBoardInformation(tab, "Robot Pose", DriveSubsystem.getInstance().getPose().toString());
+
+
     }
 
     public void update() {
@@ -90,6 +95,7 @@ public class TestRobotContainer {
         transportSpeed.update(BallTransportSubsystem.getInstance().getPercents());
         encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
+        pose.update(DriveSubsystem.getInstance().getPose().toString());
     }
 
     public double getControlPanelMotorSlider() {

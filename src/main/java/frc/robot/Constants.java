@@ -21,9 +21,9 @@ import edu.wpi.first.wpilibj.I2C;
  */
 public final class Constants {
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
-    public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+    public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
 
@@ -67,6 +67,9 @@ public final class Constants {
   public static final int BALL_SHOOTER_SUBSYSTEM_SHOOTER_RIGHT_CAN_ID = 2;
   public static final int BALL_TRANSPORT_MOTOR_CAN_ID = 4;  
   public static final int BALL_PICKUP_MOTOR_CAN_ID = 0;
+
+  public static final int TICKS_PER_ROTATION = 2084;
+  public static final double WHEEL_SCOPE = 18.1416;
 }
 
 

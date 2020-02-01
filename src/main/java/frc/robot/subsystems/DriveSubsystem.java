@@ -10,8 +10,15 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
@@ -28,6 +35,8 @@ public class DriveSubsystem extends SubsystemBase {
   private WPI_TalonSRX tankRightFront;
   private WPI_TalonSRX tankRightBack;
   private DifferentialDrive diffdrive;
+  private AHRS navx;
+  private DifferentialDriveOdometry m_odometry;
   
   
   protected DriveSubsystem() {
@@ -40,6 +49,21 @@ public class DriveSubsystem extends SubsystemBase {
     tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_FRONT_ID);
     tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_BACK_ID);
     diffdrive = new DifferentialDrive(tankLeftBack, tankRightBack);
+    
+    try {
+      navx = new AHRS(SPI.Port.kMXP);
+      // ahrs = new AHRS(SerialPort.Port.kUSB1);
+      navx.enableLogging(true);
+    } catch (RuntimeException ex) {
+     DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+    }
+    
+    navx.reset();
+    resetEncoders();
+    m_odometry = new DifferentialDriveOdometry(new Rotation2d(navx.getAngle()), new Pose2d(0, 0, new Rotation2d(0)));
+  
+    
+     
 
     tankRightBack.configFactoryDefault();
     tankRightBack.setInverted(InvertType.InvertMotorOutput);
@@ -76,6 +100,8 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   @Override
+
+
   public void periodic() {
   }
 
@@ -110,6 +136,25 @@ public class DriveSubsystem extends SubsystemBase {
 
   public double getEncoderRight() {
     return tankRightBack.getSelectedSensorPosition();
+  }
+
+  public double getEncoderLeftMetric() {
+    return Constants.WHEEL_SCOPE * (tankLeftBack.getSelectedSensorPosition() / Constants.TICKS_PER_ROTATION);
+  }
+
+  public double getEncoderRightMetric() {
+    return -Constants.WHEEL_SCOPE * (tankRightBack.getSelectedSensorPosition() / Constants.TICKS_PER_ROTATION);
+  }
+
+  
+
+  public Pose2d getPose(){
+    return m_odometry.update(new Rotation2d(navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
+  }
+
+  @Override
+  public void initSendable(SendableBuilder builder) {
+    super.initSendable(builder);
   }
 }
 
