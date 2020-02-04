@@ -30,7 +30,11 @@ public final class Constants {
     public static final int JOYSTICK_PORT = 0;
     public static final int DEACTIVATE_SECUTITY_MECHANISMS_BUTTON_NUMBER = 7;
 
-    public static final int LOADER_NO_AUTOMECHANISMS_BUTTON_NUMBER = 9;
+    public static final int LOADER_NO_AUTOMECHANISMS_BUTTON_NUMBER = 11;
+    public static final int CONTROL_PANEL_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMPER = 12;
+    public static final int TRANSPORT_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 10;
+    public static final int SHOOTER_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 9;
+
 
     // Activate subsystems constants
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
