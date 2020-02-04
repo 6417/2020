@@ -7,15 +7,18 @@
 
 package frc.robot;
 
+import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.ExtendControlPanel_group;
 import frc.robot.commands.RetractControlPanel_group;
 import frc.robot.commands.SetMotorForRotationsCommand;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 
 /**
@@ -27,16 +30,15 @@ import frc.robot.subsystems.ExampleSubsystem;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private ShuffleBoardInformation controlPanelModuleConected;
+  private String tab = "Informations";
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  public static final Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
 
-  public static Joystick mainDriver = new Joystick(0);
+  private static final JoystickButton loaderNoAutoMachanismButton = new JoystickButton(joystick, Constants.LOADER_NO_AUTOMECHANISMS_BUTTON_NUMBER);
 
-  public static JoystickButton controlPanelButtonExtend;
-  public static JoystickButton controlPanelButtonReject;
-  public static JoystickButton setMotorForRotationsButton;
-
+  private static final JoystickButton deacitvateSecurityMechanismsButton = new JoystickButton(joystick,
+      Constants.DEACTIVATE_SECUTITY_MECHANISMS_BUTTON_NUMBER);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -44,6 +46,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    showOnShuffleBoard();
   }
 
   /**
@@ -52,25 +55,25 @@ public class RobotContainer {
    * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
-    controlPanelButtonExtend = new JoystickButton(mainDriver, 1);
-    controlPanelButtonReject = new JoystickButton(mainDriver, 2);
 
-    setMotorForRotationsButton = new JoystickButton(mainDriver, 5);
-
-    controlPanelButtonExtend.whenPressed(new ExtendControlPanel_group());
-    controlPanelButtonReject.whenPressed(new RetractControlPanel_group());
-
-    setMotorForRotationsButton.whenPressed(new SetMotorForRotationsCommand(1));
+  public void configureButtonBindings() {
+    loaderNoAutoMachanismButton.whenPressed(new BallLoaderCommand(Constants.standardLoaderSpeed));
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+  private void showOnShuffleBoard() {
+    controlPanelModuleConected = new ShuffleBoardInformation(tab, "Control panel module conected",
+        ControlPanelSubsystem.getInstance().isConected);
+  }
+
+  public void updateShuffleBoard() {
+    controlPanelModuleConected.update(ControlPanelSubsystem.getInstance().isConected);
+  }
+
+  public static boolean getSecurityMechanismsButton() {
+    return deacitvateSecurityMechanismsButton.get();
+  }
+
+  public static boolean getLoaderNoAutoMechanismsButton() {
+    return loaderNoAutoMachanismButton.get();
   }
 }

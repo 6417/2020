@@ -16,14 +16,14 @@ import frc.robot.subsystems.ControlPanelSubsystem;
  */
 public class SetMotorForRotationsCommand extends CommandBase {
   private final ControlPanelSubsystem m_subsystem = ControlPanelSubsystem.getInstance();
-  private int rotations;
+  private double rotations;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public SetMotorForRotationsCommand(int rotations) {
+  public SetMotorForRotationsCommand(double rotations) {
     this.rotations = rotations;
     // Use addRequirements() here to declare subsystem dependencies.
   }

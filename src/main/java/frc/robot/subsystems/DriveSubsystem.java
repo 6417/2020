@@ -88,7 +88,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(){
-    diffdrive.arcadeDrive(-RobotContainer.mainDriver.getY(), RobotContainer.mainDriver.getX());
+    diffdrive.arcadeDrive(-RobotContainer.joystick.getY(), RobotContainer.joystick.getX());
   }
 
   public void drive(double xSpeed, double ySpeed) {
