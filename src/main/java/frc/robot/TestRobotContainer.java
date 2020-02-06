@@ -4,6 +4,7 @@ import ch.team6417.lib.utils.ShuffleBoardInformation;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.ShootBallCommand;
+import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
@@ -26,6 +27,8 @@ public class TestRobotContainer {
     private ShuffleBoardInformation transportSlider;
     private ShuffleBoardInformation  pickUpSlider;
     private ShuffleBoardInformation shooterSpeed;
+    private ShuffleBoardInformation transportSensor;
+
     private ShuffleBoardInformation transportSpeed;
     private ShuffleBoardInformation encoderValueDriveLeft;
     private ShuffleBoardInformation encoderValueDriveRight;
@@ -77,9 +80,9 @@ public class TestRobotContainer {
         pickUpSlider = new ShuffleBoardInformation(tab, "Pick up motor speed", -1,  1, 0);
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
         shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
-        // new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
-
-        transportSpeed = new ShuffleBoardInformation(tab, "transportSpeed", BallTransportSubsystem.getInstance().getPercents());
+        new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
+        new ShuffleBoardInformation(tab, "Transport ball", new TransportBallCommand(Constants.standardTransportSpeed, false));
+        transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor", BallTransportSubsystem.getInstance().getSensor());
     }
 
     public void update() {
@@ -87,9 +90,9 @@ public class TestRobotContainer {
         bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
-        transportSpeed.update(BallTransportSubsystem.getInstance().getPercents());
-        encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
-        encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
+        transportSensor.update(BallTransportSubsystem.getInstance().getSensor());
+        //encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
+        //encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
     }
 
     public double getControlPanelMotorSlider() {

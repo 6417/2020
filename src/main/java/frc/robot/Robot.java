@@ -128,12 +128,15 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    System.out.println("Gians code is running");
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     ControlPanelSubsystem.getInstance().setSensorPos(0);
 
     DriveSubsystem.getInstance().resetEncoders();
     TestRobotContainer.getInstance();
+    TestRobotContainer.getInstance().setShooterSliderPos(0);
+    TestRobotContainer.getInstance().setLoadSliderPos(0);
   }
 
   /**

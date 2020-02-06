@@ -40,9 +40,9 @@ public final class Constants {
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
 
     /**
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
@@ -84,11 +84,13 @@ public final class Constants {
  public static final DoubleSupplier standardTransportSpeed = () -> 0.25;
 
   // Ball subsytems can IDs
-  public static final int BALL_SHOOTER_SUBSYSTEM_LOADER_CAN_ID = 3;
-  public static final int BALL_SHOOTER_SUBSYSTEM_SHOOTER_LEFT_CAN_ID = 1;
-  public static final int BALL_SHOOTER_SUBSYSTEM_SHOOTER_RIGHT_CAN_ID = 2;
-  public static final int BALL_TRANSPORT_MOTOR_CAN_ID = 4;  
-  public static final int BALL_PICKUP_MOTOR_CAN_ID = 3;
+  public static final int BALL_SHOOTER_SUBSYSTEM_LOADER_CAN_ID = 21;
+  public static final int BALL_SHOOTER_SUBSYSTEM_SHOOTER_LEFT_CAN_ID = 22;
+  public static final int BALL_SHOOTER_SUBSYSTEM_SHOOTER_RIGHT_CAN_ID = 23;
+  public static final int BALL_TRANSPORT_MOTOR_CAN_ID = 15;  
+  public static final int BALL_PICKUP_MOTOR_CAN_ID = 14;
+
+  public static final int BALL_TRANSPORT_SENSOR_DIO_PORT = 0;
 }
 
 

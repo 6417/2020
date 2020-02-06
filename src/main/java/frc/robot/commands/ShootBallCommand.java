@@ -3,8 +3,11 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
+import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.BallTransportSubsystem;
 
 public class ShootBallCommand extends SequentialCommandGroup {
   /**
@@ -14,31 +17,96 @@ public class ShootBallCommand extends SequentialCommandGroup {
   public ShootBallCommand() {
     super(new BallShooterCommand(Constants.standardShooterSpeed, true),
           new BallLoaderCommand(Constants.standardLoaderSpeed),
-          new TransportBallCommand(Constants.standardTransportSpeed, true));
+          new TransportBallCommand(Constants.standardTransportSpeed, true), 
+          new CommandBase() {
+            @Override
+            public void execute() {
+              BallShooterSubsystem.getInstance().stopShooter();
+              BallShooterSubsystem.getInstance().stopLoader();
+              BallTransportSubsystem.getInstance().stopTransportMotor();
+            }
+
+            @Override
+            public boolean isFinished() {
+              return true;
+            }
+          });
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed) {
     super(new BallShooterCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[0], true),
           new BallLoaderCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[2]),
-          new TransportBallCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[1], true));
+          new TransportBallCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed)[1], true),
+          new CommandBase() {
+            @Override
+            public void execute() {
+              BallShooterSubsystem.getInstance().stopShooter();
+              BallShooterSubsystem.getInstance().stopLoader();
+              BallTransportSubsystem.getInstance().stopTransportMotor();
+            }
+
+            @Override
+            public boolean isFinished() {
+              return true;
+            }
+          });
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed, boolean speedEqualZero) {
     super(new BallShooterCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[0], true),
           new BallLoaderCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[2]),
-          new TransportBallCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[1], true));
+          new TransportBallCommand(actualSpeed(shooterSpeed, loaderSpeed, transportSpeed, speedEqualZero)[1], true),
+          new CommandBase() {
+            @Override
+            public void execute() {
+              BallShooterSubsystem.getInstance().stopShooter();
+              BallShooterSubsystem.getInstance().stopLoader();
+              BallTransportSubsystem.getInstance().stopTransportMotor();
+            }
+
+            @Override
+            public boolean isFinished() {
+              return true;
+            }
+          });
   }
 
   public ShootBallCommand(DoubleSupplier shooterSpeed, DoubleSupplier loaderSpeed, DoubleSupplier transportSpeed) {
     super(new BallShooterCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[0], true),
           new BallLoaderCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[2]),
-          new TransportBallCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[1], true));
+          new TransportBallCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble())[1], true), 
+          new CommandBase() {
+            @Override
+            public void execute() {
+              BallShooterSubsystem.getInstance().stopShooter();
+              BallShooterSubsystem.getInstance().stopLoader();
+              BallTransportSubsystem.getInstance().stopTransportMotor();
+            }
+
+            @Override
+            public boolean isFinished() {
+              return true;
+            }
+          });
   }
 
   public ShootBallCommand(DoubleSupplier shooterSpeed, DoubleSupplier loaderSpeed, DoubleSupplier transportSpeed, boolean speedEqualZero) {
     super(new BallShooterCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[0], true),
           new BallLoaderCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[2]),
-          new TransportBallCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[1], true));
+          new TransportBallCommand(actualSpeed(shooterSpeed.getAsDouble(), loaderSpeed.getAsDouble(), transportSpeed.getAsDouble(), speedEqualZero)[1], true), 
+          new CommandBase() {
+            @Override
+            public void execute() {
+              BallShooterSubsystem.getInstance().stopShooter();
+              BallShooterSubsystem.getInstance().stopLoader();
+              BallTransportSubsystem.getInstance().stopTransportMotor();
+            }
+
+            @Override
+            public boolean isFinished() {
+              return true;
+            }
+          });
   }
 
 

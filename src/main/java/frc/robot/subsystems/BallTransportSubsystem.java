@@ -2,7 +2,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyBallTransportSubsystem;
@@ -12,6 +14,7 @@ import lombok.Setter;
 public class BallTransportSubsystem extends SubsystemBase {
     private WPI_TalonSRX transportMotor;
     private static BallTransportSubsystem mInstance;
+    private DigitalInput sensor;
 
     protected BallTransportSubsystem() {
         constructor();
@@ -30,6 +33,7 @@ public class BallTransportSubsystem extends SubsystemBase {
 
     protected void constructor() {
         transportMotor = new WPI_TalonSRX(Constants.BALL_TRANSPORT_MOTOR_CAN_ID);
+        sensor = new DigitalInput(Constants.BALL_TRANSPORT_SENSOR_DIO_PORT);
     }
 
     public void setTransportMotor(double speed) {
@@ -38,7 +42,7 @@ public class BallTransportSubsystem extends SubsystemBase {
 
     public void stopTransportMotor() {
         System.out.println("stop");
-       // transportMotor.stopMotor();
+        transportMotor.stopMotor();
     }
 
     public double getPercents() {
@@ -46,6 +50,6 @@ public class BallTransportSubsystem extends SubsystemBase {
     } 
 
     public boolean getSensor() {
-        return true;//transportMotor.isFwdLimitSwitchClosed() == 1;
+        return !sensor.get();
     }
 }
