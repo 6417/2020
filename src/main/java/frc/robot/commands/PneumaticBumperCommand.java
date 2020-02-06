@@ -10,6 +10,7 @@ package frc.robot.commands;
 import frc.robot.subsystems.PneumaticSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -43,7 +44,7 @@ public class PneumaticBumperCommand extends CommandBase {
   public void execute() {
       switch(state){
         case FORWARD:
-            if (!m_subsystem.getReedLiftBotom()) {
+            if (!m_subsystem.getReedLiftBotom() || RobotContainer.getSecurityMechanismsButton()) {
                 m_subsystem.extendBumper();
                 System.out.println("extendBumper " + m_subsystem.getReedBumperFront());
                 break;

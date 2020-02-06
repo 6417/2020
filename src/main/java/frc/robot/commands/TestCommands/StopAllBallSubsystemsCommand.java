@@ -10,8 +10,7 @@ import frc.robot.commands.TransportBallCommand;
 
 public class StopAllBallSubsystemsCommand extends ParallelCommandGroup {
   public StopAllBallSubsystemsCommand() {
-    super(
-        new TransportBallCommand(true), 
+    super( 
         new BallLoaderCommand(() -> 0), 
         new BallShooterCommand(() -> 0, false),
         new BallPickupMotorCommand(() -> 0), 

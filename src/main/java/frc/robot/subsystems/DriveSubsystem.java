@@ -62,17 +62,13 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public static DriveSubsystem getInstance() {
-    if (Constants.DRIVE_SUBSYSTEM_ENABLED) {
-      if (mInstance == null) {
-        mInstance = new DriveSubsystem();
-        mInstance.setDefaultCommand(new DriveCommand());
-        return mInstance;
-      } else {
-        return mInstance;
-      }
-    } else {
-      return new EmptyDriveSubsystem();
-    }
+    if (!Constants.DRIVE_SUBSYSTEM_ENABLED && mInstance == null) {
+      mInstance = new EmptyDriveSubsystem();
+    } else if (mInstance == null) {
+      mInstance = new DriveSubsystem();
+      mInstance.setDefaultCommand(new DriveCommand());
+    } 
+    return mInstance;
   }
 
   @Override
@@ -88,7 +84,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(){
-    diffdrive.arcadeDrive(-RobotContainer.mainDriver.getY(), RobotContainer.mainDriver.getX());
+    diffdrive.arcadeDrive(-RobotContainer.joystick.getY(), RobotContainer.joystick.getX());
   }
 
   public void drive(double xSpeed, double ySpeed) {
