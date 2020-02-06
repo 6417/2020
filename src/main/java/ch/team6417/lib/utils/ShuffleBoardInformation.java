@@ -43,6 +43,10 @@ public class ShuffleBoardInformation {
         this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton).getEntry();
     }
 
+    public ShuffleBoardInformation(String tab, String name, String information) {
+        this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
+    }
+
     public void update(boolean value){
         if (this.information != null){
             information.setBoolean(value);
@@ -52,6 +56,12 @@ public class ShuffleBoardInformation {
     public void update(double value){
         if (this.information != null){
             information.setDouble(value);
+        }
+    }
+
+    public void update(String value){
+        if (this.information != null){
+            information.setString(value);
         }
     }
 

@@ -9,14 +9,9 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import ch.team6417.lib.utils.LatchedBoolean;
-import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
 import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.BallShooterSubsystem;
-import frc.robot.subsystems.BallTransportSubsystem;
 
 public class BallLoaderCommand extends CommandBase {
   /**

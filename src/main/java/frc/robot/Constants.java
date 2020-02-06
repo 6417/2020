@@ -9,7 +9,6 @@ package frc.robot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.I2C;
@@ -40,8 +39,8 @@ public final class Constants {
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
-    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
 
     /**
@@ -76,6 +75,7 @@ public final class Constants {
  public static final int Tank_Left_FRONT_ID = 6;
  public static final int Tank_Right_BACK_ID = 4;
  public static final int Tank_Right_FRONT_ID = 7; 
+ public static final double WHEEL_CIRCUMFERENCE = 0.4787787204060999;  // IN METER
 
  // Standart speed constants used in all ball Subsystems
 
@@ -92,6 +92,3 @@ public final class Constants {
 
   public static final int BALL_TRANSPORT_SENSOR_DIO_PORT = 0;
 }
-
-
-

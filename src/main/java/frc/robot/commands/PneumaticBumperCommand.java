@@ -7,13 +7,11 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.PneumaticSubsystem;
-import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ControlPanelSubsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 /**
  * An example command that uses an example subsystem.

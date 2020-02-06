@@ -1,5 +1,7 @@
 package frc.robot.subsystems.emptySubsystems;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class EmptyDriveSubsystem extends DriveSubsystem {
@@ -31,19 +33,29 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
 
     }
 
-    @Override
-    public double getEncoderLeft() {
+    public void resetEncoders(){
+
+    }
+
+    public double getEncoderLeft(){
+        return 0;
+    }
+    
+    public double getEncoderRight(){
         return 0;
     }
 
-    @Override
-    public double getEncoderRight() {
+    public double getEncoderLeftMetric() {
         return 0;
     }
 
-    @Override
-    public void resetEncoders() {
-        
+    public double getEncoderRightMetric(){
+        return 0;
+    }
+
+
+    public Pose2d getPose() {
+        return new Pose2d(0, 0, new Rotation2d(0));
     }
 
     @Override

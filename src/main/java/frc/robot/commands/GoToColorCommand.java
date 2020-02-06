@@ -3,7 +3,6 @@ package frc.robot.commands;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.ControlPanelSubsystem;
