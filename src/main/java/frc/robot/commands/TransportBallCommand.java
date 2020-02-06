@@ -38,7 +38,7 @@ public class TransportBallCommand extends CommandBase {
 
   public TransportBallCommand(boolean automechanismsDisabled) {
     this.automechanismsDisabled = automechanismsDisabled;
-    speed = Constants.standardTransportSpeed.getAsDouble();
+    speed = Constants.standardTransportSpeed;
   }
 
   // Called when the command is initially scheduled.

@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,10 +25,10 @@ public class DriveSubsystem extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   private static DriveSubsystem mInstance;
-  private WPI_TalonSRX tankLeftFront;
-  private WPI_TalonSRX tankLeftBack;
-  private WPI_TalonSRX tankRightFront;
-  private WPI_TalonSRX tankRightBack;
+  private CANSparkMax tankLeftFront;
+  private CANSparkMax tankLeftBack;
+  private CANSparkMax tankRightFront;
+  private CANSparkMax tankRightBack;
   private DifferentialDrive diffdrive;
   
   
@@ -35,28 +37,21 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   protected void constructor() {
-    tankLeftFront = new WPI_TalonSRX(Constants.Tank_Left_FRONT_ID);
-    tankLeftBack = new WPI_TalonSRX(Constants.Tank_Left_BACK_ID);
-    tankRightFront = new WPI_TalonSRX(Constants.Tank_Right_FRONT_ID);
-    tankRightBack = new WPI_TalonSRX(Constants.Tank_Right_BACK_ID);
+    tankLeftFront = new CANSparkMax(Constants.Tank_Left_FRONT_ID, MotorType.kBrushless);
+    tankLeftBack = new CANSparkMax(Constants.Tank_Left_BACK_ID, MotorType.kBrushless);
+    tankRightFront = new CANSparkMax(Constants.Tank_Right_FRONT_ID, MotorType.kBrushless);
+    tankRightBack = new CANSparkMax(Constants.Tank_Right_BACK_ID, MotorType.kBrushless);
     diffdrive = new DifferentialDrive(tankLeftBack, tankRightBack);
 
-    tankRightBack.configFactoryDefault();
-    tankRightBack.setInverted(InvertType.InvertMotorOutput);
+    tankRightBack.restoreFactoryDefaults();
     
-    tankRightFront.configFactoryDefault();
-    tankRightFront.follow(tankRightBack);
-    tankRightFront.setInverted(InvertType.FollowMaster);
+    tankRightFront.restoreFactoryDefaults();
+    tankRightFront.follow(tankRightBack, true);
     
-    tankLeftBack.configFactoryDefault();
-    tankLeftBack.setInverted(InvertType.None);
+    tankLeftBack.restoreFactoryDefaults();
 
-    tankLeftFront.configFactoryDefault();
-    tankLeftFront.follow(tankLeftBack);
-    tankLeftFront.setInverted(InvertType.FollowMaster);
-
-    tankLeftBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    tankRightBack.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    tankLeftFront.restoreFactoryDefaults();
+    tankLeftFront.follow(tankLeftBack, true);
     
     diffdrive.setRightSideInverted(false);
   }
@@ -96,16 +91,16 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void resetEncoders(){
-    tankLeftBack.setSelectedSensorPosition(0);
-    tankRightBack.setSelectedSensorPosition(0);
+    tankLeftBack.getEncoder().setPosition(0);
+    tankRightBack.getEncoder().setPosition(0);
   }
 
   public double getEncoderLeft() {
-    return tankLeftBack.getSelectedSensorPosition();
+    return tankLeftBack.getEncoder().getPosition();
   }
 
   public double getEncoderRight() {
-    return tankRightBack.getSelectedSensorPosition();
+    return tankRightBack.getEncoder().getPosition();
   }
 }
 
