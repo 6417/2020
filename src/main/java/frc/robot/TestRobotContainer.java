@@ -1,7 +1,10 @@
 package frc.robot;
 
+import java.util.function.DoubleSupplier;
+
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.ShootBallCommand;
@@ -29,12 +32,12 @@ public class TestRobotContainer {
     private ShuffleBoardInformation  pickUpSlider;
     private ShuffleBoardInformation shooterSpeed;
     private ShuffleBoardInformation transportSensor;
-
-    private ShuffleBoardInformation transportSpeed;
     private ShuffleBoardInformation encoderValueDriveLeft;
     private ShuffleBoardInformation encoderValueDriveRight;
     private ShuffleBoardInformation pose;
     private ShuffleBoardInformation navxAngle;
+    private ShuffleBoardInformation angleToTarget;
+    private AimCommand aimCommand;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -54,11 +57,6 @@ public class TestRobotContainer {
                 new PneumaticLiftCommand(PneumaticState.FORWARD));
         new ShuffleBoardInformation(tab, "Reject ControlPanel Module",
                 new PneumaticLiftCommand(PneumaticState.REVERSE));
-
-        new ShuffleBoardInformation(tab, "Extend ControlPanel Bumper",
-                new PneumaticBumperCommand(PneumaticState.FORWARD));
-        new ShuffleBoardInformation(tab, "Reject ControlPanel Bumper",
-                new PneumaticBumperCommand(PneumaticState.REVERSE));
 
         liftReed = new ShuffleBoardInformation(tab, "Reed switch of bottom Lift",
                 ControlPanelSubsystem.getInstance().getReedLiftBotom());
@@ -93,6 +91,11 @@ public class TestRobotContainer {
 
         new ShuffleBoardInformation(tab, "Transport ball", new TransportBallCommand(Constants.standardTransportSpeed, false));
         transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor", BallTransportSubsystem.getInstance().getSensor());
+
+        angleToTarget = new ShuffleBoardInformation(tab, "Angle to target", (double)0);
+        aimCommand = new AimCommand();
+        new ShuffleBoardInformation(tab, "aim", aimCommand);
+        new ShuffleBoardInformation(tab, "PID Tunnunig", aimCommand.getController());
     }
 
     public void update() {
@@ -100,6 +103,7 @@ public class TestRobotContainer {
         bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
+        transportSensor.update(BallTransportSubsystem.getInstance().getSensor());
         encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
         Pose2d driveOdometry = DriveSubsystem.getInstance().getPose();
@@ -109,6 +113,10 @@ public class TestRobotContainer {
             driveOdometry.getRotation().getDegrees()
             ));
         navxAngle.update(DriveSubsystem.getInstance().getAngle());
+    }
+
+    public DoubleSupplier getAngleToTarget() {
+        return () -> angleToTarget.getDouble();
     }
 
     public double getControlPanelMotorSlider() {

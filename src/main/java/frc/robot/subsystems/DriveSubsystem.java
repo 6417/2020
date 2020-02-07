@@ -139,7 +139,7 @@ public class DriveSubsystem extends SubsystemBase {
   
 
   public Pose2d getPose(){
-    return m_odometry.update(new Rotation2d(navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
+    return m_odometry.update(Rotation2d.fromDegrees(-navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
   }
  
   public double getAngle() {

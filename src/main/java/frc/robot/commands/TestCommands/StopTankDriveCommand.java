@@ -19,7 +19,7 @@ public class StopTankDriveCommand extends CommandBase {
   @Override
   public void execute() {
       mSubsystem.stopDrive();
-      TestRobotContainer.setDriveSlider(0, 0);
+      TestRobotContainer.getInstance().setDriveSlider(0, 0);
   }
 
   // Called once the command ends or is interrupted.
