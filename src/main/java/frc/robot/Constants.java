@@ -37,7 +37,7 @@ public final class Constants {
 
     // Activate subsystems constants
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
-    public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
+    public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
@@ -63,7 +63,7 @@ public final class Constants {
   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_BACK_REED_DI_ID = 2;
   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_FRONT_REED_DI_ID = 3;
   public static final I2C.Port CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT = I2C.Port.kOnboard;
-  public static final int CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID = 48;
+  public static final int CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID = 16;
   public static final ArrayList<ColorDetected> colors = new ArrayList<ColorDetected>(Arrays.asList(ColorDetected.RED, ColorDetected.YELLOW, ColorDetected.BLUE, ColorDetected.GREEN));
   public static final double CONTROL_PANEL_MOTOR_SPEED = 0.45;
 
@@ -71,10 +71,11 @@ public final class Constants {
  * Motor Subsystem constants used in {@link MotorSubsystem}.
  */
 
- public static final int Tank_Left_BACK_ID = 5;
- public static final int Tank_Left_FRONT_ID = 6;
- public static final int Tank_Right_BACK_ID = 4;
- public static final int Tank_Right_FRONT_ID = 7; 
+ public static final double AIM_MAX_SPEED = 0.2;
+ public static final int Tank_Left_BACK_ID = 11;
+ public static final int Tank_Left_FRONT_ID = 10;
+ public static final int Tank_Right_BACK_ID = 13;
+ public static final int Tank_Right_FRONT_ID = 12; 
  public static final double WHEEL_CIRCUMFERENCE = 0.4787787204060999;  // IN METER
 
  // Standart speed constants used in all ball Subsystems

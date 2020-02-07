@@ -33,6 +33,7 @@ public class TestRobotContainer {
     private ShuffleBoardInformation encoderValueDriveLeft;
     private ShuffleBoardInformation encoderValueDriveRight;
     private ShuffleBoardInformation pose;
+    private ShuffleBoardInformation navxAngle;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -82,7 +83,13 @@ public class TestRobotContainer {
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", new StopAllBallSubsystemsCommand());
         shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
         new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
-        pose = new ShuffleBoardInformation(tab, "Robot Pose", DriveSubsystem.getInstance().getPose().toString());
+
+        pose = new ShuffleBoardInformation(tab, "Robot Pose", "X: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getX()) + 
+            "\nY: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getY()) + 
+            "\nRotation(degrees): " + String.valueOf(DriveSubsystem.getInstance().getPose().getRotation()));
+
+        navxAngle = new ShuffleBoardInformation(tab, "Navx angle", DriveSubsystem.getInstance().getAngle());
+
         new ShuffleBoardInformation(tab, "Transport ball", new TransportBallCommand(Constants.standardTransportSpeed, false));
         transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor", BallTransportSubsystem.getInstance().getSensor());
     }
@@ -92,10 +99,12 @@ public class TestRobotContainer {
         bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
-        transportSpeed.update(BallTransportSubsystem.getInstance().getPercents());
         encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
-        pose.update(DriveSubsystem.getInstance().getPose().toString());
+        pose.update("X: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getX()) + 
+            " Y: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getY()) + 
+            " Rotation(degrees): " + String.valueOf(DriveSubsystem.getInstance().getPose().getRotation().getDegrees()));
+        navxAngle.update(DriveSubsystem.getInstance().getAngle());
     }
 
     public double getControlPanelMotorSlider() {

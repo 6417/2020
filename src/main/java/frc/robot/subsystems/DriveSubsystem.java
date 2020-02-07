@@ -65,8 +65,7 @@ public class DriveSubsystem extends SubsystemBase {
     //Configure motors
 
     tankRightBack.restoreFactoryDefaults();
-    tankRightBack.getEncoder().setPositionConversionFactor(Constants.WHEEL_CIRCUMFERENCE);
-    tankRightBack.getEncoder().setInverted(true);
+    tankRightBack.getEncoder().setPositionConversionFactor(-Constants.WHEEL_CIRCUMFERENCE);
     
     tankRightFront.restoreFactoryDefaults();
     tankRightFront.follow(tankRightBack);
@@ -126,7 +125,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getEncoderRight() {
-    return tankRightBack.getEncoder().getPosition();
+    return -tankRightBack.getEncoder().getPosition();
   }
 
   public double getEncoderLeftMetric() {
@@ -134,13 +133,17 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getEncoderRightMetric() {
-    return tankRightBack.getEncoder().getPosition();
+    return -tankRightBack.getEncoder().getPosition();
   }
 
   
 
   public Pose2d getPose(){
     return m_odometry.update(new Rotation2d(navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
+  }
+ 
+  public double getAngle() {
+    return navx.getAngle();
   }
 
   @Override

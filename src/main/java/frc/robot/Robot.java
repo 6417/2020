@@ -43,6 +43,12 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
 
     m_robotContainer = new RobotContainer();
+
+    // Resets
+    DriveSubsystem.getInstance().resetEncoders();
+    ControlPanelSubsystem.getInstance().setSensorPos(0);
+    TestRobotContainer.getInstance().setShooterSliderPos(0);
+    TestRobotContainer.getInstance().setLoadSliderPos(0);
   }
 
   /**
@@ -103,7 +109,6 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     ControlPanelSubsystem.getInstance().setSensorPos(0);
-
   }
 
   /**
@@ -113,23 +118,25 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
   }
 
-  DriveCommand testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
-  BallLoaderCommand loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
-  BallShooterCommand ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
-  TransportBallCommand transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);
-  BallPickupMotorCommand pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
+  // difine testCommands
+  DriveCommand testDriveCommand;
+  BallLoaderCommand loadBallCommmand;
+  BallShooterCommand ballShooterCommand;
+  TransportBallCommand transportBallcommand;
+  BallPickupMotorCommand pickUpMotorCommand;
 
   @Override
   public void testInit() {
-    System.out.println("Gians code is running");
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    ControlPanelSubsystem.getInstance().setSensorPos(0);
-
-    DriveSubsystem.getInstance().resetEncoders();
+    
     TestRobotContainer.getInstance();
-    TestRobotContainer.getInstance().setShooterSliderPos(0);
-    TestRobotContainer.getInstance().setLoadSliderPos(0);
+
+    testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
+    loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
+    ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
+    transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);
+    pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
   }
 
   /**
