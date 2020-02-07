@@ -1,6 +1,7 @@
 package frc.robot;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.ShootBallCommand;
@@ -10,8 +11,8 @@ import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
@@ -101,9 +102,12 @@ public class TestRobotContainer {
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
         encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
-        pose.update("X: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getX()) + 
-            " Y: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getY()) + 
-            " Rotation(degrees): " + String.valueOf(DriveSubsystem.getInstance().getPose().getRotation().getDegrees()));
+        Pose2d driveOdometry = DriveSubsystem.getInstance().getPose();
+        pose.update(String.format("X: %d Y: %d Rot (deg): %d",
+            driveOdometry.getTranslation().getX(),
+            driveOdometry.getTranslation().getY(),
+            driveOdometry.getRotation().getDegrees()
+            ));
         navxAngle.update(DriveSubsystem.getInstance().getAngle());
     }
 
