@@ -17,8 +17,8 @@ public class GoToColorCommand extends CommandBase {
     private int cColorIndex;
     private int aimColorIndex;
 
-    public GoToColorCommand(ColorDetected aimColor) {
-        this.aimColor = aimColor;
+    public GoToColorCommand() {
+        this.aimColor = mSubsystem.getTargetColor();
 
         cColorIndex = getIndex(colors, cColor);
         Collections.rotate(colors, cColorIndex);

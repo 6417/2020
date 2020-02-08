@@ -15,6 +15,7 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
@@ -27,6 +28,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private static ControlPanelSubsystem mInstance;
   private final int ticksPerRotation = 4096;
   private final int range = 25;
+  private ColorDetected targetColor;
 
   public boolean isConected;
 
@@ -135,7 +137,31 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
+  String gameData = DriverStation.getInstance().getGameSpecificMessage();
+  if(gameData.length() > 0)
+  {
+    switch (gameData.charAt(0))
+    {
+      case 'B' :
+        targetColor = ColorDetected.BLUE;
+        break;
+      case 'G' :
+        targetColor = ColorDetected.GREEN;
+        break;
+      case 'R' :
+        targetColor = ColorDetected.RED;
+        break;
+      case 'Y' :
+        targetColor = ColorDetected.YELLOW;
+        break;
+      default :
+        targetColor = ColorDetected.NONE;
+        break;
+  }
+} else {
+  targetColor = ColorDetected.NONE;
+}
   }
 
   public boolean getReedLiftBotom() {
@@ -165,6 +191,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   public int getEncoderValue() {
     return motor.getSelectedSensorPosition();
+  }
+
+  public ColorDetected getTargetColor() {
+    return targetColor;
   }
 
   public boolean isMotorInRnage() {

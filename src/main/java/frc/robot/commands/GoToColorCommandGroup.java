@@ -17,9 +17,9 @@ public class GoToColorCommandGroup extends ParallelRaceGroup {
   /**
    * Creates a new GoToColorCommand.
    */
-  public GoToColorCommandGroup(ColorDetected aimColor) {
+  public GoToColorCommandGroup() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new IsConnected(), new GoToColorCommand(aimColor));
+    super(new IsConnected(), new GoToColorCommand());
   }
 }
