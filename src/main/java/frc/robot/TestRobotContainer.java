@@ -6,7 +6,12 @@ import com.kauailabs.navx.frc.AHRS;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.AimCommand;
+import frc.robot.commands.BallLoaderCommand;
+import frc.robot.commands.BallPickupMotorCommand;
+import frc.robot.commands.BallShooterCommand;
+import frc.robot.commands.DriveCommand;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.ShootBallCommand;
@@ -29,8 +34,8 @@ public class TestRobotContainer {
     private ShuffleBoardInformation bumperReed;
     private ShuffleBoardInformation controlPanelMotorSlider;
     private ShuffleBoardInformation encoderValue;
-    private static ShuffleBoardInformation driveLeftSlider;
-    private static ShuffleBoardInformation driveRightSlider;
+    private static ShuffleBoardInformation driveForwardSlider;
+    private static ShuffleBoardInformation driveRotateSlider;
     private ShuffleBoardInformation loadSlider;
     private ShuffleBoardInformation shooterSlider;
     private ShuffleBoardInformation transportSlider;
@@ -44,9 +49,28 @@ public class TestRobotContainer {
     private ShuffleBoardInformation angleToTarget;
     private AimCommand aimCommand;
     private AHRS navx;
+    private DriveCommand testDriveCommand;
+    private BallLoaderCommand loadBallCommmand;
+    private BallShooterCommand ballShooterCommand;
+    private TransportBallCommand transportBallcommand;
+    private BallPickupMotorCommand pickUpMotorCommand;
+    private CommandBase controlPanelMotorCommand;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
+
+        // testDriveCommand = new DriveCommand(() -> getDriveForwardPos(), () -> getDriveRotatePos());
+        // loadBallCommmand = new BallLoaderCommand(() -> getLoadSlider());
+        // ballShooterCommand  = new BallShooterCommand(() -> getShooterSlider(), false);
+        // transportBallcommand = new TransportBallCommand(() -> getTransportSlider(), true);
+        // pickUpMotorCommand = new BallPickupMotorCommand(() -> getPickUpSlider());
+        // aimCommand = new AimCommand();
+        // controlPanelMotorCommand = new CommandBase() {
+        //     @Override
+        //     public void execute() {
+        //         ControlPanelSubsystem.getInstance().setMotor(getControlPanelMotorSlider());
+        //     }
+        // };
 
         try {
             navx = new AHRS(SPI.Port.kMXP);
@@ -87,8 +111,8 @@ public class TestRobotContainer {
                 Double.valueOf(ControlPanelSubsystem.getInstance().getEncoderValue()));
         
 
-        driveRightSlider = new ShuffleBoardInformation(tab, "Turn right", -1, 1, 0);
-        driveLeftSlider = new ShuffleBoardInformation(tab, "Turn left", -1, 1, 0);
+        driveRotateSlider = new ShuffleBoardInformation(tab, "Turn right", -1, 1, 0);
+        driveForwardSlider = new ShuffleBoardInformation(tab, "Turn left", -1, 1, 0);
         new ShuffleBoardInformation(tab, "Stop tankdrive", new StopTankDriveCommand());
         encoderValueDriveLeft = new ShuffleBoardInformation(tab, "encoder drive motor left", DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight = new ShuffleBoardInformation(tab, "encoder drive motor right", DriveSubsystem.getInstance().getEncoderRight());
@@ -111,11 +135,14 @@ public class TestRobotContainer {
         transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor", BallTransportSubsystem.getInstance().getSensor());
 
         angleToTarget = new ShuffleBoardInformation(tab, "Angle to target", (double)0);
-        System.out.println("ShowOnShuffleBoaed running");
-        aimCommand = new AimCommand();
-        new ShuffleBoardInformation(tab, "aim", aimCommand);
-        new ShuffleBoardInformation(tab, "PID Tunnunig", aimCommand.getController());
-        System.out.println("showOnShuffleBoard finished");
+        // new ShuffleBoardInformation(tab, "aim", aimCommand);
+        // new ShuffleBoardInformation(tab, "PID Tunnunig", aimCommand.getController());
+        // new ShuffleBoardInformation(tab, "Drive", testDriveCommand);
+        // new ShuffleBoardInformation(tab, "set Load Ball", loadBallCommmand);
+        // new ShuffleBoardInformation(tab, "set Shoot Ball", ballShooterCommand);
+        // new ShuffleBoardInformation(tab, "set transport Ball", transportBallcommand);
+        // new ShuffleBoardInformation(tab, "set Pick up motor", pickUpMotorCommand);
+        // new ShuffleBoardInformation(tab, "set Control Panel Motor", controlPanelMotorCommand);
     }
 
     public void update() {
@@ -143,17 +170,17 @@ public class TestRobotContainer {
         return controlPanelMotorSlider.getSliderPosition();
     }
 
-    public double getDriveRightPos() {
-        return driveRightSlider.getSliderPosition();
+    public double getDriveRotatePos() {
+        return driveRotateSlider.getSliderPosition();
     }
 
-    public double getDriveLeftPos() {
-        return driveLeftSlider.getSliderPosition();
+    public double getDriveForwardPos() {
+        return driveForwardSlider.getSliderPosition();
     }
 
-    public static void setDriveSlider(double left, double right) {
-        driveLeftSlider.setSliderPos(left);
-        driveRightSlider.setSliderPos(right);
+    public static void setDriveSlider(double forward, double rotate) {
+        driveForwardSlider.setSliderPos(forward);
+        driveRotateSlider.setSliderPos(rotate);
     }
 
     public double getLoadSlider() {

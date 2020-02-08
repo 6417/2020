@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.DoubleSummaryStatistics;
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -109,6 +112,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void drive(double xSpeed, double ySpeed) {
     diffdrive.arcadeDrive(xSpeed, ySpeed);
+  }
+
+  public void drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
+    drive(xSpeed.getAsDouble(), ySpeed.getAsDouble());
   }
 
   public void stopDrive() {

@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.BallLoaderCommand;
@@ -46,10 +47,10 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
 
     // Resets
-    DriveSubsystem.getInstance().resetEncoders();
-    ControlPanelSubsystem.getInstance().setSensorPos(0);
-    TestRobotContainer.getInstance().setShooterSliderPos(0);
-    TestRobotContainer.getInstance().setLoadSliderPos(0);
+    // DriveSubsystem.getInstance().resetEncoders();
+    // ControlPanelSubsystem.getInstance().setSensorPos(0);
+    // TestRobotContainer.getInstance().setShooterSliderPos(0);
+    // TestRobotContainer.getInstance().setLoadSliderPos(0);
   }
 
   /**
@@ -120,27 +121,12 @@ public class Robot extends TimedRobot {
   }
 
   // difine testCommands
-  DriveCommand testDriveCommand;
-  BallLoaderCommand loadBallCommmand;
-  BallShooterCommand ballShooterCommand;
-  TransportBallCommand transportBallcommand;
-  BallPickupMotorCommand pickUpMotorCommand;
-  AimCommand aimCommand;
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
-    
     TestRobotContainer.getInstance();
-
-    testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
-    loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
-    ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
-    transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);
-    pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
-    aimCommand = new AimCommand();
-    System.out.println("test init finished");
   }
 
   /**
@@ -149,14 +135,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
     TestRobotContainer.getInstance().update();
-    double speed = TestRobotContainer.getInstance().getControlPanelMotorSlider();
-    ControlPanelSubsystem.getInstance().setMotor(speed);
-
-    testDriveCommand.schedule(false);
-    loadBallCommmand.schedule(false);
-    ballShooterCommand.schedule(false);
-    pickUpMotorCommand.schedule(false);
-    transportBallcommand.schedule(false);
-    aimCommand.schedule();
   }
 }

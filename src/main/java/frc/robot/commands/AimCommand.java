@@ -21,11 +21,10 @@ public class AimCommand extends PIDCommand {
     @Setter
     private static double kD = 0;
     private static DoubleSupplier speed = () -> 0;
-    private static DriveCommand driveCommand = new DriveCommand(() -> 0, speed);
 
     // only Testing
     public AimCommand() {
-        super(new PIDController(kP, kI, kD), 
+        super(new PIDController(kP, kI, kD),
                 () -> TestRobotContainer.getInstance().getAngle(),
                 () -> 0,
                 AimCommand::useOutput,
@@ -36,7 +35,7 @@ public class AimCommand extends PIDCommand {
 
     private static void useOutput(double out) {
         speed = () -> out;
-        driveCommand.schedule();
+        DriveSubsystem.getInstance().drive(0, out);
     }
 
     @Override
@@ -47,7 +46,12 @@ public class AimCommand extends PIDCommand {
 
     @Override
     public boolean isFinished() {
-        return super.isFinished();
+        return false;
+    }
+
+    @Override
+    public void schedule() {
+        super.schedule(false);
     }
 
     @Override
