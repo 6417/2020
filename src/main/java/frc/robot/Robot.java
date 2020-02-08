@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
@@ -124,6 +125,7 @@ public class Robot extends TimedRobot {
   BallShooterCommand ballShooterCommand;
   TransportBallCommand transportBallcommand;
   BallPickupMotorCommand pickUpMotorCommand;
+  AimCommand aimCommand;
 
   @Override
   public void testInit() {
@@ -137,6 +139,8 @@ public class Robot extends TimedRobot {
     ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
     transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);
     pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
+    aimCommand = new AimCommand();
+    System.out.println("test init finished");
   }
 
   /**
@@ -153,6 +157,6 @@ public class Robot extends TimedRobot {
     ballShooterCommand.schedule(false);
     pickUpMotorCommand.schedule(false);
     transportBallcommand.schedule(false);
-    
+    aimCommand.schedule();
   }
 }

@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.util.function.DoubleSupplier;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.commands.AimCommand;
@@ -16,6 +18,9 @@ import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
+
 
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
@@ -38,9 +43,22 @@ public class TestRobotContainer {
     private ShuffleBoardInformation navxAngle;
     private ShuffleBoardInformation angleToTarget;
     private AimCommand aimCommand;
+    private AHRS navx;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
+
+        try {
+            navx = new AHRS(SPI.Port.kMXP);
+            // ahrs = new AHRS(SerialPort.Port.kUSB1);
+            navx.enableLogging(true);
+          } catch (RuntimeException ex) {
+           DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+          }
+    }
+
+    public double getAngle() {
+        return navx.getAngle();
     }
 
     public static TestRobotContainer getInstance() {
@@ -93,9 +111,11 @@ public class TestRobotContainer {
         transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor", BallTransportSubsystem.getInstance().getSensor());
 
         angleToTarget = new ShuffleBoardInformation(tab, "Angle to target", (double)0);
+        System.out.println("ShowOnShuffleBoaed running");
         aimCommand = new AimCommand();
         new ShuffleBoardInformation(tab, "aim", aimCommand);
         new ShuffleBoardInformation(tab, "PID Tunnunig", aimCommand.getController());
+        System.out.println("showOnShuffleBoard finished");
     }
 
     public void update() {
@@ -107,7 +127,7 @@ public class TestRobotContainer {
         encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
         Pose2d driveOdometry = DriveSubsystem.getInstance().getPose();
-        pose.update(String.format("X: %d Y: %d Rot (deg): %d",
+        pose.update(String.format("X: %f Y: %f Rot (deg): %f",
             driveOdometry.getTranslation().getX(),
             driveOdometry.getTranslation().getY(),
             driveOdometry.getRotation().getDegrees()
