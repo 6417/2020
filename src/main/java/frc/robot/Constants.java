@@ -22,20 +22,20 @@ import edu.wpi.first.wpilibj.I2C;
 public final class Constants {
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
-    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
-    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
-    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
 
     /**
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
    */
 
-   public static final int PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID = 20;
-   public static final int PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID = 0;
-   public static final int PNEUMATIC_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID = 1;
-   public static final int PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID = 2;
-   public static final int PNEUMATIC_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID = 3;
+   public static final int PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID = 30;
+   public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID = 0;
+   public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID = 1;
+   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID = 2;
+   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_RETRACT_ID = 3;
 
 
   /**
@@ -48,6 +48,13 @@ public final class Constants {
   public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_FRONT_REED_DI_ID = 3;
   public static final I2C.Port CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT = I2C.Port.kOnboard;
   public static final int CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID = 48;
+
+  /**
+   * Ball Pickup Subsystem constants used in {@link BallPickupSubsystem}
+   */
+
+   public static final int BALL_PICKUP_SUBSYSTEM_EXTEND_ID = 4;
+   public static final int BALL_PICKUP_SUBSYSTEM_RETRACT_ID = 5;
 
   /** 
  * Motor Subsystem constants used in {@link MotorSubsystem}.
