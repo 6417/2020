@@ -53,6 +53,10 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
         return 0;
     }
 
+    public double getAngle(){
+        return 0;
+    }
+
 
     public Pose2d getPose() {
         return new Pose2d(0, 0, new Rotation2d(0));
