@@ -10,16 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.AimCommand;
-import frc.robot.commands.BallLoaderCommand;
-import frc.robot.commands.BallPickupMotorCommand;
-import frc.robot.commands.BallShooterCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.TransportBallCommand;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
+import frc.robot.Constants;
 import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 import lombok.Getter;
@@ -29,8 +30,7 @@ public class AimCommand extends PIDCommand {
                 () -> 0,
                 AimCommand::useOutput,
                 DriveSubsystem.getInstance());
-        getController().setTolerance(3);
-        System.out.println("aim command constructor");
+        getController().setTolerance(Constants.PID_TOLERANZ);
     }
 
     private static void useOutput(double out) {
@@ -41,17 +41,11 @@ public class AimCommand extends PIDCommand {
     @Override
     public void initialize() {
         super.initialize();
-        System.out.println("aim command initialized");
     }
 
     @Override
     public boolean isFinished() {
-        return false;
-    }
-
-    @Override
-    public void schedule() {
-        super.schedule(false);
+        return getController().atSetpoint();
     }
 
     @Override

@@ -13,16 +13,19 @@ public class ShuffleBoardInformation {
     private double defaultV;
     private boolean defaultBoolean;
 
-    public ShuffleBoardInformation(String tab, String name, Double information){
+    public ShuffleBoardInformation(String tab, String name, double information){
+        String testname = name + "t";
+        System.out.println(tab + " " + name + " " +  String.valueOf(information) + " " +  
+                String.valueOf(Shuffleboard.getTab(tab)));//.add(testname, information)));//.getEntry()) + " " + this.information);
+
         this.information = Shuffleboard.getTab(tab)
                 .add(name, information)
                 .getEntry();
+        System.out.println(this.information);
     }
 
     public ShuffleBoardInformation(String tab, String name, Boolean information) {
-        this.information = Shuffleboard.getTab(tab)
-                .add(name, information)
-                .getEntry();
+        this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
     }
 
     public ShuffleBoardInformation(String tab, String name, Sendable information) {
@@ -30,44 +33,42 @@ public class ShuffleBoardInformation {
         Shuffleboard.getTab(tab).add(name, information);
     }
 
-    public ShuffleBoardInformation(String tab, String name, double min, double max, double defaultV){
+    public ShuffleBoardInformation(String tab, String name, double min, double max, double defaultV) {
         this.defaultV = defaultV;
-        information = Shuffleboard.getTab(tab)
-                .add(name, defaultV)
-                .withWidget(BuiltInWidgets.kNumberSlider)
-                .withProperties(Map.of("min", min, "max", max))
-                .getEntry();        
+        information = Shuffleboard.getTab(tab).add(name, defaultV).withWidget(BuiltInWidgets.kNumberSlider)
+                .withProperties(Map.of("min", min, "max", max)).getEntry();
     }
 
     public ShuffleBoardInformation(String tab, String name, boolean information, boolean defaultV) {
         defaultBoolean = defaultV;
-        this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton).getEntry();
+        this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton)
+                .getEntry();
     }
 
     public ShuffleBoardInformation(String tab, String name, String information) {
         this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
     }
 
-    public void update(boolean value){
-        if (this.information != null){
+    public void update(boolean value) {
+        if (this.information != null) {
             information.setBoolean(value);
         }
     }
 
-    public void update(double value){
-        if (this.information != null){
+    public void update(double value) {
+        if (this.information != null) {
             information.setDouble(value);
         }
     }
 
-    public void update(String value){
-        if (this.information != null){
+    public void update(String value) {
+        if (this.information != null) {
             information.setString(value);
         }
     }
 
     public double getSliderPosition() throws IllegalArgumentException {
-        if (this.information != null){
+        if (this.information != null) {
             return information.getDouble(defaultV);
         } else {
             throw new IllegalArgumentException("This is a button or not a slider");

@@ -77,6 +77,7 @@ public final class Constants {
  public static final int Tank_Right_BACK_ID = 13;
  public static final int Tank_Right_FRONT_ID = 12; 
  public static final double WHEEL_CIRCUMFERENCE = 0.4787787204060999;  // IN METER
+ public static final double PID_TOLERANZ = 5; // Angle in degrees
 
  // Standart speed constants used in all ball Subsystems
 
