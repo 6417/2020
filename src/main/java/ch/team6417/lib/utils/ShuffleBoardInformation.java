@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 public class ShuffleBoardInformation {
 
     private NetworkTableEntry information;
-    private double defaultValue;
+    private double defaultV;
+    private boolean defaultBoolean;
 
     public ShuffleBoardInformation(String tab, String name, Double information){
         this.information = Shuffleboard.getTab(tab)
@@ -29,12 +30,21 @@ public class ShuffleBoardInformation {
     }
 
     public ShuffleBoardInformation(String tab, String name, double min, double max, double defaultV){
-        this.defaultValue = defaultV;
+        this.defaultV = defaultV;
         information = Shuffleboard.getTab(tab)
                 .add(name, defaultV)
                 .withWidget(BuiltInWidgets.kNumberSlider)
                 .withProperties(Map.of("min", min, "max", max))
                 .getEntry();        
+    }
+
+    public ShuffleBoardInformation(String tab, String name, boolean information, boolean defaultV) {
+        defaultBoolean = defaultV;
+        this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton).getEntry();
+    }
+
+    public ShuffleBoardInformation(String tab, String name, String information) {
+        this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
     }
 
     public void update(boolean value){
@@ -49,15 +59,25 @@ public class ShuffleBoardInformation {
         }
     }
 
+    public void update(String value){
+        if (this.information != null){
+            information.setString(value);
+        }
+    }
+
     public double getSliderPosition() throws IllegalArgumentException {
         if (this.information != null){
-            return information.getDouble(defaultValue);
+            return information.getDouble(defaultV);
         } else {
-            throw new IllegalArgumentException("This is not a Slider");
+            throw new IllegalArgumentException("This is a button or not a slider");
         }
     }
 
     public void setSliderPos(double value) {
         information.setDouble(value);
+    }
+
+    public boolean getButtonState() {
+        return information.getBoolean(defaultBoolean);
     }
 }

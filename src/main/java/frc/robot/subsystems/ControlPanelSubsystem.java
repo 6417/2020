@@ -28,6 +28,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
   private final int ticksPerRotation = 4096;
   private final int range = 25;
 
+  public boolean isConected;
+
   private DoubleSolenoid liftSolenoid;
   private DoubleSolenoid bumperSolenoid;
 
@@ -50,7 +52,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
    * with given confidence range.
    */
   private final ColorMatch m_colorMatcher = new ColorMatch();
-  private int rotations;
+  private double rotations;
 
   /**
    * Note: Any example colors should be calibrated as the user needs, these are
@@ -148,7 +150,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     motor.setSelectedSensorPosition(pos);
   }
 
-  public void setMotorForRotations(int rotations) {
+  public void setMotorForRotations(double rotations) {
     this.rotations = rotations;
     if (motor.getSelectedSensorPosition() < (this.rotations * ticksPerRotation) - range) {
       motor.set(0.2);

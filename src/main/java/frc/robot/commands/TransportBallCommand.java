@@ -12,6 +12,7 @@ import java.util.function.DoubleSupplier;
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.BallTransportSubsystem;
 
@@ -22,8 +23,8 @@ public class TransportBallCommand extends CommandBase {
   private DoubleSupplier speed;
   private BallTransportSubsystem m_subsystem = BallTransportSubsystem.getInstance();
   private LatchedBoolean finished;
-  private boolean stop = false;
   private boolean shoot = false;
+  private boolean automechanismsDisabled = false;
 
   public TransportBallCommand(DoubleSupplier speed, boolean shoot) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,9 +36,9 @@ public class TransportBallCommand extends CommandBase {
     }
   }
 
-  public TransportBallCommand(boolean stop) {
-    this.speed = () -> 0;
-    this.stop = stop;
+  public TransportBallCommand(boolean automechanismsDisabled) {
+    this.automechanismsDisabled = automechanismsDisabled;
+    speed = Constants.standardTransportSpeed;
   }
 
   // Called when the command is initially scheduled.
@@ -67,9 +68,11 @@ public class TransportBallCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (shoot) {
-      return false; // finished.update(m_subsystem.getSensor()) || stop;
+      return finished.update(m_subsystem.getSensor());
+    } else if (automechanismsDisabled) {
+      return false;
     } else {
-      return false; // finished.update(m_subsystem.getSensor()) || stop || m_subsystem.getSensor();
+      return finished.update(m_subsystem.getSensor()) || m_subsystem.getSensor();
     }
   }
 }

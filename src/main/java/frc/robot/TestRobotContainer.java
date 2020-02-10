@@ -1,16 +1,18 @@
 package frc.robot;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.ShootBallCommand;
+import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
+import frc.robot.subsystems.DriveSubsystem;
 
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
@@ -26,9 +28,13 @@ public class TestRobotContainer {
     private ShuffleBoardInformation transportSlider;
     private ShuffleBoardInformation  pickUpSlider;
     private ShuffleBoardInformation shooterSpeed;
+    private ShuffleBoardInformation transportSensor;
+
     private ShuffleBoardInformation transportSpeed;
     private ShuffleBoardInformation encoderValueDriveLeft;
     private ShuffleBoardInformation encoderValueDriveRight;
+    private ShuffleBoardInformation pose;
+    private ShuffleBoardInformation navxAngle;
 
     private TestRobotContainer() {
         showOnShuffleBoard();
@@ -79,7 +85,14 @@ public class TestRobotContainer {
         shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
         new ShuffleBoardInformation(tab, "Shoot ball", new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
 
-        transportSpeed = new ShuffleBoardInformation(tab, "transportSpeed", BallTransportSubsystem.getInstance().getPercents());
+        pose = new ShuffleBoardInformation(tab, "Robot Pose", "X: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getX()) + 
+            "\nY: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getY()) + 
+            "\nRotation(degrees): " + String.valueOf(DriveSubsystem.getInstance().getPose().getRotation()));
+
+        navxAngle = new ShuffleBoardInformation(tab, "Navx angle", DriveSubsystem.getInstance().getAngle());
+
+        new ShuffleBoardInformation(tab, "Transport ball", new TransportBallCommand(Constants.standardTransportSpeed, false));
+        transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor", BallTransportSubsystem.getInstance().getSensor());
     }
 
     public void update() {
@@ -87,9 +100,15 @@ public class TestRobotContainer {
         bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
         encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
         shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
-        transportSpeed.update(BallTransportSubsystem.getInstance().getPercents());
         encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
         encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
+        Pose2d driveOdometry = DriveSubsystem.getInstance().getPose();
+        pose.update(String.format("X: %d Y: %d Rot (deg): %d",
+            driveOdometry.getTranslation().getX(),
+            driveOdometry.getTranslation().getY(),
+            driveOdometry.getRotation().getDegrees()
+            ));
+        navxAngle.update(DriveSubsystem.getInstance().getAngle());
     }
 
     public double getControlPanelMotorSlider() {

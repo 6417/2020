@@ -6,12 +6,10 @@ import frc.robot.TestRobotContainer;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
-import frc.robot.commands.TransportBallCommand;
 
 public class StopAllBallSubsystemsCommand extends ParallelCommandGroup {
   public StopAllBallSubsystemsCommand() {
-    super(
-        new TransportBallCommand(true), 
+    super( 
         new BallLoaderCommand(() -> 0), 
         new BallShooterCommand(() -> 0, false),
         new BallPickupMotorCommand(() -> 0), 
