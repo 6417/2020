@@ -39,8 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive diffdrive;
   private AHRS navx;
   private DifferentialDriveOdometry m_odometry;
-  
-  
+
   protected DriveSubsystem() {
     constructor();
   }
@@ -93,8 +92,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   @Override
-
-
   public void periodic() {
   }
 

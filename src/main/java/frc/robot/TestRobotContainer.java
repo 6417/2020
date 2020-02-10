@@ -17,11 +17,13 @@ import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
+import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -29,6 +31,13 @@ import edu.wpi.first.wpilibj.SPI;
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
     private final String tab = "Test Mode";
+
+    private BallPickUpSubsystem mBallPickUpSubsystem = BallPickUpSubsystem.getInstance();
+    private BallShooterSubsystem mBallShooterSubsystem = BallShooterSubsystem.getInstance();
+    private BallTransportSubsystem mBallTransportSubsystem = BallTransportSubsystem.getInstance();
+    private static ControlPanelSubsystem mControlPanelSubsystem = ControlPanelSubsystem.getInstance();
+    private DriveSubsystem mDriveSubsystem = DriveSubsystem.getInstance();
+    private PneumaticSubsystem mPneumaticSubsystem = PneumaticSubsystem.getInstance();
 
     private ShuffleBoardInformation liftReed;
     private ShuffleBoardInformation bumperReed;
@@ -80,7 +89,7 @@ public class TestRobotContainer {
         controlPanelMotorCommand = new CommandBase() {
             @Override
             public void execute() {
-                ControlPanelSubsystem.getInstance().setMotor(getControlPanelMotorSlider());
+                mControlPanelSubsystem.setMotor(getControlPanelMotorSlider());
             }
         };
         stopAllBallSubsystemsCommand = new StopAllBallSubsystemsCommand();
@@ -108,44 +117,46 @@ public class TestRobotContainer {
                 new PneumaticLiftCommand(PneumaticState.REVERSE));
 
         liftReed = new ShuffleBoardInformation(tab, "Reed switch of bottom Lift",
-                ControlPanelSubsystem.getInstance().getReedLiftBotom());
+                mControlPanelSubsystem.getReedLiftBotom());
 
         bumperReed = new ShuffleBoardInformation(tab, "Reed switch of front Bumper",
-                ControlPanelSubsystem.getInstance().getReedBumperFront());
+                mControlPanelSubsystem.getReedBumperFront());
 
         controlPanelMotorSlider = new ShuffleBoardInformation(tab, "ControlPanelMotor", -1, 1, 0);
         encoderValue = new ShuffleBoardInformation(tab, "ControlPanel Motor Encoder",
-                Double.valueOf(ControlPanelSubsystem.getInstance().getEncoderValue()));
+                Double.valueOf(mControlPanelSubsystem.getEncoderValue()));
 
+
+        System.out.println(mDriveSubsystem.getName());
         driveRotateSlider = new ShuffleBoardInformation(tab, "Rotatr Tank", -1, 1, 0);
         driveForwardSlider = new ShuffleBoardInformation(tab, "Drive Forward", -1, 1, 0);
         new ShuffleBoardInformation(tab, "Stop tankdrive", stopTankDriveCommand);
         encoderValueDriveLeft = new ShuffleBoardInformation(tab, "encoder drive motor left",
-                DriveSubsystem.getInstance().getEncoderLeft());
+                mDriveSubsystem.getEncoderLeft());
         encoderValueDriveRight = new ShuffleBoardInformation(tab, "encoder drive motor right",
-                DriveSubsystem.getInstance().getEncoderRight());
+                mDriveSubsystem.getEncoderRight());
 
         loadSlider = new ShuffleBoardInformation(tab, "Load motor speed", -1, 1, 0);
         transportSlider = new ShuffleBoardInformation(tab, "Transport motor speed", -1, 1, 0);
         shooterSlider = new ShuffleBoardInformation(tab, "Shoot motor speed", -1, 1, 0);
         pickUpSlider = new ShuffleBoardInformation(tab, "Pick up motor speed", -1, 1, 0);
         new ShuffleBoardInformation(tab, "Stop all ball subsystem motors", stopAllBallSubsystemsCommand);
-        shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", BallShooterSubsystem.getInstance().getSpeed());
+        shooterSpeed = new ShuffleBoardInformation(tab, "Shooter Speed", mBallShooterSubsystem.getSpeed());
         new ShuffleBoardInformation(tab, "Shoot ball",
                 new ShootBallCommand(getShooterSlider(), getLoadSlider(), getTransportSlider()));
 
         pose = new ShuffleBoardInformation(tab, "Robot Pose",
-                "X: " + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getX()) + "\nY: "
-                        + String.valueOf(DriveSubsystem.getInstance().getPose().getTranslation().getY())
+                "X: " + String.valueOf(mDriveSubsystem.getPose().getTranslation().getX()) + "\nY: "
+                        + String.valueOf(mDriveSubsystem.getPose().getTranslation().getY())
                         + "\nRotation(degrees): "
-                        + String.valueOf(DriveSubsystem.getInstance().getPose().getRotation()));
+                        + String.valueOf(mDriveSubsystem.getPose().getRotation()));
 
-        navxAngle = new ShuffleBoardInformation(tab, "Navx angle", DriveSubsystem.getInstance().getAngle());
+        navxAngle = new ShuffleBoardInformation(tab, "Navx angle", mDriveSubsystem.getAngle());
 
         new ShuffleBoardInformation(tab, "Transport ball",
                 new TransportBallCommand(Constants.standardTransportSpeed, false));
         transportSensor = new ShuffleBoardInformation(tab, "Transport Sensor",
-                BallTransportSubsystem.getInstance().getSensor());
+                mBallTransportSubsystem.getSensor());
 
         angleToTarget = new ShuffleBoardInformation(tab, "Angle to target", (double) 0);
         new ShuffleBoardInformation(tab, "aim", aimCommand);
@@ -160,17 +171,17 @@ public class TestRobotContainer {
     }
 
     public void update() {
-        liftReed.update(ControlPanelSubsystem.getInstance().getReedLiftBotom());
-        bumperReed.update(ControlPanelSubsystem.getInstance().getReedBumperFront());
-        encoderValue.update(ControlPanelSubsystem.getInstance().getEncoderValue());
-        shooterSpeed.update(BallShooterSubsystem.getInstance().getSpeed());
-        transportSensor.update(BallTransportSubsystem.getInstance().getSensor());
-        encoderValueDriveLeft.update(DriveSubsystem.getInstance().getEncoderLeft());
-        encoderValueDriveRight.update(DriveSubsystem.getInstance().getEncoderRight());
-        Pose2d driveOdometry = DriveSubsystem.getInstance().getPose();
+        liftReed.update(mControlPanelSubsystem.getReedLiftBotom());
+        bumperReed.update(mControlPanelSubsystem.getReedBumperFront());
+        encoderValue.update(mControlPanelSubsystem.getEncoderValue());
+        shooterSpeed.update(mBallShooterSubsystem.getSpeed());
+        transportSensor.update(mBallTransportSubsystem.getSensor());
+        encoderValueDriveLeft.update(mDriveSubsystem.getEncoderLeft());
+        encoderValueDriveRight.update(mDriveSubsystem.getEncoderRight());
+        Pose2d driveOdometry = mDriveSubsystem.getPose();
         pose.update(String.format("X: %f Y: %f Rot (deg): %f", driveOdometry.getTranslation().getX(),
                 driveOdometry.getTranslation().getY(), driveOdometry.getRotation().getDegrees()));
-        navxAngle.update(DriveSubsystem.getInstance().getAngle());
+        navxAngle.update(mDriveSubsystem.getAngle());
     }
 
     public DoubleSupplier getAngleToTarget() {
