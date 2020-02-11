@@ -18,35 +18,61 @@ public class ShuffleBoardInformation {
         System.out.println(tab + " " + name + " " +  String.valueOf(information) + " " +  
                 String.valueOf(Shuffleboard.getTab(tab)));//.add(testname, information)));//.getEntry()) + " " + this.information);
 
-        this.information = Shuffleboard.getTab(tab)
+        try {
+            this.information = Shuffleboard.getTab(tab)
                 .add(name, information)
                 .getEntry();
-        System.out.println(this.information);
+            System.out.println(this.information);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     public ShuffleBoardInformation(String tab, String name, Boolean information) {
-        this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
+        try {
+            this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     public ShuffleBoardInformation(String tab, String name, Sendable information) {
-        System.out.println(name);
-        Shuffleboard.getTab(tab).add(name, information);
+        try {
+            System.out.println(name);
+            Shuffleboard.getTab(tab).add(name, information);
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public ShuffleBoardInformation(String tab, String name, double min, double max, double defaultV) {
         this.defaultV = defaultV;
-        information = Shuffleboard.getTab(tab).add(name, defaultV).withWidget(BuiltInWidgets.kNumberSlider)
-                .withProperties(Map.of("min", min, "max", max)).getEntry();
+        try {
+            information = Shuffleboard.getTab(tab).add(name, defaultV).withWidget(BuiltInWidgets.kNumberSlider)
+            .withProperties(Map.of("min", min, "max", max)).getEntry();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public ShuffleBoardInformation(String tab, String name, boolean information, boolean defaultV) {
         defaultBoolean = defaultV;
-        this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton)
-                .getEntry();
+        try{
+            this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton).getEntry();
+        } catch (NullPointerException e) {
+            System.out.println(e.getMessage());
+        }
+        
     }
 
     public ShuffleBoardInformation(String tab, String name, String information) {
-        this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
+        try{
+            this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
+        } catch (NullPointerException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void update(boolean value) {
