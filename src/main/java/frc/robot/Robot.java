@@ -132,7 +132,7 @@ public class Robot extends TimedRobot {
     
     TestRobotContainer.getInstance();
 
-    testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveLeftPos(), () -> TestRobotContainer.getInstance().getDriveRightPos());
+    testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveForwardPos(), () -> TestRobotContainer.getInstance().getDriveRotatePos());
     loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
     ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
     transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);

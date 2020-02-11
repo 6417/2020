@@ -40,8 +40,13 @@ public class BallPickUpSubsystem extends SubsystemBase {
         switch(state){
             case FORWARD:
                 PickupCylinder.set(Value.kForward);
+                break;
             case REVERSE:
                 PickupCylinder.set(Value.kReverse);
+                break;
+            case OFF:
+                PickupCylinder.set(Value.kOff);
+                break;
         }
 
     }
