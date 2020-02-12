@@ -74,11 +74,6 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
     }
 
     @Override
-    public double getAngle() {
-        return 0;
-    }
-
-    @Override
     public void periodic() {
     }
 }

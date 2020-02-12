@@ -85,24 +85,20 @@ public class TestRobotContainer {
     }
 
     private static void initializeCommands() {
-        testDriveCommand = new DriveCommand(() -> getDriveForwardPos(), () -> getDriveRotatePos());
-        loadBallCommmand = new BallLoaderCommand(() -> getLoadSlider());
-        ballShooterCommand = new BallShooterCommand(() -> getShooterSlider(), false);
-        transportBallcommand = new TransportBallCommand(() -> getTransportSlider(), true);
-        pickUpMotorCommand = new BallPickupMotorCommand(() -> getPickUpSlider());
-        aimCommand = new AimCommand();
-        controlPanelMotorCommand = new CommandBase() {
+        mInstance.testDriveCommand = new DriveCommand(() -> mInstance.getDriveForwardPos(), () -> mInstance.getDriveRotatePos());
+        mInstance.loadBallCommmand = new BallLoaderCommand(() -> mInstance.getLoadSlider());
+        mInstance.ballShooterCommand = new BallShooterCommand(() -> mInstance.getShooterSlider(), false);
+        mInstance.transportBallcommand = new TransportBallCommand(() -> mInstance.getTransportSlider(), true);
+        mInstance.pickUpMotorCommand = new BallPickupMotorCommand(() -> mInstance.getPickUpSlider());
+        mInstance.aimCommand = new AimCommand();
+        mInstance.controlPanelMotorCommand = new CommandBase() {
             @Override
             public void execute() {
-                mControlPanelSubsystem.setMotor(getControlPanelMotorSlider());
+                mInstance.mControlPanelSubsystem.setMotor(mInstance.getControlPanelMotorSlider());
             }
         };
-        stopAllBallSubsystemsCommand = new StopAllBallSubsystemsCommand();
-        stopTankDriveCommand = new StopTankDriveCommand();
-    }
-
-    public double getAngle() {
-        return navx.getAngle();
+        mInstance.stopAllBallSubsystemsCommand = new StopAllBallSubsystemsCommand();
+        mInstance.stopTankDriveCommand = new StopTankDriveCommand();
     }
 
     public static TestRobotContainer getInstance() {
