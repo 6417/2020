@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -161,6 +163,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   public void setMotor(double speed) {
     motor.set(speed);
+  }
+
+  public void setMotor(DoubleSupplier speed) {
+    motor.set(speed.getAsDouble());
   }
 
   public int getEncoderValue() {

@@ -38,7 +38,7 @@ public final class Constants {
     // Activate subsystems constants
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
-    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
@@ -84,6 +84,7 @@ public final class Constants {
  public static final int Tank_Right_BACK_ID = 13;
  public static final int Tank_Right_FRONT_ID = 12; 
  public static final double WHEEL_CIRCUMFERENCE = 0.4787787204060999;  // IN METER
+ public static final double PID_TOLERANZ = 5; // Angle in degrees
 
  // Standart speed constants used in all ball Subsystems
 

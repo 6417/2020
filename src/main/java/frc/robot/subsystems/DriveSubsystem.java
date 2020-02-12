@@ -7,6 +7,9 @@
 
 package frc.robot.subsystems;
 
+import java.util.DoubleSummaryStatistics;
+import java.util.function.DoubleSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -36,8 +39,7 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive diffdrive;
   private AHRS navx;
   private DifferentialDriveOdometry m_odometry;
-  
-  
+
   protected DriveSubsystem() {
     constructor();
   }
@@ -90,8 +92,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   @Override
-
-
   public void periodic() {
   }
 
@@ -109,6 +109,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void drive(double xSpeed, double ySpeed) {
     diffdrive.arcadeDrive(xSpeed, ySpeed);
+  }
+
+  public void drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
+    drive(xSpeed.getAsDouble(), ySpeed.getAsDouble());
   }
 
   public void stopDrive() {
@@ -139,7 +143,7 @@ public class DriveSubsystem extends SubsystemBase {
   
 
   public Pose2d getPose(){
-    return m_odometry.update(new Rotation2d(navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
+    return m_odometry.update(Rotation2d.fromDegrees(-navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
   }
  
   public double getAngle() {

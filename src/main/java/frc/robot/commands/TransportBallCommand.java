@@ -29,11 +29,7 @@ public class TransportBallCommand extends CommandBase {
   public TransportBallCommand(DoubleSupplier speed, boolean shoot) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.shoot = shoot;
-    if (speed.getAsDouble() == 0) {
-      this.speed = speed;
-    } else {
-      this.speed = () -> 0.25;
-    }
+    this.speed = speed;
   }
 
   public TransportBallCommand(boolean automechanismsDisabled) {
@@ -44,6 +40,10 @@ public class TransportBallCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (speed.getAsDouble() == 0) {
+      this.speed = () -> 0.25;
+    }
+
     if (shoot) {
       finished = new LatchedBoolean(EdgeDetection.FALLING);
     } else {
