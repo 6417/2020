@@ -51,7 +51,7 @@ public final class Constants {
     public static final int TRANSPORT_BUTTON_NUMBER = 0;
 
     // Other Buttons
-    public static final int CANCELL_ALL_COMMANDS_BUTTON_NUMBER = 0;
+    public static final int CANCEL_ALL_COMMANDS_BUTTON_NUMBER = 0;
 
     /**
      * Activate subsystems constants

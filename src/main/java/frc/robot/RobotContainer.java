@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BallLoaderCommand;
@@ -59,6 +60,7 @@ public class RobotContainer {
   private final JoystickButton shootBallButton = new JoystickButton(joystick, Constants.SHOOT_BUTTON_NUMBER);
   private final JoystickButton transportButton = new JoystickButton(joystick, Constants.TRANSPORT_BUTTON_NUMBER);
   private final JoystickButton extendAndRetactControlPanelButton = new JoystickButton(joystick, Constants.EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER);
+  private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
 
   // Initialize Commands
   private BallLoaderCommand ballLoaderCommand = new BallLoaderCommand(Constants.standardLoaderSpeed);
@@ -104,6 +106,13 @@ public class RobotContainer {
       new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
       () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
 
+  private CommandBase cancelAllCommands = new CommandBase() {
+    @Override
+    public boolean isFinished() {
+      CommandScheduler.getInstance().cancelAll();
+      return true;
+    }
+  };
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -141,7 +150,7 @@ public class RobotContainer {
     shootBallButton.whenPressed(shootBallCommand);
     transportButton.whenPressed(transportBallCommand);
     extendAndRetactControlPanelButton.whenPressed(extendAndRetractControlPanelModuleCommand);
-
+    cancelAllCommandsButton.whenPressed(cancelAllCommands);
   }
 
   private void showOnShuffleBoard() {
