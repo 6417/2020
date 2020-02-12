@@ -106,10 +106,11 @@ public class TestRobotContainer {
 
             TestRobotContainer.showOnShuffleBoard();
 
-            return mInstance;
+        }
+        return mInstance;
         } else {
             return mInstance;
-        }
+    }
     }
 
     private static void showOnShuffleBoard() {
