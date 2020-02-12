@@ -70,7 +70,7 @@ public class TransportBallCommand extends CommandBase {
     if (shoot) {
       return finished.update(m_subsystem.getSensor());
     } else if (automechanismsDisabled) {
-      return false;
+      return true;
     } else {
       return finished.update(m_subsystem.getSensor()) || m_subsystem.getSensor();
     }

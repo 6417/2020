@@ -25,17 +25,37 @@ import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    // Joystick button constants used in {@link RobotContainer}
+    /** 
+     * Joystick button constants used in {@link RobotContainer}
+     */ 
     public static final int JOYSTICK_PORT = 0;
     public static final int DEACTIVATE_SECUTITY_MECHANISMS_BUTTON_NUMBER = 7;
 
+    // No auto mechanisms buttons
     public static final int LOADER_NO_AUTOMECHANISMS_BUTTON_NUMBER = 11;
     public static final int CONTROL_PANEL_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMPER = 12;
     public static final int TRANSPORT_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 10;
     public static final int SHOOTER_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 9;
 
+    // BallPickUp Buttons
+    public static final int BALL_PICKUP_MOTOR_BUTTON_NUMPER = 0;
+    public static final int EXTEND_AND_RETRACT_BALL_PICK_UP_MODULE_BUTTON_NUMBER = 0;
+    
+    // ControlPanel Buttons
+    public static final int EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER = 0;
+    public static final int ROTATE_TO_COLOR_BUTTON_NUMBER = 0;
 
-    // Activate subsystems constants
+    // Shoot and transport Buttons
+    public static final int SHOOT_BUTTON_NUMBER = 0;
+    public static final int AIM_BUTTON_NUMBER = 0;
+    public static final int TRANSPORT_BUTTON_NUMBER = 0;
+
+    // Other Buttons
+    public static final int CANCELL_ALL_COMMANDS_BUTTON_NUMBER = 0;
+
+    /**
+     * Activate subsystems constants
+    */
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
@@ -84,6 +104,7 @@ public final class Constants {
  public static final DoubleSupplier standardShooterSpeed = () -> 0.9;
  public static final DoubleSupplier standardLoaderSpeed = () -> 0.25;
  public static final DoubleSupplier standardTransportSpeed = () -> 0.25;
+ public static final DoubleSupplier standardPickUpMotorSpeed = () -> 0.5;
 
   // Ball subsytems can IDs
   public static final int BALL_SHOOTER_SUBSYSTEM_LOADER_CAN_ID = 21;

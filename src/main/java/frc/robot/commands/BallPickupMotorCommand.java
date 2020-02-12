@@ -37,6 +37,7 @@ public class BallPickupMotorCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_subsytem.stopPickUpMotor();
   }
 
   // Returns true when the command should end.

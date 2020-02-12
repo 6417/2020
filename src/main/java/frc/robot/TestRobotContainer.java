@@ -108,9 +108,10 @@ public class TestRobotContainer {
 
         }
         return mInstance;
-        } else {
-            return mInstance;
+<<<<<<< Updated upstream
     }
+=======
+>>>>>>> Stashed changes
     }
 
     private static void showOnShuffleBoard() {

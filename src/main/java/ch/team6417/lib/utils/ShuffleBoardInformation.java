@@ -41,7 +41,6 @@ public class ShuffleBoardInformation {
 
     public ShuffleBoardInformation(String tab, String name, String information) {
         this.information = Shuffleboard.getTab(tab).add(name, information).getEntry();
-        }
     }
 
     public void update(boolean value) {
