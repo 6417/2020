@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -9,14 +11,14 @@ import frc.robot.subsystems.emptySubsystems.EmptyBallPickUpSubsystem;
 
 public class BallPickUpSubsystem extends SubsystemBase {
     private static BallPickUpSubsystem mInstance;
-    private CANSparkMax pickUpMotor;
+    private WPI_TalonSRX pickUpMotor;
 
     protected BallPickUpSubsystem() {
         constructor();
     }
 
     protected void constructor() {
-        pickUpMotor = new CANSparkMax(Constants.BALL_PICKUP_MOTOR_CAN_ID, MotorType.kBrushed);
+        pickUpMotor = new WPI_TalonSRX(Constants.BALL_PICKUP_MOTOR_CAN_ID);
     }
 
     public static BallPickUpSubsystem getInstance() {

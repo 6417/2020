@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
@@ -24,7 +28,9 @@ import frc.robot.commands.ControlPanelPneumaticCommandGroup;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 /**
@@ -58,7 +64,6 @@ public class RobotContainer {
   // Initialize Buttons
   private final JoystickButton ballPickupMotorButton = new JoystickButton(joystick, Constants.BALL_PICKUP_MOTOR_BUTTON_NUMPER);
   private final JoystickButton shootBallButton = new JoystickButton(joystick, Constants.SHOOT_BUTTON_NUMBER);
-  private final JoystickButton transportButton = new JoystickButton(joystick, Constants.TRANSPORT_BUTTON_NUMBER);
   private final JoystickButton extendAndRetactControlPanelButton = new JoystickButton(joystick, Constants.EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER);
   private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
 
@@ -99,9 +104,6 @@ public class RobotContainer {
     }
   };
 
-  private BallPickupMotorCommand ballPickupMotorCommand = new BallPickupMotorCommand(Constants.standardPickUpMotorSpeed);
-  private ShootBallCommand shootBallCommand = new ShootBallCommand();
-  private TransportBallCommand transportBallCommand = new TransportBallCommand(Constants.standardTransportSpeed, false);
   private ConditionalCommand extendAndRetractControlPanelModuleCommand = new ConditionalCommand(new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD), 
       new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
       () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
@@ -114,6 +116,38 @@ public class RobotContainer {
     }
   };
 
+  private ParallelCommandGroup pickUpCommand = new ParallelCommandGroup(new BallPickupMotorCommand(Constants.standardPickUpMotorSpeed),
+      new TransportBallCommand(Constants.standardTransportSpeed, false));
+
+  private CommandBase cancelShootCommands = new CommandBase() {
+    @Override
+    public void execute() {
+      BallShooterSubsystem.getInstance().stopShooter();
+      BallShooterSubsystem.getInstance().stopLoader();
+      BallTransportSubsystem.getInstance().stopTransportMotor();
+    }
+
+    @Override
+    public boolean isFinished() {
+      return true;
+    }
+  };
+
+  private BooleanSupplier shootAction = () -> false; // false -> cancel, true -> shoot
+
+  private CommandBase setShootAction = new CommandBase() {
+    @Override
+    public void initialize() {
+        shootAction = () -> !shootAction.getAsBoolean();
+    }
+
+    @Override
+    public boolean isFinished() {
+      return true;
+    }
+  };
+
+  private SequentialCommandGroup shootBallCommand = new SequentialCommandGroup(setShootAction, new ConditionalCommand(new ShootBallCommand(), cancelShootCommands, shootAction));
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -129,7 +163,6 @@ public class RobotContainer {
     }
     return mInstance;
   }
-  
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -146,11 +179,14 @@ public class RobotContainer {
     shooterNoAutoMechanismsButton.whileHeld(noAutoMechsShooterCommand);
     //
 
-    ballPickupMotorButton.whileHeld(ballPickupMotorCommand);
+    ballPickupMotorButton.whileHeld(pickUpCommand);
+
     shootBallButton.whenPressed(shootBallCommand);
-    transportButton.whenPressed(transportBallCommand);
     extendAndRetactControlPanelButton.whenPressed(extendAndRetractControlPanelModuleCommand);
     cancelAllCommandsButton.whenPressed(cancelAllCommands);
+
+    // for the standart drive command
+    DriveSubsystem.getInstance();
   }
 
   private void showOnShuffleBoard() {

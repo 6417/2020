@@ -36,38 +36,38 @@ public final class Constants {
     public static final int CONTROL_PANEL_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMPER = 12;
     public static final int TRANSPORT_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 10;
     public static final int SHOOTER_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 9;
+    public static final int PICKUP_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 0;
 
     // BallPickUp Buttons
-    public static final int BALL_PICKUP_MOTOR_BUTTON_NUMPER = 0;
-    public static final int EXTEND_AND_RETRACT_BALL_PICK_UP_MODULE_BUTTON_NUMBER = 0;
+    public static final int BALL_PICKUP_MOTOR_BUTTON_NUMPER = 2;
+    // public static final int EXTEND_AND_RETRACT_BALL_PICK_UP_MODULE_BUTTON_NUMBER = 1;
     
     // ControlPanel Buttons
-    public static final int EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER = 0;
-    public static final int ROTATE_TO_COLOR_BUTTON_NUMBER = 0;
+    public static final int EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER = 5;
+    public static final int ROTATE_TO_COLOR_BUTTON_NUMBER = 3;
 
     // Shoot and transport Buttons
-    public static final int SHOOT_BUTTON_NUMBER = 0;
-    public static final int AIM_BUTTON_NUMBER = 0;
-    public static final int TRANSPORT_BUTTON_NUMBER = 0;
+    public static final int SHOOT_BUTTON_NUMBER = 1;
+    public static final int AIM_BUTTON_NUMBER = 4;
 
     // Other Buttons
-    public static final int CANCEL_ALL_COMMANDS_BUTTON_NUMBER = 0;
+    public static final int CANCEL_ALL_COMMANDS_BUTTON_NUMBER = 8;
 
     /**
      * Activate subsystems constants
     */
-    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
-    public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
+    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
+    public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
 
     /**
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
    */
 
-   public static final int PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID = 20;
+   public static final int PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID = 30;
    public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_EXTEND_ID = 0;
    public static final int CONTROL_PANEL_SUBSYSTEM_LIFT_SOLENOID_RETRACT_ID = 1;
    public static final int CONTROL_PANEL_SUBSYSTEM_BUMPER_SOLENOID_EXTEND_ID = 2;
@@ -103,7 +103,7 @@ public final class Constants {
 
  public static final DoubleSupplier standardShooterSpeed = () -> 0.9;
  public static final DoubleSupplier standardLoaderSpeed = () -> 0.25;
- public static final DoubleSupplier standardTransportSpeed = () -> 0.25;
+ public static final DoubleSupplier standardTransportSpeed = () -> 0.6;
  public static final DoubleSupplier standardPickUpMotorSpeed = () -> 0.5;
 
   // Ball subsytems can IDs

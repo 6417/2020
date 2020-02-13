@@ -17,20 +17,7 @@ public class ShootBallCommand extends SequentialCommandGroup {
   public ShootBallCommand() {
     super(new BallShooterCommand(Constants.standardShooterSpeed, true),
           new BallLoaderCommand(Constants.standardLoaderSpeed),
-          new TransportBallCommand(Constants.standardTransportSpeed, true), 
-          new CommandBase() {
-            @Override
-            public void execute() {
-              BallShooterSubsystem.getInstance().stopShooter();
-              BallShooterSubsystem.getInstance().stopLoader();
-              BallTransportSubsystem.getInstance().stopTransportMotor();
-            }
-
-            @Override
-            public boolean isFinished() {
-              return true;
-            }
-          });
+          new TransportBallCommand(Constants.standardTransportSpeed, false)); 
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed) {

@@ -21,8 +21,6 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   private Compressor compressor;
 
-  private LatchedBoolean pressureTankFull;
-
   private static PneumaticSubsystem mInstance;
 
   /**
@@ -35,30 +33,15 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   protected void constructor() {
     compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
-  
-    pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
-
-
+    compressor.start();
     // SendableRegistry.setName(compressor, "Compressor");
 
-    compressor.setClosedLoopControl(false);
+    // compressor.setClosedLoopControl(true);
   }
 
   @Override
   public void periodic() {
-    //   if (compressor.getCompressorNotConnectedFault()) {
-    //    log.log(Level.SEVERE, "Compressor not connected!");
-    //   }
-    //   if (compressor.getCompressorCurrentTooHighFault()) {
-    //    log.log(Level.SEVERE, "Compressor current too high!");
-    //  }
-    //   if (compressor.getCompressorShortedFault()) {
-    //    log.log(Level.SEVERE, "Compressor shorted!");
-    //  }
 
-    //  if (pressureTankFull.update(compressor.getPressureSwitchValue())) {
-    //    log.log(Level.INFO, "Pressure Tank full!");
-    //  }
   }
 
   public static PneumaticSubsystem getInstance() {
@@ -74,9 +57,9 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    super.initSendable(builder);
-
     builder.addBooleanProperty("Compressor connected", () -> compressor.getCompressorNotConnectedFault(), null);
     builder.addBooleanProperty("Compressor current too high", () -> compressor.getCompressorCurrentTooHighFault(), null);
+    builder.addBooleanProperty("Compressor shorted", () -> compressor.getCompressorShortedFault(), null);
+    builder.addBooleanProperty("Pressure Tank full", () -> compressor.getPressureSwitchValue(), null);
   }
 }

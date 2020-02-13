@@ -49,7 +49,7 @@ public class BallShooterCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (FixedSpeed){
-      if (m_subsystem.getSpeed() > 5400 * shooterSpeed.getAsDouble()|| RobotContainer.getSecurityMechanismsButton()){
+      if (m_subsystem.getSpeed() > 5400 * shooterSpeed.getAsDouble() || RobotContainer.getSecurityMechanismsButton()){
          return true;
       } else {
         return false;
