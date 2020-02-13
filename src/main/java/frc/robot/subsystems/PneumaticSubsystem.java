@@ -41,7 +41,6 @@ public class PneumaticSubsystem extends SubsystemBase {
 
     // SendableRegistry.setName(compressor, "Compressor");
 
-    compressor.setClosedLoopControl(false);
   }
 
   @Override

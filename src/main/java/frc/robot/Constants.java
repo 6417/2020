@@ -36,9 +36,9 @@ public final class Constants {
 
 
     // Activate subsystems constants
-    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
+    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
-    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;

@@ -4,11 +4,6 @@ import java.util.function.DoubleSupplier;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import java.util.function.DoubleSupplier;
-
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.kauailabs.navx.frc.AHRS;
-
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,15 +12,10 @@ import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
 import frc.robot.commands.DriveCommand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.AimCommand;
-import frc.robot.commands.BallLoaderCommand;
-import frc.robot.commands.BallPickupMotorCommand;
-import frc.robot.commands.BallShooterCommand;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.ExtendPickupModuleCommand;
+import frc.robot.commands.RetractPickupModuleCommand;
 import frc.robot.commands.PneumaticLiftCommand;
+import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
@@ -37,13 +27,14 @@ import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.SPI;
 
 
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
     private final String tab = "Test Mode";
+    private final String ControlPanelTab = "ControlPanel Test";
+    private final String BallSubsystemsTab = "BallSubsystems Test";
+    private final String DriveSubsystemsTab = "DriveSubsystem Test";
 
     private BallPickUpSubsystem mBallPickUpSubsystem;
     private BallShooterSubsystem mBallShooterSubsystem;
@@ -79,30 +70,11 @@ public class TestRobotContainer {
     private CommandBase controlPanelMotorCommand;
     private StopAllBallSubsystemsCommand stopAllBallSubsystemsCommand;
     private StopTankDriveCommand stopTankDriveCommand;
+    private ExtendPickupModuleCommand extendPickupModuleCommand;
+    private RetractPickupModuleCommand retractPickupModuleCommand;
 
     private TestRobotContainer() {
 
-    }
-
-    private static void initializeCommands() {
-        testDriveCommand = new DriveCommand(() -> getDriveForwardPos(), () -> getDriveRotatePos());
-        loadBallCommmand = new BallLoaderCommand(() -> getLoadSlider());
-        ballShooterCommand = new BallShooterCommand(() -> getShooterSlider(), false);
-        transportBallcommand = new TransportBallCommand(() -> getTransportSlider(), true);
-        pickUpMotorCommand = new BallPickupMotorCommand(() -> getPickUpSlider());
-        aimCommand = new AimCommand();
-        controlPanelMotorCommand = new CommandBase() {
-            @Override
-            public void execute() {
-                mControlPanelSubsystem.setMotor(getControlPanelMotorSlider());
-            }
-        };
-        stopAllBallSubsystemsCommand = new StopAllBallSubsystemsCommand();
-        stopTankDriveCommand = new StopTankDriveCommand();
-    }
-
-    public double getAngle() {
-        return navx.getAngle();
     }
 
     public static TestRobotContainer getInstance() {
@@ -127,6 +99,8 @@ public class TestRobotContainer {
             mInstance.transportBallcommand = new TransportBallCommand(() -> mInstance.getTransportSlider(), true);
             mInstance.pickUpMotorCommand = new BallPickupMotorCommand(() -> mInstance.getPickUpSlider());
             mInstance.aimCommand = new AimCommand();
+            mInstance.extendPickupModuleCommand = new ExtendPickupModuleCommand();
+            mInstance.retractPickupModuleCommand = new RetractPickupModuleCommand();
             mInstance.controlPanelMotorCommand = new CommandBase() {
                 @Override
                 public void execute() {
@@ -145,63 +119,69 @@ public class TestRobotContainer {
     }
 
     private static void showOnShuffleBoard() {
-        new ShuffleBoardInformation(mInstance.tab, "Extend ControlPanel Module",
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "Extend ControlPanel Module",
                 new PneumaticLiftCommand(PneumaticState.FORWARD));
-        new ShuffleBoardInformation(mInstance.tab, "Reject ControlPanel Module",
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "Reject ControlPanel Module",
                 new PneumaticLiftCommand(PneumaticState.REVERSE));
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "Extend Bumper Command", 
+                new PneumaticBumperCommand(PneumaticState.FORWARD));
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "Retract Bumper Command",
+                new PneumaticBumperCommand(PneumaticState.REVERSE));
 
-        mInstance.liftReed = new ShuffleBoardInformation(mInstance.tab, "Reed switch of bottom Lift",
+        mInstance.liftReed = new ShuffleBoardInformation(mInstance.ControlPanelTab, "Reed switch of bottom Lift",
                 mInstance.mControlPanelSubsystem.getReedLiftBotom());
 
-        mInstance.bumperReed = new ShuffleBoardInformation(mInstance.tab, "Reed switch of front Bumper",
+        mInstance.bumperReed = new ShuffleBoardInformation(mInstance.ControlPanelTab, "Reed switch of front Bumper",
                 mInstance.mControlPanelSubsystem.getReedBumperFront());
 
-        mInstance.controlPanelMotorSlider = new ShuffleBoardInformation(mInstance.tab, "ControlPanelMotor", -1, 1, 0);
-        mInstance.encoderValue = new ShuffleBoardInformation(mInstance.tab, "ControlPanel Motor Encoder",
+        mInstance.controlPanelMotorSlider = new ShuffleBoardInformation(mInstance.ControlPanelTab, "ControlPanelMotor", -1, 1, 0);
+        mInstance.encoderValue = new ShuffleBoardInformation(mInstance.ControlPanelTab, "ControlPanel Motor Encoder",
                 Double.valueOf(mInstance.mControlPanelSubsystem.getEncoderValue()));
 
         System.out.println(mInstance.mDriveSubsystem.getName());
-        mInstance.driveRotateSlider = new ShuffleBoardInformation(mInstance.tab, "Rotatr Tank", -1, 1, 0);
-        mInstance.driveForwardSlider = new ShuffleBoardInformation(mInstance.tab, "Drive Forward", -1, 1, 0);
-        new ShuffleBoardInformation(mInstance.tab, "Stop tankdrive", mInstance.stopTankDriveCommand);
-        mInstance.encoderValueDriveLeft = new ShuffleBoardInformation(mInstance.tab, "encoder drive motor left",
+        mInstance.driveRotateSlider = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Rotatr Tank", -1, 1, 0);
+        mInstance.driveForwardSlider = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Drive Forward", -1, 1, 0);
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Stop tankdrive", mInstance.stopTankDriveCommand);
+        mInstance.encoderValueDriveLeft = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "encoder drive motor left",
                 mInstance.mDriveSubsystem.getEncoderLeft());
-        mInstance.encoderValueDriveRight = new ShuffleBoardInformation(mInstance.tab, "encoder drive motor right",
+        mInstance.encoderValueDriveRight = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "encoder drive motor right",
                 mInstance.mDriveSubsystem.getEncoderRight());
 
-        mInstance.loadSlider = new ShuffleBoardInformation(mInstance.tab, "Load motor speed", -1, 1, 0);
-        mInstance.transportSlider = new ShuffleBoardInformation(mInstance.tab, "Transport motor speed", -1, 1, 0);
-        mInstance.shooterSlider = new ShuffleBoardInformation(mInstance.tab, "Shoot motor speed", -1, 1, 0);
-        mInstance.pickUpSlider = new ShuffleBoardInformation(mInstance.tab, "Pick up motor speed", -1, 1, 0);
-        new ShuffleBoardInformation(mInstance.tab, "Stop all ball subsystem motors",
+        mInstance.loadSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Load motor speed", -1, 1, 0);
+        mInstance.transportSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport motor speed", -1, 1, 0);
+        mInstance.shooterSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shoot motor speed", -1, 1, 0);
+        mInstance.pickUpSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Pick up motor speed", -1, 1, 0);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Stop all ball subsystem motors",
                 mInstance.stopAllBallSubsystemsCommand);
-        mInstance.shooterSpeed = new ShuffleBoardInformation(mInstance.tab, "Shooter Speed",
+        mInstance.shooterSpeed = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shooter Speed",
                 mInstance.mBallShooterSubsystem.getSpeed());
-        new ShuffleBoardInformation(mInstance.tab, "Shoot ball", new ShootBallCommand(mInstance.getShooterSlider(),
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shoot ball", new ShootBallCommand(mInstance.getShooterSlider(),
                 mInstance.getLoadSlider(), mInstance.getTransportSlider()));
 
-        mInstance.pose = new ShuffleBoardInformation(mInstance.tab, "Robot Pose",
+        mInstance.pose = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Robot Pose",
                 "X: " + String.valueOf(mInstance.mDriveSubsystem.getPose().getTranslation().getX()) + "\nY: "
                         + String.valueOf(mInstance.mDriveSubsystem.getPose().getTranslation().getY())
                         + "\nRotation(degrees): " + String.valueOf(mInstance.mDriveSubsystem.getPose().getRotation()));
 
-        mInstance.navxAngle = new ShuffleBoardInformation(mInstance.tab, "Navx angle",
+        mInstance.navxAngle = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Navx angle",
                 mInstance.mDriveSubsystem.getAngle());
 
-        new ShuffleBoardInformation(mInstance.tab, "Transport ball",
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport ball",
                 new TransportBallCommand(Constants.standardTransportSpeed, false));
-        mInstance.transportSensor = new ShuffleBoardInformation(mInstance.tab, "Transport Sensor",
+        mInstance.transportSensor = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport Sensor",
                 mInstance.mBallTransportSubsystem.getSensor());
 
-        mInstance.angleToTarget = new ShuffleBoardInformation(mInstance.tab, "Angle to target", (double) 0);
-        new ShuffleBoardInformation(mInstance.tab, "aim", mInstance.aimCommand);
-        new ShuffleBoardInformation(mInstance.tab, "PID Tunnunig", mInstance.aimCommand.getController());
-        new ShuffleBoardInformation(mInstance.tab, "Drive", mInstance.testDriveCommand);
-        new ShuffleBoardInformation(mInstance.tab, "set Load Ball", mInstance.loadBallCommmand);
-        new ShuffleBoardInformation(mInstance.tab, "set Shoot Ball", mInstance.ballShooterCommand);
-        new ShuffleBoardInformation(mInstance.tab, "set transport Ball", mInstance.transportBallcommand);
-        new ShuffleBoardInformation(mInstance.tab, "set Pick up motor", mInstance.pickUpMotorCommand);
-        new ShuffleBoardInformation(mInstance.tab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
+        mInstance.angleToTarget = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Angle to target", (double) 0);
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "aim", mInstance.aimCommand);
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "PID Tunnunig", mInstance.aimCommand.getController());
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Drive", mInstance.testDriveCommand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Load Ball", mInstance.loadBallCommmand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Shoot Ball", mInstance.ballShooterCommand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set transport Ball", mInstance.transportBallcommand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Pick up motor", mInstance.pickUpMotorCommand);
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "extendPickupModule", mInstance.extendPickupModuleCommand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "retractPickupModule", mInstance.retractPickupModuleCommand);
 
     }
 

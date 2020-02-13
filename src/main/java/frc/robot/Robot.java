@@ -119,12 +119,6 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     TestRobotContainer.getInstance();
-
-    testDriveCommand = new DriveCommand(() -> TestRobotContainer.getInstance().getDriveForwardPos(), () -> TestRobotContainer.getInstance().getDriveRotatePos());
-    loadBallCommmand = new BallLoaderCommand(() -> TestRobotContainer.getInstance().getLoadSlider());
-    ballShooterCommand  = new BallShooterCommand(() -> TestRobotContainer.getInstance().getShooterSlider(), false);
-    transportBallcommand = new TransportBallCommand(() -> TestRobotContainer.getInstance().getTransportSlider(), true);
-    pickUpMotorCommand = new BallPickupMotorCommand(() -> TestRobotContainer.getInstance().getPickUpSlider());
   }
 
   /**
