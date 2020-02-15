@@ -24,6 +24,7 @@ import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
  * It is advised to statically import this class (or one of its inner classes)
  * wherever the constants are needed, to reduce verbosity.
  */
+
 public final class Constants {
     // Joystick button constants used in {@link RobotContainer}
     public static final int JOYSTICK_PORT = 0;
@@ -36,12 +37,12 @@ public final class Constants {
 
 
     // Activate subsystems constants
-    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
+    public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = false;
     public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
-    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = false;
 
     /**
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}

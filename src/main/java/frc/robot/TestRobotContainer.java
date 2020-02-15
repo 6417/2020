@@ -119,6 +119,15 @@ public class TestRobotContainer {
     }
 
     private static void showOnShuffleBoard() {
+
+        /**
+         * Informtions displayed on the ControlPanel Tab
+         */
+
+            /**
+             * Commands
+             */
+
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "Extend ControlPanel Module",
                 new PneumaticLiftCommand(PneumaticState.FORWARD));
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "Reject ControlPanel Module",
@@ -127,63 +136,96 @@ public class TestRobotContainer {
                 new PneumaticBumperCommand(PneumaticState.FORWARD));
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "Retract Bumper Command",
                 new PneumaticBumperCommand(PneumaticState.REVERSE));
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
+
+            /**
+             * Getters
+             */
 
         mInstance.liftReed = new ShuffleBoardInformation(mInstance.ControlPanelTab, "Reed switch of bottom Lift",
                 mInstance.mControlPanelSubsystem.getReedLiftBotom());
-
         mInstance.bumperReed = new ShuffleBoardInformation(mInstance.ControlPanelTab, "Reed switch of front Bumper",
                 mInstance.mControlPanelSubsystem.getReedBumperFront());
-
         mInstance.controlPanelMotorSlider = new ShuffleBoardInformation(mInstance.ControlPanelTab, "ControlPanelMotor", -1, 1, 0);
         mInstance.encoderValue = new ShuffleBoardInformation(mInstance.ControlPanelTab, "ControlPanel Motor Encoder",
                 Double.valueOf(mInstance.mControlPanelSubsystem.getEncoderValue()));
 
-        System.out.println(mInstance.mDriveSubsystem.getName());
+        /**
+         * Informations displayed on the DriveSubsystem Tab
+         */
+
+            /**
+             * Commands
+             */
+
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Stop tankdrive", mInstance.stopTankDriveCommand);
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "aim", mInstance.aimCommand);
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "PID Tunnunig", mInstance.aimCommand.getController());
+        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Drive", mInstance.testDriveCommand);
+    
+            /**
+             * Sliders
+             */
+
         mInstance.driveRotateSlider = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Rotatr Tank", -1, 1, 0);
         mInstance.driveForwardSlider = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Drive Forward", -1, 1, 0);
-        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Stop tankdrive", mInstance.stopTankDriveCommand);
+
+            /**
+             * Getters
+             */
+
         mInstance.encoderValueDriveLeft = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "encoder drive motor left",
-                mInstance.mDriveSubsystem.getEncoderLeft());
+        mInstance.mDriveSubsystem.getEncoderLeft());
         mInstance.encoderValueDriveRight = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "encoder drive motor right",
-                mInstance.mDriveSubsystem.getEncoderRight());
+            mInstance.mDriveSubsystem.getEncoderRight());
+         mInstance.pose = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Robot Pose",
+            "X: " + String.valueOf(mInstance.mDriveSubsystem.getPose().getTranslation().getX()) + "\nY: "
+            + String.valueOf(mInstance.mDriveSubsystem.getPose().getTranslation().getY())
+            + "\nRotation(degrees): " + String.valueOf(mInstance.mDriveSubsystem.getPose().getRotation()));
+            mInstance.angleToTarget = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Angle to target", (double) 0);
+
+        /**
+         * Informations displayed on the BallSubsystems Tab
+         */
+        
+            /**
+             * Sliders
+             */
 
         mInstance.loadSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Load motor speed", -1, 1, 0);
         mInstance.transportSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport motor speed", -1, 1, 0);
         mInstance.shooterSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shoot motor speed", -1, 1, 0);
         mInstance.pickUpSlider = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Pick up motor speed", -1, 1, 0);
+
+            /**
+             * Commands
+             */
+
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Stop all ball subsystem motors",
-                mInstance.stopAllBallSubsystemsCommand);
-        mInstance.shooterSpeed = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shooter Speed",
-                mInstance.mBallShooterSubsystem.getSpeed());
+            mInstance.stopAllBallSubsystemsCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shoot ball", new ShootBallCommand(mInstance.getShooterSlider(),
-                mInstance.getLoadSlider(), mInstance.getTransportSlider()));
-
-        mInstance.pose = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Robot Pose",
-                "X: " + String.valueOf(mInstance.mDriveSubsystem.getPose().getTranslation().getX()) + "\nY: "
-                        + String.valueOf(mInstance.mDriveSubsystem.getPose().getTranslation().getY())
-                        + "\nRotation(degrees): " + String.valueOf(mInstance.mDriveSubsystem.getPose().getRotation()));
-
-        mInstance.navxAngle = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Navx angle",
-                mInstance.mDriveSubsystem.getAngle());
-
+            mInstance.getLoadSlider(), mInstance.getTransportSlider()));
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport ball",
-                new TransportBallCommand(Constants.standardTransportSpeed, false));
-        mInstance.transportSensor = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport Sensor",
-                mInstance.mBallTransportSubsystem.getSensor());
-
-        mInstance.angleToTarget = new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Angle to target", (double) 0);
-        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "aim", mInstance.aimCommand);
-        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "PID Tunnunig", mInstance.aimCommand.getController());
-        new ShuffleBoardInformation(mInstance.DriveSubsystemsTab, "Drive", mInstance.testDriveCommand);
+            new TransportBallCommand(Constants.standardTransportSpeed, false));
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Load Ball", mInstance.loadBallCommmand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Shoot Ball", mInstance.ballShooterCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set transport Ball", mInstance.transportBallcommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Pick up motor", mInstance.pickUpMotorCommand);
-        new ShuffleBoardInformation(mInstance.ControlPanelTab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "extendPickupModule", mInstance.extendPickupModuleCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "retractPickupModule", mInstance.retractPickupModuleCommand);
 
+            /**
+             * Getters
+             */
+
+        mInstance.shooterSpeed = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shooter Speed",
+            mInstance.mBallShooterSubsystem.getSpeed());
+        mInstance.navxAngle = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Navx angle",
+            mInstance.mDriveSubsystem.getAngle());
+        mInstance.transportSensor = new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport Sensor",
+            mInstance.mBallTransportSubsystem.getSensor());
     }
+
 
     public void update() {
         mInstance.liftReed.update(mInstance.mControlPanelSubsystem.getReedLiftBotom());
@@ -199,6 +241,10 @@ public class TestRobotContainer {
         mInstance.navxAngle.update(mInstance.mDriveSubsystem.getAngle());
 
     }
+
+    /**
+     * Getters
+     */
 
     public DoubleSupplier getAngleToTarget() {
         return () -> mInstance.angleToTarget.getDouble();
@@ -256,55 +302,4 @@ public class TestRobotContainer {
     public double getAngle() {
         return mDriveSubsystem.getAngle();
     }
-    // public DoubleSupplier getAngleToTarget() {
-    // return () -> 0;
-    // }
-
-    // public double getControlPanelMotorSlider() {
-    // return 0;
-    // }
-
-    // public double getDriveRotatePos() {
-    // return 0;
-    // }
-
-    // public double getDriveForwardPos() {
-    // return 0;
-    // }
-
-    // public void setDriveSlider(double forward, double rotate) {
-
-    // }
-
-    // public double getLoadSlider() {
-    // return 0;
-    // }
-
-    // public double getTransportSlider() {
-    // return 0;
-    // }
-
-    // public double getShooterSlider() {
-    // return 0;
-    // }
-
-    // public double getPickUpSlider() {
-    // return 0;
-    // }
-
-    // public void setShooterSliderPos(double pos) {
-
-    // }
-
-    // public void setLoadSliderPos(double pos) {
-
-    // }
-
-    // public void setTransportSliderPos(double pos) {
-
-    // }
-
-    // public void setPickUpSliderPos(double pos) {
-
-    // }
 }

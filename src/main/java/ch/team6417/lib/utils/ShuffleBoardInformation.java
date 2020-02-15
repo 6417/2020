@@ -1,6 +1,8 @@
 package ch.team6417.lib.utils;
 
 import java.util.Map;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -39,7 +41,11 @@ public class ShuffleBoardInformation {
         this.information = Shuffleboard.getTab(tab).add(name, information).withWidget(BuiltInWidgets.kToggleButton).getEntry();
     }
 
-    public ShuffleBoardInformation(String tab, String name, Supplier<?> supplier) {
+    public ShuffleBoardInformation(String tab, String name, DoubleSupplier supplier) {
+        this.information = Shuffleboard.getTab(tab).add(name, supplier).getEntry();
+    }
+
+    public ShuffleBoardInformation(String tab, String name, BooleanSupplier supplier) {
         this.information = Shuffleboard.getTab(tab).add(name, supplier).getEntry();
     }
 
