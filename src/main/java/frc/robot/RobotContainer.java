@@ -104,11 +104,7 @@ public class RobotContainer {
 
   private void showOnShuffleBoard() {
     controlPanelModuleConected = new ShuffleBoardInformation(tab, "Control panel module conected",
-        ControlPanelSubsystem.getInstance().isConected);
-  }
-
-  public void updateShuffleBoard() {
-    controlPanelModuleConected.update(ControlPanelSubsystem.getInstance().isConected);
+        () -> ControlPanelSubsystem.getInstance().isConected);
   }
 
   public static boolean getSecurityMechanismsButton() {
