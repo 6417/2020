@@ -167,6 +167,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
 
   public void setMotor(DoubleSupplier speed) {
     motor.set(speed.getAsDouble());
+
+    
   }
 
   public int getEncoderValue() {

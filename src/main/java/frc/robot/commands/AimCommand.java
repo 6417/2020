@@ -1,17 +1,13 @@
 package frc.robot.commands;
 
-import java.util.function.DoubleConsumer;
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
-import lombok.Getter;
 import lombok.Setter;
 
 public class AimCommand extends PIDCommand {
@@ -26,7 +22,7 @@ public class AimCommand extends PIDCommand {
     // only Testing
     public AimCommand() {
         super(new PIDController(kP, kI, kD),
-                () -> TestRobotContainer.getInstance().getAngle(),
+                () -> DriveSubsystem.getInstance().getAngle(),
                 () -> 0,
                 AimCommand::useOutput,
                 DriveSubsystem.getInstance());
@@ -39,13 +35,13 @@ public class AimCommand extends PIDCommand {
     }
 
     @Override
-    public void initialize() {
-        super.initialize();
+    public boolean isFinished() {
+        return getController().atSetpoint();
     }
 
     @Override
-    public boolean isFinished() {
-        return getController().atSetpoint();
+    public void end(boolean interrupted) {
+        DriveSubsystem.getInstance().stopDrive();
     }
 
     @Override
@@ -55,6 +51,6 @@ public class AimCommand extends PIDCommand {
         builder.addDoubleProperty("I", null, (i) -> getController().setI(i));
         builder.addDoubleProperty("D", null, (d) -> getController().setD(d));
         builder.addDoubleProperty("speed", speed, null);
-        builder.addDoubleProperty("navx angle", () -> TestRobotContainer.getInstance().getAngle(), null);
+        builder.addDoubleProperty("navx angle", () -> DriveSubsystem.getInstance().getAngle(), null);
     }
 }

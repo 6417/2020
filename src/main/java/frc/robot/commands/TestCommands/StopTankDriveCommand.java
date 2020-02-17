@@ -13,18 +13,8 @@ public class StopTankDriveCommand extends CommandBase {
           // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
-
-  // Called every time the scheduler runs while the comPmand is scheduled.
-  @Override
-  public void execute() {
-      mSubsystem.stopDrive();
-      TestRobotContainer.getInstance().setDriveSlider(0, 0);
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    mSubsystem.stopDrive();
+    TestRobotContainer.getInstance().setDriveSlider(0, 0);
   }
 
   // Returns true when the command should end.

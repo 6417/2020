@@ -25,7 +25,6 @@ public class ControlPanelPneumaticCommandGroup extends SequentialCommandGroup {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    // TODO Auto-generated method stub
     super.initSendable(builder);
   }
 }
