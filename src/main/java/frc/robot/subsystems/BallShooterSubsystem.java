@@ -69,11 +69,4 @@ public class BallShooterSubsystem extends SubsystemBase {
         double shooterSpeed = masterEncoder.getVelocity();
         return(shooterSpeed);
     }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        super.initSendable(builder);
-        builder.addDoubleProperty("shooterLeft speed", () -> shooterMaster.get(), null);
-        builder.addDoubleProperty("shooterRight speed", () -> shooterRight.get(), null);
-    }
 }
