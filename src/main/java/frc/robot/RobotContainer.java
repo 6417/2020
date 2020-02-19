@@ -135,24 +135,7 @@ public class RobotContainer {
   private ParallelCommandGroup pickUpCommand = new ParallelCommandGroup(new BallPickupMotorCommand(Constants.standardPickUpMotorSpeed),
       new TransportBallCommand(Constants.standardTransportSpeed, false));
 
-  // private CommandBase cancelShootCommands = new CommandBase() {
-  //   @Override
-  //   public void initialize() {
-  //     CommandScheduler.getInstance().cancel(shootBallCommand);
-  //     BallShooterSubsystem.getInstance().stopShooter();
-  //     BallShooterSubsystem.getInstance().stopLoader();
-  //     BallTransportSubsystem.getInstance().stopTransportMotor();
-  //   }
-
-  //   @Override
-  //   public boolean isFinished() {
-  //     return true;
-  //   }
-  // };
-
-  public boolean shootAction = false; // false -> cancel, true -> shoot
-
-  public SequentialCommandGroup shootBallCommand = new ShootBallCommand(); //new SequentialCommandGroup(setShootAction, new ConditionalCommand(new ShootBallCommand(), cancelShootCommands, () -> shootAction));
+  public SequentialCommandGroup shootBallCommand = new ShootBallCommand();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
