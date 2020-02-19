@@ -69,13 +69,13 @@ public class PneumaticBumperCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(state == PneumaticState.FORWARD){
-        return m_subsystem.getReedBumperFront();
-    }
-    else {
-        return true;
-    }
-    // return true;
+    // if(state == PneumaticState.FORWARD){
+    //     return m_subsystem.getReedBumperFront();
+    // }
+    // else {
+    //     return true;
+    // }
+    return true;
   }
 
   @Override

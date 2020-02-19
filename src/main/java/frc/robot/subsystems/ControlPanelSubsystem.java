@@ -169,7 +169,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     motor.set(speed.getAsDouble());
   }
 
-  public int getEncoderValue() {
+  public double getEncoderValue() {
     return motor.getSelectedSensorPosition();
   }
 

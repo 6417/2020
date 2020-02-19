@@ -19,6 +19,11 @@ public class EmptyPneumaticSubsystem extends PneumaticSubsystem {
     }
 
     @Override
+    public void stopCompressor() {
+        
+    }
+
+    @Override
     public void periodic() {
         
     }

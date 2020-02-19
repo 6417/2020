@@ -7,11 +7,15 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -103,23 +107,32 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     ControlPanelSubsystem.getInstance().setSensorPos(0);
+    shooterRight.restoreFactoryDefaults();
+
+
   }
+CANSparkMax shooterRight = new CANSparkMax(Constants.BALL_SHOOTER_SUBSYSTEM_SHOOTER_RIGHT_CAN_ID, MotorType.kBrushless);
 
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
+  
   }
 
-  // difine testCommands
+  // define testCommands
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     TestRobotContainer.getInstance();
+    DriveSubsystem.getInstance().resetEncoders();
+    //PneumaticSubsystem.getInstance().stopCompressor();
+    DriveSubsystem.getInstance().resetNavx();
   }
+
 
   /**
    * This function is called periodically during test mode.

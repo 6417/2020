@@ -55,6 +55,10 @@ public class PneumaticSubsystem extends SubsystemBase {
     return mInstance;
   }
 
+  public void stopCompressor() {
+    compressor.setClosedLoopControl(false);
+  }
+
   @Override
   public void initSendable(SendableBuilder builder) {
     super.initSendable(builder);
