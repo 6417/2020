@@ -7,7 +7,6 @@
 
 package frc.robot.subsystems;
 
-import java.util.DoubleSummaryStatistics;
 import java.util.function.DoubleSupplier;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -67,13 +66,13 @@ public class DriveSubsystem extends SubsystemBase {
     //Configure motors
 
     tankRightBack.restoreFactoryDefaults();
-    tankRightBack.getEncoder().setPositionConversionFactor(-Constants.WHEEL_CIRCUMFERENCE);
+    tankRightBack.getEncoder().setPositionConversionFactor(-1);
     
     tankRightFront.restoreFactoryDefaults();
     tankRightFront.follow(tankRightBack);
     
     tankLeftBack.restoreFactoryDefaults();
-    tankLeftBack.getEncoder().setPositionConversionFactor(Constants.WHEEL_CIRCUMFERENCE);
+    tankLeftBack.getEncoder().setPositionConversionFactor(1);
 
     tankLeftFront.restoreFactoryDefaults();
     tankLeftFront.follow(tankLeftBack);
@@ -93,6 +92,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    m_odometry.update(Rotation2d.fromDegrees(-navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
   }
 
   public void driveLeft(double l_percentage){
@@ -104,7 +104,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(){
-    diffdrive.arcadeDrive(-RobotContainer.joystick.getY(), RobotContainer.joystick.getX());
+    diffdrive.arcadeDrive(-RobotContainer.joystick.getY(), RobotContainer.joystick.getX(), true);
   }
 
   public void drive(double xSpeed, double ySpeed) {
@@ -124,6 +124,10 @@ public class DriveSubsystem extends SubsystemBase {
     tankRightBack.getEncoder().setPosition(0);
   }
 
+  public void resetNavx(){
+    navx.reset();
+  }
+
   public double getEncoderLeft() {
     return tankLeftBack.getEncoder().getPosition();
   }
@@ -133,17 +137,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public double getEncoderLeftMetric() {
-    return tankLeftBack.getEncoder().getPosition();
+    return (tankLeftBack.getEncoder().getPosition()/Constants.GEARBOX_TRANSLATION) * Constants.WHEEL_CIRCUMFERENCE;
   }
 
   public double getEncoderRightMetric() {
-    return -tankRightBack.getEncoder().getPosition();
+    return -(tankRightBack.getEncoder().getPosition()/Constants.GEARBOX_TRANSLATION) * Constants.WHEEL_CIRCUMFERENCE;
   }
 
-  
-
   public Pose2d getPose(){
-    return m_odometry.update(Rotation2d.fromDegrees(-navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
+    return m_odometry.getPoseMeters();
   }
  
   public double getAngle() {
@@ -155,4 +157,3 @@ public class DriveSubsystem extends SubsystemBase {
     super.initSendable(builder);
   }
 }
-

@@ -172,7 +172,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     
   }
 
-  public int getEncoderValue() {
+  public double getEncoderValue() {
     return motor.getSelectedSensorPosition();
   }
 

@@ -1,8 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -22,6 +21,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
 
     protected void constructor() {
         pickUpMotor = new WPI_TalonSRX(Constants.BALL_PICKUP_MOTOR_CAN_ID);
+        pickUpMotor.setInverted(InvertType.InvertMotorOutput);
         PickupCylinder = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID, Constants.BALL_PICKUP_SUBSYSTEM_EXTEND_ID, Constants.BALL_PICKUP_SUBSYSTEM_RETRACT_ID);
     }
 

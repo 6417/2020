@@ -31,7 +31,7 @@ public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
 
     }
 
-    public int getEncoderValue() {
+    public double getEncoderValue() {
         return 0;
     }
 

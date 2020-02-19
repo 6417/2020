@@ -47,6 +47,11 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
     }
 
     @Override
+    public void resetNavx(){
+        
+    }
+
+    @Override
     public double getEncoderLeft(){
         return 0;
     }

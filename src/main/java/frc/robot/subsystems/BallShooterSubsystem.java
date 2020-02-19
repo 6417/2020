@@ -61,7 +61,6 @@ public class BallShooterSubsystem extends SubsystemBase {
     }
 
     public void stopLoader() {
-        //hetamin
         loader.stopMotor();
     }
 

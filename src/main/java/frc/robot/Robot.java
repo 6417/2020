@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -117,9 +120,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+  
   }
 
-  // difine testCommands
+  // define testCommands
 
   @Override
   public void testInit() {
@@ -131,6 +135,7 @@ public class Robot extends TimedRobot {
     BallTransportSubsystem.getInstance().stopTransportMotor();
     BallPickUpSubsystem.getInstance().stopPickUpMotor();
   }
+
 
   /**
    * This function is called periodically during test mode.

@@ -54,6 +54,10 @@ public class PneumaticSubsystem extends SubsystemBase {
     return mInstance;
   }
 
+  public void stopCompressor() {
+    compressor.setClosedLoopControl(false);
+  }
+
   @Override
   public void initSendable(SendableBuilder builder) {
     builder.addBooleanProperty("Compressor connected", () -> compressor.getCompressorNotConnectedFault(), null);

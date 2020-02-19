@@ -40,10 +40,6 @@ public class TransportBallCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (speed.getAsDouble() == 0) {
-      this.speed = () -> 0.25;
-    }
-
     if (shoot) {
       finished = new LatchedBoolean(EdgeDetection.FALLING);
     }
