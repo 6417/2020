@@ -11,6 +11,7 @@ import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyPneumaticSubsystem;
@@ -33,10 +34,9 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   protected void constructor() {
     compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
-    compressor.start();
-    // SendableRegistry.setName(compressor, "Compressor");
+    SendableRegistry.setName(compressor, "Compressor");
 
-    // compressor.setClosedLoopControl(true);
+    compressor.setClosedLoopControl(false);
   }
 
   @Override

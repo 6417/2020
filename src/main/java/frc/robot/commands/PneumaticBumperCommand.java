@@ -44,16 +44,13 @@ public class PneumaticBumperCommand extends CommandBase {
         case FORWARD:
             if (!m_subsystem.getReedLiftBotom() || RobotContainer.getSecurityMechanismsButton()) {
                 m_subsystem.extendBumper();
-                System.out.println("extendBumper " + m_subsystem.getReedBumperFront());
                 break;
             }
             else {
-                System.out.println("The lift cylider must be in the top position to extend the Bumper");
             }
             
         case REVERSE:
             isRetracted = m_subsystem.retractBumper();
-            System.out.println(isRetracted);
             break;
         default:
             System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));

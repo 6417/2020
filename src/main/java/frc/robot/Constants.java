@@ -103,7 +103,7 @@ public final class Constants {
 
  public static final DoubleSupplier standardShooterSpeed = () -> 0.9;
  public static final DoubleSupplier standardLoaderSpeed = () -> 0.25;
- public static final DoubleSupplier standardTransportSpeed = () -> 0.6;
+ public static final DoubleSupplier standardTransportSpeed = () -> 0.25;
  public static final DoubleSupplier standardPickUpMotorSpeed = () -> 0.5;
 
   // Ball subsytems can IDs

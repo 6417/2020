@@ -4,6 +4,7 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyBallShooterSubsystem;
@@ -68,6 +69,11 @@ public class BallShooterSubsystem extends SubsystemBase {
         double shooterSpeed = masterEncoder.getVelocity();
         return(shooterSpeed);
     }
-    
 
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("shooterLeft speed", () -> shooterMaster.get(), null);
+        builder.addDoubleProperty("shooterRight speed", () -> shooterRight.get(), null);
+    }
 }

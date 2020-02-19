@@ -132,7 +132,6 @@ public class TestRobotContainer {
         mInstance.encoderValue = new ShuffleBoardInformation(mInstance.tab, "ControlPanel Motor Encoder",
                 Double.valueOf(mInstance.mControlPanelSubsystem.getEncoderValue()));
 
-        System.out.println(mInstance.mDriveSubsystem.getName());
         mInstance.driveRotateSlider = new ShuffleBoardInformation(mInstance.tab, "Rotatr Tank", -1, 1, 0);
         mInstance.driveForwardSlider = new ShuffleBoardInformation(mInstance.tab, "Drive Forward", -1, 1, 0);
         new ShuffleBoardInformation(mInstance.tab, "Stop tankdrive", mInstance.stopTankDriveCommand);

@@ -23,7 +23,6 @@ public class ShuffleBoardInformation {
     }
 
     public ShuffleBoardInformation(String tab, String name, Sendable information) {
-        System.out.println(name);
         Shuffleboard.getTab(tab).add(name, information);
     }
 

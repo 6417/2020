@@ -68,7 +68,23 @@ public class RobotContainer {
   private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
 
   // Initialize Commands
-  private BallLoaderCommand ballLoaderCommand = new BallLoaderCommand(Constants.standardLoaderSpeed);
+  private CommandBase ballLoaderCommand = new CommandBase() {
+    @Override
+    public void initialize() {
+      BallShooterSubsystem.getInstance().setLoader(Constants.standardLoaderSpeed.getAsDouble());
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      BallShooterSubsystem.getInstance().stopLoader();
+    }
+
+   @Override
+   public boolean isFinished() {
+    return false;
+   } 
+    
+  };
   private TransportBallCommand noAutoMechsTransportBallCommand = new TransportBallCommand(true);
   private CommandBase noAutoMechsControlPanelMotorCommand = new CommandBase() {
     @Override
@@ -119,35 +135,24 @@ public class RobotContainer {
   private ParallelCommandGroup pickUpCommand = new ParallelCommandGroup(new BallPickupMotorCommand(Constants.standardPickUpMotorSpeed),
       new TransportBallCommand(Constants.standardTransportSpeed, false));
 
-  private CommandBase cancelShootCommands = new CommandBase() {
-    @Override
-    public void execute() {
-      BallShooterSubsystem.getInstance().stopShooter();
-      BallShooterSubsystem.getInstance().stopLoader();
-      BallTransportSubsystem.getInstance().stopTransportMotor();
-    }
+  // private CommandBase cancelShootCommands = new CommandBase() {
+  //   @Override
+  //   public void initialize() {
+  //     CommandScheduler.getInstance().cancel(shootBallCommand);
+  //     BallShooterSubsystem.getInstance().stopShooter();
+  //     BallShooterSubsystem.getInstance().stopLoader();
+  //     BallTransportSubsystem.getInstance().stopTransportMotor();
+  //   }
 
-    @Override
-    public boolean isFinished() {
-      return true;
-    }
-  };
+  //   @Override
+  //   public boolean isFinished() {
+  //     return true;
+  //   }
+  // };
 
-  private BooleanSupplier shootAction = () -> false; // false -> cancel, true -> shoot
+  public boolean shootAction = false; // false -> cancel, true -> shoot
 
-  private CommandBase setShootAction = new CommandBase() {
-    @Override
-    public void initialize() {
-        shootAction = () -> !shootAction.getAsBoolean();
-    }
-
-    @Override
-    public boolean isFinished() {
-      return true;
-    }
-  };
-
-  private SequentialCommandGroup shootBallCommand = new SequentialCommandGroup(setShootAction, new ConditionalCommand(new ShootBallCommand(), cancelShootCommands, shootAction));
+  public SequentialCommandGroup shootBallCommand = new ShootBallCommand(); //new SequentialCommandGroup(setShootAction, new ConditionalCommand(new ShootBallCommand(), cancelShootCommands, () -> shootAction));
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -181,7 +186,7 @@ public class RobotContainer {
 
     ballPickupMotorButton.whileHeld(pickUpCommand);
 
-    shootBallButton.whenPressed(shootBallCommand);
+    shootBallButton.toggleWhenPressed(shootBallCommand);
     extendAndRetactControlPanelButton.whenPressed(extendAndRetractControlPanelModuleCommand);
     cancelAllCommandsButton.whenPressed(cancelAllCommands);
 
