@@ -8,7 +8,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -20,7 +22,21 @@ public class ControlPanelPneumaticCommandGroup extends SequentialCommandGroup {
    */
 
   public ControlPanelPneumaticCommandGroup(PneumaticState state) {
-    super(new PneumaticBumperCommand(state),new PneumaticLiftCommand(state));
+    super(new PneumaticLiftCommand(PneumaticState.FORWARD), new PneumaticBumperCommand(PneumaticState.FORWARD), new CommandBase() {
+      @Override
+      public boolean isFinished() {
+        return false;
+      }
+    });
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    if (interrupted) {    
+      ControlPanelSubsystem.getInstance().retractBumper();
+      ControlPanelSubsystem.getInstance().retractLift();
+    }
   }
 
   @Override

@@ -141,7 +141,8 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public boolean getReedLiftBotom() {
-    return motor.isRevLimitSwitchClosed() == 1;
+    System.out.println(motor.isRevLimitSwitchClosed() == 0);
+    return motor.isRevLimitSwitchClosed() == 0;
   }
 
   public boolean getReedBumperFront() {

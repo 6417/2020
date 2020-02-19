@@ -120,9 +120,11 @@ public class RobotContainer {
     }
   };
 
-  private ConditionalCommand extendAndRetractControlPanelModuleCommand = new ConditionalCommand(new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD), 
-      new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
-      () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
+  // private ConditionalCommand extendAndRetractControlPanelModuleCommand = new ConditionalCommand(new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD), 
+  //     new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
+  //     () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
+
+  private SequentialCommandGroup extendAndRetractControlPanelModuleCommand = new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD);
 
   private CommandBase cancelAllCommands = new CommandBase() {
     @Override
@@ -140,7 +142,6 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
-    // Configure the button bindings
     configureButtonBindings();
     showOnShuffleBoard();
   }
@@ -170,7 +171,7 @@ public class RobotContainer {
     ballPickupMotorButton.whileHeld(pickUpCommand);
 
     shootBallButton.toggleWhenPressed(shootBallCommand);
-    extendAndRetactControlPanelButton.whenPressed(extendAndRetractControlPanelModuleCommand);
+    extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
     cancelAllCommandsButton.whenPressed(cancelAllCommands);
 
     // for the standart drive command

@@ -37,17 +37,15 @@ public class PneumaticLiftCommand extends CommandBase {
   @Override
   public void execute() {
     switch (state) {
-      case FORWARD:
-        
+      case FORWARD:  
         isExtended = m_subsystem.extendLift();          
-        
         break;
         
       case REVERSE:
-        if (!m_subsystem.getReedBumperFront()){
+        // if (!m_subsystem.getReedBumperFront()){
           m_subsystem.retractLift();
-        }
-        else {System.out.println("You can't retract the lift when the bumper is extended!");}
+        // }
+        // else {System.out.println("You can't retract the lift when the bumper is extended!");}
 
         break;
       default:
@@ -67,11 +65,11 @@ public class PneumaticLiftCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (state == PneumaticState.FORWARD) {      
-      return true;
-    } else {
-      return m_subsystem.getReedLiftBotom();
-    }
-    // return true;
+    // if (state == PneumaticState.FORWARD) {      
+    //   return true;
+    // } else {
+    //   return m_subsystem.getReedLiftBotom();
+    // }
+    return true;
   }
 }
