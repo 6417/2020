@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
+import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
 import com.kauailabs.navx.frc.AHRS;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
@@ -14,11 +17,21 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BallLoaderCommand;
+import frc.robot.commands.BallPickupMotorCommand;
+import frc.robot.commands.ControlPanelPneumaticCommandGroup;
+import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -31,30 +44,113 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private ShuffleBoardInformation controlPanelModuleConected;
   private String tab = "Informations";
+  private static RobotContainer mInstance;
 
   public static final Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
 
-  private static final JoystickButton loaderNoAutoMachanismButton = new JoystickButton(joystick,
+  // no automechanisms Buttons
+
+  private final JoystickButton loaderNoAutoMachanismButton = new JoystickButton(joystick,
       Constants.LOADER_NO_AUTOMECHANISMS_BUTTON_NUMBER);
-  private static final JoystickButton transportMotorNoAutoMechanismsButton = new JoystickButton(joystick,
+  private final JoystickButton transportMotorNoAutoMechanismsButton = new JoystickButton(joystick,
       Constants.TRANSPORT_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER);
-  private static final JoystickButton controlPanelMotorNoAutoMechanismsButton = new JoystickButton(joystick,
+  private final JoystickButton controlPanelMotorNoAutoMechanismsButton = new JoystickButton(joystick,
       Constants.CONTROL_PANEL_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMPER);
-  private static final JoystickButton shooterNoAutoMechanismsButton = new JoystickButton(joystick,
+  private final JoystickButton shooterNoAutoMechanismsButton = new JoystickButton(joystick,
       Constants.SHOOTER_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER);
-
-  private static final JoystickButton deacitvateSecurityMechanismsButton = new JoystickButton(joystick,
+  private final JoystickButton deacitvateSecurityMechanismsButton = new JoystickButton(joystick,
       Constants.DEACTIVATE_SECUTITY_MECHANISMS_BUTTON_NUMBER);
+  
+  // Initialize Buttons
+  private final JoystickButton ballPickupMotorButton = new JoystickButton(joystick, Constants.BALL_PICKUP_MOTOR_BUTTON_NUMPER);
+  private final JoystickButton shootBallButton = new JoystickButton(joystick, Constants.SHOOT_BUTTON_NUMBER);
+  private final JoystickButton extendAndRetactControlPanelButton = new JoystickButton(joystick, Constants.EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER);
+  private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
 
-  public static AHRS navx;
+  // Initialize Commands
+  private CommandBase ballLoaderCommand = new CommandBase() {
+    @Override
+    public void initialize() {
+      BallShooterSubsystem.getInstance().setLoader(Constants.standardLoaderSpeed.getAsDouble());
+    }
 
+    @Override
+    public void end(boolean interrupted) {
+      BallShooterSubsystem.getInstance().stopLoader();
+    }
+
+   @Override
+   public boolean isFinished() {
+    return false;
+   } 
+    
+  };
+  private TransportBallCommand noAutoMechsTransportBallCommand = new TransportBallCommand(true);
+  private CommandBase noAutoMechsControlPanelMotorCommand = new CommandBase() {
+    @Override
+    public void execute() {
+      ControlPanelSubsystem.getInstance().setMotor(0.45);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      ControlPanelSubsystem.getInstance().stopMotor();
+    }
+
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
+  };
+
+  private CommandBase noAutoMechsShooterCommand = new CommandBase() {
+    @Override
+    public void execute() {
+      BallShooterSubsystem.getInstance().setShooter(Constants.standardShooterSpeed.getAsDouble());
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      BallShooterSubsystem.getInstance().stopShooter();
+    }
+
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
+  };
+
+  // private ConditionalCommand extendAndRetractControlPanelModuleCommand = new ConditionalCommand(new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD), 
+  //     new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
+  //     () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
+
+  private SequentialCommandGroup extendAndRetractControlPanelModuleCommand = new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD);
+
+  private CommandBase cancelAllCommands = new CommandBase() {
+    @Override
+    public boolean isFinished() {
+      CommandScheduler.getInstance().cancelAll();
+      return true;
+    }
+  };
+
+  private ParallelCommandGroup pickUpCommand = new ParallelCommandGroup(new BallPickupMotorCommand(Constants.standardPickUpMotorSpeed),
+      new TransportBallCommand(Constants.standardTransportSpeed, false));
+
+  public SequentialCommandGroup shootBallCommand = new ShootBallCommand();
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
-  public RobotContainer() {
-    // Configure the button bindings
+  private RobotContainer() {
     configureButtonBindings();
     showOnShuffleBoard();
+  }
+
+  public static RobotContainer getInstance() {
+    if (mInstance == null) {
+      mInstance = new RobotContainer();
+    }
+    return mInstance;
   }
 
   /**
@@ -65,41 +161,21 @@ public class RobotContainer {
    */
 
   public void configureButtonBindings() {
-    loaderNoAutoMachanismButton.whileHeld(new BallLoaderCommand(Constants.standardLoaderSpeed));
-    transportMotorNoAutoMechanismsButton.whileHeld(new TransportBallCommand(true));
-    controlPanelMotorNoAutoMechanismsButton.whileHeld(new CommandBase() {
-      @Override
-      public void execute() {
-        ControlPanelSubsystem.getInstance().setMotor(0.45);
-      }
+    //No auto mechanisms button bindings
+    loaderNoAutoMachanismButton.whileHeld(ballLoaderCommand);
+    transportMotorNoAutoMechanismsButton.whileHeld(noAutoMechsTransportBallCommand);
+    controlPanelMotorNoAutoMechanismsButton.whileHeld(noAutoMechsControlPanelMotorCommand);
+    shooterNoAutoMechanismsButton.whileHeld(noAutoMechsShooterCommand);
+    //
 
-      @Override
-      public void end(boolean interrupted) {
-        ControlPanelSubsystem.getInstance().stopMotor();
-      }
+    ballPickupMotorButton.whileHeld(pickUpCommand);
 
-      @Override
-      public boolean isFinished() {
-        return false;
-      }
-    });
+    shootBallButton.toggleWhenPressed(shootBallCommand);
+    extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
+    cancelAllCommandsButton.whenPressed(cancelAllCommands);
 
-    shooterNoAutoMechanismsButton.whileHeld(new CommandBase() {
-      @Override
-      public void execute() {
-        BallShooterSubsystem.getInstance().setShooter(Constants.standardShooterSpeed.getAsDouble());
-      }
-
-      @Override
-      public void end(boolean interrupted) {
-        BallShooterSubsystem.getInstance().stopShooter();
-      }
-
-      @Override
-      public boolean isFinished() {
-        return false;
-      }
-    });
+    // for the standart drive command
+    DriveSubsystem.getInstance();
   }
 
   private void showOnShuffleBoard() {
@@ -108,10 +184,10 @@ public class RobotContainer {
   }
 
   public static boolean getSecurityMechanismsButton() {
-    return deacitvateSecurityMechanismsButton.get();
+    return mInstance.deacitvateSecurityMechanismsButton.get();
   }
 
-  public static boolean getLoaderNoAutoMechanismsButton() {
+  public boolean getLoaderNoAutoMechanismsButton() {
     return loaderNoAutoMachanismButton.get();
   }
 }

@@ -42,18 +42,15 @@ public class PneumaticBumperCommand extends CommandBase {
   public void execute() {
       switch(state){
         case FORWARD:
-            if (!m_subsystem.getReedLiftBotom() || RobotContainer.getSecurityMechanismsButton()) {
+            // if (!m_subsystem.getReedLiftBotom() || RobotContainer.getSecurityMechanismsButton()) {
                 m_subsystem.extendBumper();
-                System.out.println("extendBumper " + m_subsystem.getReedBumperFront());
                 break;
-            }
-            else {
-                System.out.println("The lift cylider must be in the top position to extend the Bumper");
-            }
+            // }
+            // else {
+            // }
             
         case REVERSE:
             isRetracted = m_subsystem.retractBumper();
-            System.out.println(isRetracted);
             break;
         default:
             System.out.println("State must be FORWARD or REVERSE not " + String.valueOf(state));
@@ -69,18 +66,17 @@ public class PneumaticBumperCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(state == PneumaticState.FORWARD){
-        return m_subsystem.getReedBumperFront();
-    }
-    else {
-        return true;
-    }
-    // return true;
+    // if(state == PneumaticState.FORWARD){
+    //     return m_subsystem.getReedBumperFront();
+    // }
+    // else {
+    //     return true;
+    // }
+    return true;
   }
 
   @Override
   public void initSendable(SendableBuilder builder) {
-      // TODO Auto-generated method stub
       super.initSendable(builder);
   }
 }

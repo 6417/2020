@@ -61,7 +61,7 @@ public class TestRobotContainer {
     private ShuffleBoardInformation navxAngle;
     private ShuffleBoardInformation angleToTarget;
     private AimCommand aimCommand;
-    private AHRS navx;
+    public AHRS navx;
     private DriveCommand testDriveCommand;
     private BallLoaderCommand loadBallCommmand;
     private BallShooterCommand ballShooterCommand;
@@ -74,7 +74,13 @@ public class TestRobotContainer {
     private RetractPickupModuleCommand retractPickupModuleCommand;
 
     private TestRobotContainer() {
-
+        try {
+            navx = new AHRS(SPI.Port.kMXP);
+            // ahrs = new AHRS(SerialPort.Port.kUSB1);
+            navx.enableLogging(true);
+        } catch (RuntimeException ex) {
+            DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+        }
     }
 
     public static TestRobotContainer getInstance() {
@@ -112,10 +118,8 @@ public class TestRobotContainer {
 
             TestRobotContainer.showOnShuffleBoard();
 
-            return mInstance;
-        } else {
-            return mInstance;
         }
+        return mInstance;
     }
 
     private static void showOnShuffleBoard() {
@@ -300,6 +304,6 @@ public class TestRobotContainer {
     }
 
     public double getAngle() {
-        return mDriveSubsystem.getAngle();
+        return navx.getAngle();
     }
 }

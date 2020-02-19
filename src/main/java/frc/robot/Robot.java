@@ -11,7 +11,11 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.BallPickUpSubsystem;
+import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.PneumaticSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,8 +40,8 @@ public class Robot extends TimedRobot {
     // and put our
     // autonomous chooser on the dashboard.
 
-    m_robotContainer = new RobotContainer();
-
+    m_robotContainer = RobotContainer.getInstance();
+    PneumaticSubsystem.getInstance();
     // Resets
     // DriveSubsystem.getInstance().resetEncoders();
     // ControlPanelSubsystem.getInstance().setSensorPos(0);
@@ -102,9 +106,12 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    ControlPanelSubsystem.getInstance().setSensorPos(0);
+    ControlPanelSubsystem.getInstance().setSensorPos(0);  
+    BallShooterSubsystem.getInstance().stopLoader();
+    BallShooterSubsystem.getInstance().stopShooter();
+    BallTransportSubsystem.getInstance().stopTransportMotor();
+    BallPickUpSubsystem.getInstance().stopPickUpMotor();
   }
-
   /**
    * This function is called periodically during operator control.
    */
@@ -119,6 +126,10 @@ public class Robot extends TimedRobot {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
     TestRobotContainer.getInstance();
+    BallShooterSubsystem.getInstance().stopLoader();
+    BallShooterSubsystem.getInstance().stopShooter();
+    BallTransportSubsystem.getInstance().stopTransportMotor();
+    BallPickUpSubsystem.getInstance().stopPickUpMotor();
   }
 
   /**

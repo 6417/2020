@@ -38,7 +38,6 @@ public class BallTransportSubsystem extends SubsystemBase {
     }
 
     public void stopTransportMotor() {
-        System.out.println("stop");
         transportMotor.stopMotor();
     }
 

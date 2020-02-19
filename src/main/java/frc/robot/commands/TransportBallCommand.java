@@ -46,8 +46,6 @@ public class TransportBallCommand extends CommandBase {
 
     if (shoot) {
       finished = new LatchedBoolean(EdgeDetection.FALLING);
-    } else {
-      finished = new LatchedBoolean(EdgeDetection.RISING);
     }
     TestRobotContainer.getInstance().setTransportSliderPos(this.speed.getAsDouble());
   }
@@ -70,9 +68,9 @@ public class TransportBallCommand extends CommandBase {
     if (shoot) {
       return finished.update(m_subsystem.getSensor());
     } else if (automechanismsDisabled) {
-      return false;
+      return true;
     } else {
-      return finished.update(m_subsystem.getSensor()) || m_subsystem.getSensor();
+      return false;
     }
   }
 }

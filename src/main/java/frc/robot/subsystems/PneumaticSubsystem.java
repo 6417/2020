@@ -11,6 +11,7 @@ import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SendableRegistry;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyPneumaticSubsystem;
@@ -20,8 +21,6 @@ import lombok.extern.java.Log;
 public class PneumaticSubsystem extends SubsystemBase {
 
   private Compressor compressor;
-
-  private LatchedBoolean pressureTankFull;
 
   private static PneumaticSubsystem mInstance;
 
@@ -57,9 +56,9 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    super.initSendable(builder);
-
     builder.addBooleanProperty("Compressor connected", () -> compressor.getCompressorNotConnectedFault(), null);
     builder.addBooleanProperty("Compressor current too high", () -> compressor.getCompressorCurrentTooHighFault(), null);
+    builder.addBooleanProperty("Compressor shorted", () -> compressor.getCompressorShortedFault(), null);
+    builder.addBooleanProperty("Pressure Tank full", () -> compressor.getPressureSwitchValue(), null);
   }
 }

@@ -52,7 +52,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
     }
 
     public void setPickUpMotor(double speed) {
-        pickUpMotor.set(speed);
+        pickUpMotor.set(-speed);
     }
 
     public void stopPickUpMotor() {

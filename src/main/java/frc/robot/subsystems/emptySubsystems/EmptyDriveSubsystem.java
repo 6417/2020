@@ -1,7 +1,10 @@
 package frc.robot.subsystems.emptySubsystems;
 
+import javax.crypto.ExemptionMechanismException;
+
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class EmptyDriveSubsystem extends DriveSubsystem {
@@ -70,7 +73,11 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
 
     @Override
     public double getAngle() {
-        return 0;
+        try {
+            return TestRobotContainer.getInstance().getAngle();
+        } catch(Exception e) {
+            return 0;
+        }
     }
 
     @Override

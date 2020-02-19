@@ -8,26 +8,39 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class ExtendControlPanel_group extends SequentialCommandGroup {
+public class ControlPanelPneumaticCommandGroup extends SequentialCommandGroup {
   /**
    * Creates a new ControlPanelCommand.
-   * 
-   * 
    */
 
-  public ExtendControlPanel_group() {
-    super(new PneumaticLiftCommand(PneumaticState.FORWARD), new PneumaticBumperCommand(PneumaticState.FORWARD));
+  public ControlPanelPneumaticCommandGroup(PneumaticState state) {
+    super(new PneumaticLiftCommand(PneumaticState.FORWARD), new PneumaticBumperCommand(PneumaticState.FORWARD), new CommandBase() {
+      @Override
+      public boolean isFinished() {
+        return false;
+      }
+    });
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    if (interrupted) {    
+      ControlPanelSubsystem.getInstance().retractBumper();
+      ControlPanelSubsystem.getInstance().retractLift();
+    }
   }
 
   @Override
   public void initSendable(SendableBuilder builder) {
-    // TODO Auto-generated method stub
     super.initSendable(builder);
   }
 }
