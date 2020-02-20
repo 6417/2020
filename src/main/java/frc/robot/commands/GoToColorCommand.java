@@ -18,11 +18,6 @@ public class GoToColorCommand extends CommandBase {
 
     public GoToColorCommand(ColorDetected aimColor) {
         this.aimColor = aimColor;
-
-        cColorIndex = getIndex(colors, cColor);
-        Collections.rotate(colors, cColorIndex);
-
-        aimColorIndex = getIndex(colors, aimColor);
     }
 
     public int getIndex(ArrayList<ColorDetected> list, ColorDetected value) {
@@ -36,7 +31,21 @@ public class GoToColorCommand extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        if (ControlPanelSubsystem.getInstance().getColor() != ColorDetected.NONE){       
+             cColorIndex = getIndex(colors, cColor);
+            Collections.rotate(colors, cColorIndex);
+
+            aimColorIndex = getIndex(colors, aimColor);
+        }
+    }
+
+    @Override
     public void execute() {
+        if (ControlPanelSubsystem.getInstance().getColor() != ColorDetected.NONE) {
+            this.initialize();
+        }
+
         if (aimColorIndex <= 2) {
             mSubsystem.setMotor(-Constants.CONTROL_PANEL_MOTOR_SPEED);
         } else {

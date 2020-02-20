@@ -5,6 +5,8 @@ import java.util.function.DoubleSupplier;
 import com.kauailabs.navx.frc.AHRS;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;

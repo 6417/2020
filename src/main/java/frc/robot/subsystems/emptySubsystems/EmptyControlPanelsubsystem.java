@@ -4,11 +4,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import frc.robot.subsystems.ControlPanelSubsystem;
 
 public class EmptyControlPanelSubsystem extends ControlPanelSubsystem {
+
     public EmptyControlPanelSubsystem() {
         super();
     }
 
     protected void constructor() {
+        super.isConected = false;
     }
 
     public ColorDetected getColor() {

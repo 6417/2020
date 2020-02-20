@@ -23,13 +23,7 @@ public class ShootBallCommand extends SequentialCommandGroup {
   public ShootBallCommand() {
     super(shooterCommand,
           loaderCommand,
-          transportBallCommand, 
-          new CommandBase() {
-            @Override
-            public void end(boolean interrupted) {
-              
-            }
-          });
+          transportBallCommand);
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed) {
