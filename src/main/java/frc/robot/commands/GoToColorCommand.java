@@ -37,6 +37,8 @@ public class GoToColorCommand extends CommandBase {
 
     @Override
     public void execute() {
+        System.out.println(cColorIndex);
+        System.out.println(colors);
         if (aimColorIndex <= 2) {
             mSubsystem.setMotor(-Constants.CONTROL_PANEL_MOTOR_SPEED);
         } else {

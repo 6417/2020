@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
-import frc.robot.commands.ControlPanelPneumaticCommandGroup;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
@@ -124,7 +123,7 @@ public class RobotContainer {
   //     new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
   //     () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
 
-  private SequentialCommandGroup extendAndRetractControlPanelModuleCommand = new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD);
+  //private SequentialCommandGroup extendAndRetractControlPanelModuleCommand = new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD);
 
   private CommandBase cancelAllCommands = new CommandBase() {
     @Override
@@ -171,7 +170,7 @@ public class RobotContainer {
     ballPickupMotorButton.whileHeld(pickUpCommand);
 
     shootBallButton.toggleWhenPressed(shootBallCommand);
-    extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
+    //extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
     cancelAllCommandsButton.whenPressed(cancelAllCommands);
 
     // for the standart drive command
@@ -180,7 +179,11 @@ public class RobotContainer {
 
   private void showOnShuffleBoard() {
     controlPanelModuleConected = new ShuffleBoardInformation(tab, "Control panel module conected",
-        () -> ControlPanelSubsystem.getInstance().isConected);
+        ControlPanelSubsystem.getInstance().isConected);
+  }
+
+  public void update() {
+    controlPanelModuleConected.update(ControlPanelSubsystem.getInstance().isConected);
   }
 
   public static boolean getSecurityMechanismsButton() {

@@ -35,7 +35,7 @@ public class PneumaticSubsystem extends SubsystemBase {
   protected void constructor() {
     compressor = new Compressor(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID);
   
-    pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
+    //pressureTankFull = new LatchedBoolean(EdgeDetection.FALLING);
   }
 
   @Override

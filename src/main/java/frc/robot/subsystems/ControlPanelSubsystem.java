@@ -11,6 +11,7 @@ import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorMatchResult;
@@ -85,6 +86,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
     motor.configFactoryDefault();
     motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+    motor.setNeutralMode(NeutralMode.Brake);
 
     m_colorMatcher.addColorMatch(kBlueTarget);
     m_colorMatcher.addColorMatch(kGreenTarget);
@@ -141,7 +143,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public boolean getReedLiftBotom() {
-    System.out.println(motor.isRevLimitSwitchClosed() == 0);
+    //System.out.println(motor.isRevLimitSwitchClosed() == 0);
     return motor.isRevLimitSwitchClosed() == 0;
   }
 
