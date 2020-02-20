@@ -86,7 +86,7 @@ public final class Constants {
   public static final I2C.Port CONTROL_PANEL_SUBSYSTEM_COLOR_SENSOR_I2C_PORT = I2C.Port.kOnboard;
   public static final int CONTROL_PANEL_SUBSYSTEM_MOTOR_CAN_ID = 16;
   public static final ArrayList<ColorDetected> colors = new ArrayList<ColorDetected>(Arrays.asList(ColorDetected.RED, ColorDetected.YELLOW, ColorDetected.BLUE, ColorDetected.GREEN));
-  public static final double CONTROL_PANEL_MOTOR_SPEED = 0.45;
+  public static final double CONTROL_PANEL_MOTOR_SPEED = 0.2;
 
   /**
    * Ball Pickup Subsystem constants used in {@link BallPickupSubsystem}

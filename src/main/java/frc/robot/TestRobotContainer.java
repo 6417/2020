@@ -5,10 +5,9 @@ import java.util.function.DoubleSupplier;
 import com.kauailabs.navx.frc.AHRS;
 
 import ch.team6417.lib.utils.ShuffleBoardInformation;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.AimCommand;
 import frc.robot.commands.BallLoaderCommand;
@@ -16,10 +15,12 @@ import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ExtendPickupModuleCommand;
+import frc.robot.commands.GoToColorCommand;
+import frc.robot.commands.IsConnected;
+import frc.robot.commands.PneumaticBumperCommand;
+import frc.robot.commands.PneumaticLiftCommand;
 import frc.robot.commands.RetractPickupModuleCommand;
 import frc.robot.commands.SetMotorForRotationsCommand;
-import frc.robot.commands.PneumaticLiftCommand;
-import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
@@ -28,6 +29,7 @@ import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
@@ -146,6 +148,9 @@ public class TestRobotContainer {
                 new PneumaticBumperCommand(PneumaticState.REVERSE));
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "stop Control Panel Motor", new SetMotorForRotationsCommand(0));
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "test Control Panel Motor Connection", new IsConnected());
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "test the go to color feature", new GoToColorCommand(ColorDetected.GREEN));
+        
             /**
              * Getters
              */
@@ -162,6 +167,7 @@ public class TestRobotContainer {
          * Informations displayed on the DriveSubsystem Tab
          */
             
+
             /**
              * Sliders
              */

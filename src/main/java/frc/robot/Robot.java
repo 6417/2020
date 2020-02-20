@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-  
+    RobotContainer.getInstance().update();
   }
 
   // define testCommands
