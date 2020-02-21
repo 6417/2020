@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -21,15 +23,19 @@ public class IsConnected extends CommandBase {
   @Override
   public void initialize() {
     cColor = m_subsystem.getColor();
+    ControlPanelSubsystem.getInstance().resetEncoder();
+
+    overRotations = new LatchedBoolean(EdgeDetection.RISING);
+    finished = false;
+    m_subsystem.isConected = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (overRotations.update(m_subsystem.getEncoderValue() >= 5120)) {
+    if (overRotations.update(Math.abs(m_subsystem.getEncoderValue()) >= 5120)) {
       finished = (cColor ==  m_subsystem.getColor());
       m_subsystem.isConected = (cColor !=  m_subsystem.getColor());
-      cColor = m_subsystem.getColor();
     } else if (RobotContainer.getSecurityMechanismsButton()) {
       finished = false;
       m_subsystem.isConected = true;

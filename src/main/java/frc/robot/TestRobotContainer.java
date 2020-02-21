@@ -14,12 +14,12 @@ import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ExtendPickupModuleCommand;
 import frc.robot.commands.GoToColorCommand;
+import frc.robot.commands.GoToColorCommandGroup;
 import frc.robot.commands.IsConnected;
 import frc.robot.commands.PneumaticBumperCommand;
 import frc.robot.commands.PneumaticLiftCommand;
-import frc.robot.commands.RetractPickupModuleCommand;
+import frc.robot.commands.PneumaticPickupModuleCommand;
 import frc.robot.commands.SetMotorForRotationsCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
@@ -37,7 +37,6 @@ import frc.robot.subsystems.PneumaticSubsystem;
 
 public class TestRobotContainer {
     private static TestRobotContainer mInstance;
-    private final String tab = "Test Mode";
     private final String ControlPanelTab = "ControlPanel Test";
     private final String BallSubsystemsTab = "BallSubsystems Test";
     private final String DriveSubsystemsTab = "DriveSubsystem Test";
@@ -77,8 +76,8 @@ public class TestRobotContainer {
     private CommandBase controlPanelMotorCommand;
     private StopAllBallSubsystemsCommand stopAllBallSubsystemsCommand;
     private StopTankDriveCommand stopTankDriveCommand;
-    private ExtendPickupModuleCommand extendPickupModuleCommand;
-    private RetractPickupModuleCommand retractPickupModuleCommand;
+    private PneumaticPickupModuleCommand extendPickupModuleCommand;
+    private PneumaticPickupModuleCommand retractPickupModuleCommand;
 
     private TestRobotContainer() {
         try {
@@ -111,8 +110,8 @@ public class TestRobotContainer {
             mInstance.transportBallcommand = new TransportBallCommand(() -> mInstance.getTransportSlider(), false);
             mInstance.pickUpMotorCommand = new BallPickupMotorCommand(() -> mInstance.getPickUpSlider());
             mInstance.aimCommand = new AimCommand();
-            mInstance.extendPickupModuleCommand = new ExtendPickupModuleCommand();
-            mInstance.retractPickupModuleCommand = new RetractPickupModuleCommand();
+            mInstance.extendPickupModuleCommand = new PneumaticPickupModuleCommand(PneumaticState.FORWARD);
+            mInstance.retractPickupModuleCommand = new PneumaticPickupModuleCommand(PneumaticState.REVERSE);
             mInstance.controlPanelMotorCommand = new CommandBase() {
                 @Override
                 public void execute() {
@@ -149,7 +148,7 @@ public class TestRobotContainer {
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "stop Control Panel Motor", new SetMotorForRotationsCommand(0));
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "test Control Panel Motor Connection", new IsConnected());
-        new ShuffleBoardInformation(mInstance.ControlPanelTab, "test the go to color feature", new GoToColorCommand(ColorDetected.GREEN));
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "test the go to color feature", new GoToColorCommandGroup(ColorDetected.GREEN));
         
             /**
              * Getters

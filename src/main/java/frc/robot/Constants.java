@@ -46,6 +46,7 @@ public final class Constants {
     // ControlPanel Buttons
     public static final int EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER = 5;
     public static final int ROTATE_TO_COLOR_BUTTON_NUMBER = 3;
+    public static final int GO_TO_COLOR_BUTTON_NUMBER = 6;
 
     // Shoot and transport Buttons
     public static final int SHOOT_BUTTON_NUMBER = 1;
@@ -58,9 +59,9 @@ public final class Constants {
      * Activate subsystems constants
     */
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
-    public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
+    public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
 

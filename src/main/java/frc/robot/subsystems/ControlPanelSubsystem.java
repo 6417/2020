@@ -150,6 +150,10 @@ public class ControlPanelSubsystem extends SubsystemBase {
     return motor.isFwdLimitSwitchClosed() == 1;
   }
 
+  public void resetEncoder() {
+    motor.setSelectedSensorPosition(0);
+  }
+
   public void setSensorPos(int pos) {
     motor.setSelectedSensorPosition(pos);
   }

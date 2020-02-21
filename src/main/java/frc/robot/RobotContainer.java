@@ -7,30 +7,28 @@
 
 package frc.robot;
 
-import java.util.function.BooleanSupplier;
-
-import com.fasterxml.jackson.databind.util.PrimitiveArrayBuilder;
-import com.kauailabs.navx.frc.AHRS;
-
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
+import frc.robot.commands.ControlPanelPneumaticCommandGroup;
+import frc.robot.commands.GoToColorCommandGroup;
+import frc.robot.commands.PickUpCommand;
+import frc.robot.commands.PneumaticPickupModuleCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
+import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
-import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
+import frc.robot.subsystems.DriveSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -65,6 +63,7 @@ public class RobotContainer {
   private final JoystickButton shootBallButton = new JoystickButton(joystick, Constants.SHOOT_BUTTON_NUMBER);
   private final JoystickButton extendAndRetactControlPanelButton = new JoystickButton(joystick, Constants.EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER);
   private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
+  private final JoystickButton goToColorButton = new JoystickButton(joystick, Constants.GO_TO_COLOR_BUTTON_NUMBER);
 
   // Initialize Commands
   private CommandBase ballLoaderCommand = new CommandBase() {
@@ -123,7 +122,9 @@ public class RobotContainer {
   //     new ControlPanelPneumaticCommandGroup(PneumaticState.REVERSE), 
   //     () -> ControlPanelSubsystem.getInstance().getReedLiftBotom() || getSecurityMechanismsButton());
 
-  //private SequentialCommandGroup extendAndRetractControlPanelModuleCommand = new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD);
+  private SequentialCommandGroup extendAndRetractControlPanelModuleCommand = new ControlPanelPneumaticCommandGroup(PneumaticState.FORWARD);
+
+  private GoToColorCommandGroup goToColorCommand = new GoToColorCommandGroup(ColorDetected.GREEN);
 
   private CommandBase cancelAllCommands = new CommandBase() {
     @Override
@@ -133,10 +134,10 @@ public class RobotContainer {
     }
   };
 
-  private ParallelCommandGroup pickUpCommand = new ParallelCommandGroup(new BallPickupMotorCommand(Constants.standardPickUpMotorSpeed),
-      new TransportBallCommand(Constants.standardTransportSpeed, false));
+  public ShootBallCommand shootBallCommand = new ShootBallCommand();
 
-  public SequentialCommandGroup shootBallCommand = new ShootBallCommand();
+  private PickUpCommand pickUpCommand = new PickUpCommand();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -170,7 +171,9 @@ public class RobotContainer {
     ballPickupMotorButton.whileHeld(pickUpCommand);
 
     shootBallButton.toggleWhenPressed(shootBallCommand);
-    //extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
+    extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
+    goToColorButton.whenPressed(goToColorCommand);
+
     cancelAllCommandsButton.whenPressed(cancelAllCommands);
 
     // for the standart drive command

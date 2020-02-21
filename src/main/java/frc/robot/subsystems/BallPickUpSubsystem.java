@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -52,7 +54,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
     }
 
     public void setPickUpMotor(double speed) {
-        pickUpMotor.set(-speed);
+        pickUpMotor.set(speed);
     }
 
     public void stopPickUpMotor() {

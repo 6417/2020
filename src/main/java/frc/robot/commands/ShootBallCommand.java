@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
-import frc.robot.commands.BallShooterCommand;
 
 public class ShootBallCommand extends SequentialCommandGroup {
   /**
@@ -23,7 +22,8 @@ public class ShootBallCommand extends SequentialCommandGroup {
   public ShootBallCommand() {
     super(shooterCommand,
           loaderCommand,
-          transportBallCommand);
+          transportBallCommand
+          );
   }
 
   public ShootBallCommand(double shooterSpeed, double loaderSpeed, double transportSpeed) {
@@ -57,6 +57,7 @@ public class ShootBallCommand extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     super.end(interrupted);
     if (interrupted) {
+      System.out.println("interrupded end shoot command");
       BallShooterSubsystem.getInstance().stopShooter();
       BallShooterSubsystem.getInstance().stopLoader();
       BallTransportSubsystem.getInstance().stopTransportMotor();

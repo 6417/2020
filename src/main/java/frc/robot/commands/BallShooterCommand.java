@@ -31,6 +31,7 @@ public class BallShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("ball shooter command initalized");
     TestRobotContainer.getInstance().setShooterSliderPos(shooterSpeed.getAsDouble());
     m_subsystem.setShooter(shooterSpeed.getAsDouble());
   }
@@ -38,6 +39,7 @@ public class BallShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    TestRobotContainer.getInstance().setShooterSliderPos(0);
     if (interrupted) {
       m_subsystem.stopShooter();
     }

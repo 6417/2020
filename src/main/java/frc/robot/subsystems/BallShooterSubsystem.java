@@ -49,6 +49,7 @@ public class BallShooterSubsystem extends SubsystemBase {
     }
 
     public void setShooter(double speed) {
+        System.out.println(speed);
         shooterMaster.set(speed);
     }
 

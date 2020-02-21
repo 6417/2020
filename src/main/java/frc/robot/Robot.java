@@ -71,7 +71,7 @@ public class Robot extends TimedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    TestRobotContainer.getInstance().update();
+    // TestRobotContainer.getInstance().update();
     RobotContainer.getInstance().updateShuffleBoard();
   }
 
@@ -122,7 +122,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    RobotContainer.getInstance().update();
+    RobotContainer.getInstance().updateShuffleBoard();
   }
 
   // define testCommands
