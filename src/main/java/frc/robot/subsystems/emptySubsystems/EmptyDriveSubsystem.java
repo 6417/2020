@@ -86,6 +86,13 @@ public class EmptyDriveSubsystem extends DriveSubsystem {
     }
 
     @Override
+    public void setNavxAngleAdjustment(double angle) {
+        try {
+            TestRobotContainer.getInstance().navx.setAngleAdjustment(angle);
+        } catch (Exception e) {}
+    }
+
+    @Override
     public void periodic() {
     }
 }

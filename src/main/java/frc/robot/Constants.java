@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.DoubleSupplier;
@@ -64,6 +65,7 @@ public final class Constants {
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
+    public static final boolean VISION_SUBSYSTEM_ENABLED = true;
 
     /** 
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
@@ -124,4 +126,11 @@ public final class Constants {
   public static final int BALL_PICKUP_MOTOR_CAN_ID = 14;
 
   public static final int BALL_TRANSPORT_SENSOR_DIO_PORT = 0;
+
+  /** 
+   * Drive subsystem constants used in {@link DriveSubsystem}
+  */
+
+  public static final double TARGET_X_POS = 0;
+  public static final double TARGET_Y_POS = 0;
 }

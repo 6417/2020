@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.TestRobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import lombok.Setter;
 
 public class AimCommand extends PIDCommand {
@@ -35,6 +36,12 @@ public class AimCommand extends PIDCommand {
     }
 
     @Override
+    public void initialize() {
+        DriveSubsystem.getInstance().setNavxAngleAdjustment(-DriveSubsystem.getInstance().getAngle() + VisionSubsystem.getInstance().getAngle());
+        super.m_controller.reset();
+    }
+
+    @Override
     public boolean isFinished() {
         return getController().atSetpoint();
     }
@@ -42,6 +49,7 @@ public class AimCommand extends PIDCommand {
     @Override
     public void end(boolean interrupted) {
         DriveSubsystem.getInstance().stopDrive();
+        DriveSubsystem.getInstance().setNavxAngleAdjustment(0);
     }
 
     @Override

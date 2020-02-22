@@ -93,6 +93,10 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_odometry.update(Rotation2d.fromDegrees(-navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
+    if (VisionSubsystem.getInstance().targetDetected()) {
+      double xPos = Constants. Math.tan(VisionSubsystem.getInstance().getAngle()) * VisionSubsystem.getInstance().getDistance();
+      m_odometry.resetPosition(new Pose2d(), gyroAngle);
+    }
   }
 
   public void driveLeft(double l_percentage){
@@ -113,6 +117,10 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void drive(DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
     drive(xSpeed.getAsDouble(), ySpeed.getAsDouble());
+  }
+
+  public void setNavxAngleAdjustment(double angle) {
+    navx.setAngleAdjustment(angle);
   }
 
   public void stopDrive() {
