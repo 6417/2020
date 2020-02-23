@@ -2,26 +2,22 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.emptySubsystems.EmptyVisionSubsystem;
-import lombok.Getter;
 
 public class VisionSubsystem extends SubsystemBase {
     private static VisionSubsystem mInstance;
-    private NetworkTableEntry Distance;
-    private NetworkTableEntry Angle;
-    private NetworkTableEntry Offset;
-    private NetworkTableEntry Target;
     
-    @Getter
-    private double distance;
-    @Getter
-    private double angle;
-    @Getter
-    private double offset;
-    private boolean target;
+    private DoubleSupplier distance;
+    private DoubleSupplier angle;
+    private DoubleSupplier offset;
+    private BooleanSupplier target;
 
     protected VisionSubsystem() {
         constructor();
@@ -32,18 +28,10 @@ public class VisionSubsystem extends SubsystemBase {
 
         NetworkTable table = inst.getTable("vision");
     
-        Distance = table.getEntry("Distance");
-        Angle = table.getEntry("Angle");
-        Offset = table.getEntry("XOffset");
-        Target = table.getEntry("Target");
-    }
-
-    @Override
-    public void periodic() {
-        distance = Distance.getDouble(0);
-        angle = Angle.getDouble(0);
-        offset = Offset.getDouble(0);
-        target = Target.getBoolean(false);
+        distance = () -> table.getEntry("Distance").getDouble(0);
+        angle = () -> table.getEntry("Angle").getDouble(0);
+        offset = () -> table.getEntry("XOffset").getDouble(0);
+        target = () -> table.getEntry("Target").getBoolean(false);
     }
 
     public static VisionSubsystem getInstance() {
@@ -61,6 +49,18 @@ public class VisionSubsystem extends SubsystemBase {
      */
 
     public boolean targetDetected() {
-        return target;
+        return target.getAsBoolean();
+    }
+
+    public double getOffset() {
+        return offset.getAsDouble();
+    }
+
+    public double getAngle() {
+        return angle.getAsDouble();
+    }
+
+    public double getDistance() {
+        return distance.getAsDouble();
     }
 }

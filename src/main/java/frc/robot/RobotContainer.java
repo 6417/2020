@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import ch.team6417.lib.utils.ShuffleBoardInformation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -16,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AimCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.ControlPanelPneumaticCommandGroup;
 import frc.robot.commands.GoToColorCommandGroup;
@@ -38,6 +41,7 @@ import frc.robot.subsystems.DriveSubsystem;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  public ArrayList<AimCommand> runningAimCommands = new ArrayList<AimCommand>();
   // The robot's subsystems and commands are defined here...
   private ShuffleBoardInformation controlPanelModuleConected;
   private String tab = "Informations";

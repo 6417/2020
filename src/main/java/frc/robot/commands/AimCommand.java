@@ -37,7 +37,7 @@ public class AimCommand extends PIDCommand {
 
     @Override
     public void initialize() {
-        DriveSubsystem.getInstance().setNavxAngleAdjustment(-DriveSubsystem.getInstance().getAngle() + VisionSubsystem.getInstance().getAngle());
+        //DriveSubsystem.getInstance().setNavxAngleAdjustment(-DriveSubsystem.getInstance().getAngle() + VisionSubsystem.getInstance().getAngle());
         super.m_controller.reset();
     }
 

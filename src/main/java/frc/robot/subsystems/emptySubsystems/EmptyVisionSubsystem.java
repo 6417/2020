@@ -7,7 +7,6 @@ public class EmptyVisionSubsystem extends VisionSubsystem {
 
     }
 
-    @Override
     protected void constructor() {
         
     }
@@ -17,22 +16,18 @@ public class EmptyVisionSubsystem extends VisionSubsystem {
         
     }
 
-    @Override
     public double getDistance() {
         return 0;
     }
 
-    @Override
     public double getAngle() {
         return 0;
     }
 
-    @Override
     public boolean targetDetected() {
         return false;
     }
 
-    @Override
     public double getOffset() {
         return 0;
     }

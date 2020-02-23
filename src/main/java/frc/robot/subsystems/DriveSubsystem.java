@@ -38,8 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
   private DifferentialDrive diffdrive;
   private AHRS navx;
   private DifferentialDriveOdometry m_odometry;
-  private DoubleSupplier xPos = () -> Constants.TARGET_X_POS - Math.tan(VisionSubsystem.getInstance().getAngle()) * VisionSubsystem.getInstance().getDistance();
-  private DoubleSupplier yPos = () -> Constants.TARGET_Y_POS - VisionSubsystem.getInstance().getDistance();
+  // private DoubleSupplier xPos = () -> Constants.TARGET_X_POS - Math.tan(VisionSubsystem.getInstance().getAngle() + DriveSubsystem.getInstance().getAngle()) * VisionSubsystem.getInstance().getDistance();
+  // private DoubleSupplier yPos = () -> Constants.TARGET_Y_POS - VisionSubsystem.getInstance().getDistance();
 
   protected DriveSubsystem() {
     constructor();
@@ -95,9 +95,9 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     m_odometry.update(Rotation2d.fromDegrees(-navx.getAngle()), getEncoderLeftMetric(), getEncoderRightMetric());
-    if (VisionSubsystem.getInstance().targetDetected()) {
-      m_odometry.resetPosition(new Pose2d(xPos.getAsDouble(), yPos.getAsDouble(), new Rotation2d(DriveSubsystem.getInstance().getAngle())), new Rotation2d(DriveSubsystem.getInstance().getAngle()));
-    }
+    // if (true) { VisionSubsystem.getInstance().targetDetected()) {
+    //  m_odometry.resetPosition(new Pose2d(xPos.getAsDouble(), yPos.getAsDouble(), new Rotation2d(DriveSubsystem.getInstance().getAngle())), new Rotation2d(DriveSubsystem.getInstance().getAngle()));
+    // }
   }
 
   public void driveLeft(double l_percentage){
