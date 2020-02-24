@@ -7,49 +7,32 @@
 
 package frc.robot.commands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
-
-public class DriveCommand extends CommandBase {
-  DoubleSupplier xSpeed, ySpeed;
-  boolean fixSpeed = false;
-
+public class ClimbUPCommand extends CommandBase {
   /**
-   * Creates a new DriveCommand.
+   * Creates a new ClimbUPCommand.
    */
-  public DriveCommand() {
+  public ClimbUPCommand() {
     addRequirements(DriveSubsystem.getInstance());
   }
 
-  public DriveCommand(DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
-    this();
-    this.xSpeed = xSpeed;
-    this.ySpeed = ySpeed;
-    this.fixSpeed = true;
+  public ClimbUPCommand(ClimberSubsystem mClimberSubsystem) {
+    addRequirements(mClimberSubsystem);
   }
 
   // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-  }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(fixSpeed) {
-      DriveSubsystem.getInstance().drive(xSpeed.getAsDouble(), ySpeed.getAsDouble());
-    }
-    else {
-      DriveSubsystem.getInstance().drive();
-    }
+    ClimberSubsystem.getInstance().climb();
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    ClimberSubsystem.getInstance().stopClimber();
   }
 
   // Returns true when the command should end.

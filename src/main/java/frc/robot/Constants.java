@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.DoubleSupplier;
 
+import com.revrobotics.CANDigitalInput;
+
 import edu.wpi.first.wpilibj.I2C;
 import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
 
@@ -37,7 +39,6 @@ public final class Constants {
     public static final int CONTROL_PANEL_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMPER = 12;
     public static final int TRANSPORT_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 10;
     public static final int SHOOTER_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 9;
-    public static final int PICKUP_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER = 0;
 
     // BallPickUp Buttons
     public static final int BALL_PICKUP_MOTOR_BUTTON_NUMPER = 2;
@@ -45,8 +46,7 @@ public final class Constants {
     
     // ControlPanel Buttons
     public static final int EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER = 5;
-    public static final int ROTATE_TO_COLOR_BUTTON_NUMBER = 3;
-    public static final int GO_TO_COLOR_BUTTON_NUMBER = 6;
+    public static final int GO_TO_COLOR_BUTTON_NUMBER = 3;
 
     // Shoot and transport Buttons
     public static final int SHOOT_BUTTON_NUMBER = 1;
@@ -54,16 +54,18 @@ public final class Constants {
 
     // Other Buttons
     public static final int CANCEL_ALL_COMMANDS_BUTTON_NUMBER = 8;
+    public static final int ACTIVATE_CLIMBING_BUTTON_NUMBER = 6;
 
     /**
      * Activate subsystems constants
     */
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
-    public static final boolean DRIVE_SUBSYSTEM_ENABLED = false;
-    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
+    public static boolean DRIVE_SUBSYSTEM_ENABLED = true;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
+    public static boolean CLIMBER_SUBSYSTEM_ENABLED = false;
 
     /** 
    * Pneumatic Subsystem constants used in {@link PneumaticSubsystem}
@@ -124,4 +126,24 @@ public final class Constants {
   public static final int BALL_PICKUP_MOTOR_CAN_ID = 14;
 
   public static final int BALL_TRANSPORT_SENSOR_DIO_PORT = 0;
+
+  /**
+   * Climber Subsystem constants used in {@link ClimberSusystem}
+   */
+
+  public static final double kPclimber = 0.0002; 
+  public static final double kIclimber = 0; 
+  public static final double kDclimber = 0.0001; 
+  public static final double kIzclimber = 0; 
+  public static final double kFFclimber = 0.000; 
+  public static final double kMaxOutputclimber = 0.7; 
+  public static final double kMinOutputclimber = -0.7; 
+  public static final double maxRPMclimber = 5700;
+
+  public static final int MOTOR_UPPER_THROWER_SHAFT_RIGHT_ID = 22;
+
+  public static final int MOTOR_CLIMBER_LEFT_ID = 24;
+  public static final int MOTOR_CLIMBER_RIGHT_ID = 25;
+
+  public static final double CLIMBER_LEVEL_SAFETY_TICKS = 10;
 }
