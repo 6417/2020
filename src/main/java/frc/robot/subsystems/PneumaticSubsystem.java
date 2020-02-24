@@ -38,7 +38,7 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    compressor.stop();
   }
 
   public static PneumaticSubsystem getInstance() {

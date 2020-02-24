@@ -13,18 +13,17 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.BallPickupMotorCommand;
+import frc.robot.commands.ClimbStopCommand;
+import frc.robot.commands.ClimbUPCommand;
 import frc.robot.commands.ControlPanelPneumaticCommandGroup;
 import frc.robot.commands.GoToColorCommandGroup;
 import frc.robot.commands.PickUpCommand;
-import frc.robot.commands.PneumaticPickupModuleCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
-import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
@@ -57,6 +56,7 @@ public class RobotContainer {
       Constants.SHOOTER_MOTOR_NO_AUTOMECHANISMS_BUTTON_NUMBER);
   private final JoystickButton deacitvateSecurityMechanismsButton = new JoystickButton(joystick,
       Constants.DEACTIVATE_SECUTITY_MECHANISMS_BUTTON_NUMBER);
+  private final JoystickButton activateClimbingButton = new JoystickButton(joystick, Constants.ACTIVATE_CLIMBING_BUTTON_NUMBER);
   
   // Initialize Buttons
   private final JoystickButton ballPickupMotorButton = new JoystickButton(joystick, Constants.BALL_PICKUP_MOTOR_BUTTON_NUMPER);
@@ -138,6 +138,47 @@ public class RobotContainer {
 
   private PickUpCommand pickUpCommand = new PickUpCommand();
 
+  private CommandBase activateAndDiactivateClimbing =  new CommandBase() {
+    private ClimbUPCommand mClimbUPCommand;
+    @Override
+    public void initialize() {
+      ClimberSubsystem.mInstance = null;
+      Constants.CLIMBER_SUBSYSTEM_ENABLED = true;
+      ClimberSubsystem.getInstance();
+      System.out.println(ClimberSubsystem.getInstance().getClass());
+
+      CommandScheduler.getInstance().cancel(DriveSubsystem.getInstance().getDefaultCommand());
+      Constants.DRIVE_SUBSYSTEM_ENABLED = false;
+      DriveSubsystem.mInstance = null;
+
+      DriveSubsystem.getInstance();
+      mClimbUPCommand = new ClimbUPCommand();
+      mClimbUPCommand.schedule();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      if (interrupted) {
+        new ClimbStopCommand().schedule();
+        Constants.CLIMBER_SUBSYSTEM_ENABLED = false;
+        ClimberSubsystem.mInstance = null;
+        ClimberSubsystem.getInstance();
+
+        Constants.DRIVE_SUBSYSTEM_ENABLED = true;
+        DriveSubsystem.mInstance = null;
+        DriveSubsystem.getInstance();
+        DriveSubsystem.getInstance().getDefaultCommand().schedule();
+        CommandScheduler.getInstance().cancel(mClimbUPCommand);
+        mClimbUPCommand = null;
+      }
+    }
+
+    @Override
+    public boolean isFinished() {
+      return false;
+    }
+  };
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -176,6 +217,8 @@ public class RobotContainer {
 
     cancelAllCommandsButton.whenPressed(cancelAllCommands);
 
+    activateClimbingButton.toggleWhenPressed(activateAndDiactivateClimbing);
+    
     // for the standart drive command
     DriveSubsystem.getInstance();
   }

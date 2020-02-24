@@ -13,6 +13,8 @@ import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import ch.team6417.lib.utils.LatchedBoolean;
+import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -30,54 +32,58 @@ public class DriveSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  private static DriveSubsystem mInstance;
-  private CANSparkMax tankLeftFront;
-  private CANSparkMax tankLeftBack;
-  private CANSparkMax tankRightFront;
-  private CANSparkMax tankRightBack;
-  private DifferentialDrive diffdrive;
-  private AHRS navx;
-  private DifferentialDriveOdometry m_odometry;
+  public static DriveSubsystem mInstance;
+  private static CANSparkMax tankLeftFront;
+  private static CANSparkMax tankLeftBack;
+  private static CANSparkMax tankRightFront;
+  private static CANSparkMax tankRightBack;
+  private static DifferentialDrive diffdrive;
+  private static AHRS navx;
+  private static DifferentialDriveOdometry m_odometry;
+
+  private static LatchedBoolean firsGetInstance = new LatchedBoolean(EdgeDetection.RISING);
 
   protected DriveSubsystem() {
     constructor();
   }
 
   protected void constructor() {
-    tankLeftFront = new CANSparkMax(Constants.Tank_Left_FRONT_ID, MotorType.kBrushless);
-    tankLeftBack = new CANSparkMax(Constants.Tank_Left_BACK_ID, MotorType.kBrushless);
-    tankRightFront = new CANSparkMax(Constants.Tank_Right_FRONT_ID, MotorType.kBrushless);
-    tankRightBack = new CANSparkMax(Constants.Tank_Right_BACK_ID, MotorType.kBrushless);
-    diffdrive = new DifferentialDrive(tankLeftBack, tankRightBack);
+    if (firsGetInstance.update(true)) {
+      tankLeftFront = new CANSparkMax(Constants.Tank_Left_FRONT_ID, MotorType.kBrushless);
+      tankLeftBack = new CANSparkMax(Constants.Tank_Left_BACK_ID, MotorType.kBrushless);
+      tankRightFront = new CANSparkMax(Constants.Tank_Right_FRONT_ID, MotorType.kBrushless);
+      tankRightBack = new CANSparkMax(Constants.Tank_Right_BACK_ID, MotorType.kBrushless);
+      diffdrive = new DifferentialDrive(tankLeftBack, tankRightBack);
+      
+      try {
+        navx = new AHRS(SPI.Port.kMXP);
+        // ahrs = new AHRS(SerialPort.Port.kUSB1);
+        navx.enableLogging(true);
+      } catch (RuntimeException ex) {
+      DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+      }
+      
+      navx.reset();
+      resetEncoders();
+      m_odometry = new DifferentialDriveOdometry(new Rotation2d(navx.getAngle()), new Pose2d(0, 0, new Rotation2d(0)));
     
-    try {
-      navx = new AHRS(SPI.Port.kMXP);
-      // ahrs = new AHRS(SerialPort.Port.kUSB1);
-      navx.enableLogging(true);
-    } catch (RuntimeException ex) {
-     DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+      
+      //Configure motors
+
+      tankRightBack.restoreFactoryDefaults();
+      tankRightBack.getEncoder().setPositionConversionFactor(-1);
+      
+      tankRightFront.restoreFactoryDefaults();
+      tankRightFront.follow(tankRightBack);
+      
+      tankLeftBack.restoreFactoryDefaults();
+      tankLeftBack.getEncoder().setPositionConversionFactor(1);
+
+      tankLeftFront.restoreFactoryDefaults();
+      tankLeftFront.follow(tankLeftBack);
+      
+      diffdrive.setRightSideInverted(true);
     }
-    
-    navx.reset();
-    resetEncoders();
-    m_odometry = new DifferentialDriveOdometry(new Rotation2d(navx.getAngle()), new Pose2d(0, 0, new Rotation2d(0)));
-  
-    
-    //Configure motors
-
-    tankRightBack.restoreFactoryDefaults();
-    tankRightBack.getEncoder().setPositionConversionFactor(-1);
-    
-    tankRightFront.restoreFactoryDefaults();
-    tankRightFront.follow(tankRightBack);
-    
-    tankLeftBack.restoreFactoryDefaults();
-    tankLeftBack.getEncoder().setPositionConversionFactor(1);
-
-    tankLeftFront.restoreFactoryDefaults();
-    tankLeftFront.follow(tankLeftBack);
-    
-    diffdrive.setRightSideInverted(true);
   }
 
   public static DriveSubsystem getInstance() {
