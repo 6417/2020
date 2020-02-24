@@ -23,4 +23,8 @@ public class EmptyBallPickUpSubsystem extends BallPickUpSubsystem {
     public void stopPickUpMotor() {
         
     }
+
+    public void setProtectCylinder(PneumaticState state) {
+        
+    }
 }

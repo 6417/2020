@@ -7,9 +7,6 @@
 
 package frc.robot;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -19,6 +16,7 @@ import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.PneumaticSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -50,6 +48,8 @@ public class Robot extends TimedRobot {
     // ControlPanelSubsystem.getInstance().setSensorPos(0);
     // TestRobotContainer.getInstance().setShooterSliderPos(0);
     // TestRobotContainer.getInstance().setLoadSliderPos(0);
+
+    BallPickUpSubsystem.getInstance().setProtectCylinder(PneumaticState.FORWARD);
   }
 
   /**
@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    BallPickUpSubsystem.getInstance().setProtectCylinder(PneumaticState.REVERSE);
   }
 
   @Override

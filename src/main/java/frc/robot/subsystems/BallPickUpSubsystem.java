@@ -16,6 +16,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
     private static BallPickUpSubsystem mInstance;
     private WPI_TalonSRX pickUpMotor;
     private DoubleSolenoid PickupCylinder;
+    private DoubleSolenoid protectCylinder;
 
     protected BallPickUpSubsystem() {
         constructor();
@@ -25,6 +26,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
         pickUpMotor = new WPI_TalonSRX(Constants.BALL_PICKUP_MOTOR_CAN_ID);
         pickUpMotor.setInverted(InvertType.InvertMotorOutput);
         PickupCylinder = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID, Constants.BALL_PICKUP_SUBSYSTEM_EXTEND_ID, Constants.BALL_PICKUP_SUBSYSTEM_RETRACT_ID);
+        protectCylinder = new DoubleSolenoid(Constants.PNEUMATIC_SUBSYSTEM_COMPRESSOR_CAN_ID, Constants.BALL_PICKUP_PROTECTER_EXTEND_ID, Constants.BALL_PICKUP_PROTECTER_RETRACT_ID);
     }
 
     public static BallPickUpSubsystem getInstance() {
@@ -59,5 +61,19 @@ public class BallPickUpSubsystem extends SubsystemBase {
 
     public void stopPickUpMotor() {
         pickUpMotor.stopMotor();
+    }
+
+    public void setProtectCylinder(PneumaticState state) {
+        switch(state) {
+            case FORWARD:
+                protectCylinder.set(Value.kForward);
+                break;
+            case REVERSE:
+                protectCylinder.set(Value.kReverse);
+                break;
+            case OFF:
+                protectCylinder.set(Value.kOff);
+                break;
+        }
     }
 }

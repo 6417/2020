@@ -95,8 +95,10 @@ public final class Constants {
    * Ball Pickup Subsystem constants used in {@link BallPickupSubsystem}
    */
 
-   public static final int BALL_PICKUP_SUBSYSTEM_EXTEND_ID = 4;
-   public static final int BALL_PICKUP_SUBSYSTEM_RETRACT_ID = 5;
+  public static final int BALL_PICKUP_SUBSYSTEM_EXTEND_ID = 6;
+  public static final int BALL_PICKUP_SUBSYSTEM_RETRACT_ID = 7;
+  public static final int BALL_PICKUP_PROTECTER_EXTEND_ID = 5;
+  public static final int BALL_PICKUP_PROTECTER_RETRACT_ID = 4;
 
   /** 
  * Motor Subsystem constants used in {@link MotorSubsystem}.

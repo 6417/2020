@@ -228,6 +228,29 @@ public class TestRobotContainer {
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Pick up motor", mInstance.pickUpMotorCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "extendPickupModule", mInstance.extendPickupModuleCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "retractPickupModule", mInstance.retractPickupModuleCommand);
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "extendProtectModule", new CommandBase() { 
+            @Override
+            public void initialize(){ 
+                BallPickUpSubsystem.getInstance().setProtectCylinder(PneumaticState.FORWARD);
+            }
+
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+        });
+        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "retract Protecter", new CommandBase() {
+            @Override
+            public void initialize(){
+                BallPickUpSubsystem.getInstance().setProtectCylinder(PneumaticState.REVERSE);
+            }
+
+            @Override
+            public boolean isFinished() {
+                return true;
+            }
+        }
+        );
         
 
             /**

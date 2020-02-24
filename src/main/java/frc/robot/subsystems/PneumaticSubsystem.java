@@ -43,7 +43,7 @@ public class PneumaticSubsystem extends SubsystemBase {
 
   public static PneumaticSubsystem getInstance() {
     if (mInstance == null) {
-      if (Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
+      if (!Constants.PNEUMATIC_SUBSYSTEM_ENABLED) {
         mInstance = new PneumaticSubsystem();
       } else {
         mInstance = new EmptyPneumaticSubsystem();

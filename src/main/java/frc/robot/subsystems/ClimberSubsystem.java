@@ -133,6 +133,16 @@ public class ClimberSubsystem extends SubsystemBase {
     climberPIDLeft.setReference((-RobotContainer.getInstance().joystick.getY() * 0.5 - positionDifference) * 5700, ControlType.kVelocity);
   }
 
+  /**
+   * @param speed
+   * in percentage
+   */
+
+  public void climb(double speed) {
+    climberPIDRight.setReference((speed * 0.5 + positionDifference) * 5700, ControlType.kVelocity);
+    climberPIDLeft.setReference((speed * 0.5 - positionDifference) * 5700, ControlType.kVelocity);
+  }
+
   public void stopClimber() {
     climber_motor_left.stopMotor();
     climber_motor_right.stopMotor();
