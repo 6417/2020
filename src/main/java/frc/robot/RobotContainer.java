@@ -43,6 +43,7 @@ public class RobotContainer {
   private static RobotContainer mInstance;
 
   public static final Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
+  public static final Joystick steeringWheel = new Joystick(Constants.STEERING_WHEEL_PORT);
 
   // no automechanisms Buttons
 

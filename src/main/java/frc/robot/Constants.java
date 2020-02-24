@@ -32,6 +32,7 @@ public final class Constants {
      * Joystick button constants used in {@link RobotContainer}
      */ 
     public static final int JOYSTICK_PORT = 0;
+    public static final int STEERING_WHEEL_PORT = 1;
     public static final int DEACTIVATE_SECUTITY_MECHANISMS_BUTTON_NUMBER = 7;
 
     // No auto mechanisms buttons
@@ -101,7 +102,7 @@ public final class Constants {
   public static final int BALL_PICKUP_PROTECTER_RETRACT_ID = 4;
 
   /** 
- * Motor Subsystem constants used in {@link MotorSubsystem}.
+ * Drive Subsystem constants used in {@link DriveSubsystem}.
  */
 
  public static final double AIM_MAX_SPEED = 0.2;
