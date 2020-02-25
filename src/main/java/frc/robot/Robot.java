@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.PneumaticPickUpProtectorCommand;
 import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.BallShooterSubsystem;
 import frc.robot.subsystems.BallTransportSubsystem;
@@ -48,8 +49,6 @@ public class Robot extends TimedRobot {
     // ControlPanelSubsystem.getInstance().setSensorPos(0);
     // TestRobotContainer.getInstance().setShooterSliderPos(0);
     // TestRobotContainer.getInstance().setLoadSliderPos(0);
-
-    BallPickUpSubsystem.getInstance().setProtectCylinder(PneumaticState.FORWARD);
   }
 
   /**
@@ -80,7 +79,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    BallPickUpSubsystem.getInstance().setProtectCylinder(PneumaticState.REVERSE);
+    new PneumaticPickUpProtectorCommand(false).schedule();
   }
 
   @Override
@@ -105,6 +104,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    new PneumaticPickUpProtectorCommand(true).schedule();
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove

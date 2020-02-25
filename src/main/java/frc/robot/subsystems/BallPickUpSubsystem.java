@@ -17,6 +17,7 @@ public class BallPickUpSubsystem extends SubsystemBase {
     private WPI_TalonSRX pickUpMotor;
     private DoubleSolenoid PickupCylinder;
     private DoubleSolenoid protectCylinder;
+    public boolean protectorExtended = false;
 
     protected BallPickUpSubsystem() {
         constructor();

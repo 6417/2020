@@ -43,7 +43,7 @@ public final class Constants {
 
     // BallPickUp Buttons
     public static final int BALL_PICKUP_MOTOR_BUTTON_NUMPER = 2;
-    // public static final int EXTEND_AND_RETRACT_BALL_PICK_UP_MODULE_BUTTON_NUMBER = 1;
+    public static final int BALL_PICKUP_EXTEND_AND_RETRACT_PROTECTOR = 8;
     
     // ControlPanel Buttons
     public static final int EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER = 5;
@@ -63,7 +63,7 @@ public final class Constants {
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
     public static boolean DRIVE_SUBSYSTEM_ENABLED = true;
     public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
-    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = false;
+    public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
     public static boolean CLIMBER_SUBSYSTEM_ENABLED = false;

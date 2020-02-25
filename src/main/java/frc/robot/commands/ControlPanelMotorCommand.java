@@ -10,55 +10,41 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.TestRobotContainer;
-import frc.robot.subsystems.BallShooterSubsystem;
+import frc.robot.subsystems.ControlPanelSubsystem;
 
-public class BallShooterCommand extends CommandBase {
+public class ControlPanelMotorCommand extends CommandBase {
   /**
-   * Creates a new BallShooterCommand.
+   * Creates a new setControlPanelMotorCommand.
    */
-  private static BallShooterSubsystem m_subsystem = BallShooterSubsystem.getInstance();
-  private DoubleSupplier shooterSpeed;
-  private boolean FixedSpeed;
-
-  public BallShooterCommand(DoubleSupplier shooterSpeed, boolean FixedSpeed) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.shooterSpeed = shooterSpeed;
-    this.FixedSpeed = FixedSpeed;
+  private ControlPanelSubsystem mSubsystem;
+  private DoubleSupplier speed;
+  public ControlPanelMotorCommand(DoubleSupplier speed) {
+    this.speed = speed;
+    mSubsystem = ControlPanelSubsystem.getInstance();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    TestRobotContainer.getInstance().setShooterSliderPos(shooterSpeed.getAsDouble());
+    TestRobotContainer.getInstance().setControlPanelMotorSlider(speed.getAsDouble());
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_subsystem.setShooter(shooterSpeed.getAsDouble());
+    mSubsystem.setMotor(speed.getAsDouble());
+    System.out.println("ControlPanelMotorCommand initialized");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) {
-      //m_subsystem.stopShooter();
-    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (FixedSpeed){
-      if (m_subsystem.getSpeed() > 5400 * shooterSpeed.getAsDouble() || RobotContainer.getSecurityMechanismsButton()){
-         return true;
-      } else {
-        return false;
-      }
-    }
-    else{
-      return true;
-    }
+    return true;
   }
 }

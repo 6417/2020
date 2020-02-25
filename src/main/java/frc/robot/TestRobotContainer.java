@@ -13,6 +13,7 @@ import frc.robot.commands.AimCommand;
 import frc.robot.commands.BallLoaderCommand;
 import frc.robot.commands.BallPickupMotorCommand;
 import frc.robot.commands.BallShooterCommand;
+import frc.robot.commands.ControlPanelMotorCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.GoToColorCommand;
 import frc.robot.commands.GoToColorCommandGroup;
@@ -73,7 +74,8 @@ public class TestRobotContainer {
     private BallShooterCommand ballShooterCommand;
     private TransportBallCommand transportBallcommand;
     private BallPickupMotorCommand pickUpMotorCommand;
-    private CommandBase controlPanelMotorCommand;
+    private ControlPanelMotorCommand controlPanelMotorCommand;
+    private CommandBase stopControlPanelMotorCommand;
     private StopAllBallSubsystemsCommand stopAllBallSubsystemsCommand;
     private StopTankDriveCommand stopTankDriveCommand;
     private PneumaticPickupModuleCommand extendPickupModuleCommand;
@@ -109,13 +111,21 @@ public class TestRobotContainer {
             mInstance.ballShooterCommand = new BallShooterCommand(() -> mInstance.getShooterSlider(), false);
             mInstance.transportBallcommand = new TransportBallCommand(() -> mInstance.getTransportSlider(), false);
             mInstance.pickUpMotorCommand = new BallPickupMotorCommand(() -> mInstance.getPickUpSlider());
+            mInstance.controlPanelMotorCommand = new ControlPanelMotorCommand(() -> mInstance.getControlPanelMotorSlider());
+
             mInstance.aimCommand = new AimCommand();
             mInstance.extendPickupModuleCommand = new PneumaticPickupModuleCommand(PneumaticState.FORWARD);
             mInstance.retractPickupModuleCommand = new PneumaticPickupModuleCommand(PneumaticState.REVERSE);
-            mInstance.controlPanelMotorCommand = new CommandBase() {
+            mInstance.stopControlPanelMotorCommand = new CommandBase() {
                 @Override
-                public void execute() {
-                    mInstance.mControlPanelSubsystem.setMotor(() -> mInstance.getControlPanelMotorSlider());
+                public void execute(){
+                    mInstance.setControlPanelMotorSlider(0);
+                    mInstance.mControlPanelSubsystem.stopMotor();
+                }
+
+                @Override
+                public boolean isFinished() {
+                    return true;
                 }
             };
             mInstance.stopAllBallSubsystemsCommand = new StopAllBallSubsystemsCommand();
@@ -145,8 +155,7 @@ public class TestRobotContainer {
                 new PneumaticBumperCommand(PneumaticState.FORWARD));
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "Retract Bumper Command",
                 new PneumaticBumperCommand(PneumaticState.REVERSE));
-        new ShuffleBoardInformation(mInstance.ControlPanelTab, "set Control Panel Motor", mInstance.controlPanelMotorCommand);
-        new ShuffleBoardInformation(mInstance.ControlPanelTab, "stop Control Panel Motor", new SetMotorForRotationsCommand(0));
+        new ShuffleBoardInformation(mInstance.ControlPanelTab, "stop Control Panel Motor", mInstance.stopControlPanelMotorCommand);
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "test Control Panel Motor Connection", new IsConnected());
         new ShuffleBoardInformation(mInstance.ControlPanelTab, "test the go to color feature", new GoToColorCommandGroup(ColorDetected.GREEN));
         
@@ -220,12 +229,12 @@ public class TestRobotContainer {
             mInstance.stopAllBallSubsystemsCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Shoot ball", new ShootBallCommand(mInstance.getShooterSlider(),
             mInstance.getLoadSlider(), mInstance.getTransportSlider()));
-        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport ball",
-            mInstance.transportBallcommand);
-        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Load Ball", mInstance.loadBallCommmand);
-        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Shoot Ball", mInstance.ballShooterCommand);
-        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set transport Ball", mInstance.transportBallcommand);
-        new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Pick up motor", mInstance.pickUpMotorCommand);
+        //new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "Transport ball",
+        //      mInstance.transportBallcommand);
+        // new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Load Ball", mInstance.loadBallCommmand);
+        // new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Shoot Ball", mInstance.ballShooterCommand);
+        // new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set transport Ball", mInstance.transportBallcommand);
+        // new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "set Pick up motor", mInstance.pickUpMotorCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "extendPickupModule", mInstance.extendPickupModuleCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "retractPickupModule", mInstance.retractPickupModuleCommand);
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "extendProtectModule", new CommandBase() { 
@@ -239,6 +248,7 @@ public class TestRobotContainer {
                 return true;
             }
         });
+
         new ShuffleBoardInformation(mInstance.BallSubsystemsTab, "retract Protecter", new CommandBase() {
             @Override
             public void initialize(){
@@ -285,6 +295,7 @@ public class TestRobotContainer {
         mInstance.loadBallCommmand.schedule(true);
         mInstance.transportBallcommand.schedule(true);
         mInstance.pickUpMotorCommand.schedule(true);
+        mInstance.controlPanelMotorCommand.schedule(true);
     }
 
     /**

@@ -54,6 +54,6 @@ public class GoToColorCommand extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return aimColor == mSubsystem.getColor();
+        return aimColor == mSubsystem.getColor() || !mSubsystem.isConected;
     }
 }

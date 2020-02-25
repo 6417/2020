@@ -10,9 +10,9 @@ import frc.robot.commands.BallShooterCommand;
 public class StopAllBallSubsystemsCommand extends ParallelCommandGroup {
   public StopAllBallSubsystemsCommand() {
     super( 
-        new BallLoaderCommand(() -> 0), 
-        new BallShooterCommand(() -> 0, false),
-        new BallPickupMotorCommand(() -> 0), 
+        // new BallLoaderCommand(() -> 0), 
+        // new BallShooterCommand(() -> 0, false),
+        // new BallPickupMotorCommand(() -> 0), 
         new CommandBase() {
           @Override
           public void initialize() {

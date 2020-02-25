@@ -4,6 +4,8 @@ import frc.robot.subsystems.BallPickUpSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.PneumaticState;
 
 public class EmptyBallPickUpSubsystem extends BallPickUpSubsystem {
+    public boolean protectorExtended = false;
+
     public EmptyBallPickUpSubsystem() {
         super();
     }

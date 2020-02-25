@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import ch.team6417.lib.utils.ShuffleBoardInformation;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -20,6 +24,7 @@ import frc.robot.commands.ClimbUPCommand;
 import frc.robot.commands.ControlPanelPneumaticCommandGroup;
 import frc.robot.commands.GoToColorCommandGroup;
 import frc.robot.commands.PickUpCommand;
+import frc.robot.commands.PneumaticPickUpProtectorCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
 import frc.robot.subsystems.BallShooterSubsystem;
@@ -44,6 +49,7 @@ public class RobotContainer {
 
   public static final Joystick joystick = new Joystick(Constants.JOYSTICK_PORT);
   public static final Joystick steeringWheel = new Joystick(Constants.STEERING_WHEEL_PORT);
+  public static AHRS navx;
 
   // no automechanisms Buttons
 
@@ -63,8 +69,9 @@ public class RobotContainer {
   private final JoystickButton ballPickupMotorButton = new JoystickButton(joystick, Constants.BALL_PICKUP_MOTOR_BUTTON_NUMPER);
   private final JoystickButton shootBallButton = new JoystickButton(joystick, Constants.SHOOT_BUTTON_NUMBER);
   private final JoystickButton extendAndRetactControlPanelButton = new JoystickButton(joystick, Constants.EXTEND_AND_RETRACT_CONTROL_PANEL_MODULE_BUTTON_NUMBER);
-  private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
+  // private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
   private final JoystickButton goToColorButton = new JoystickButton(joystick, Constants.GO_TO_COLOR_BUTTON_NUMBER);
+  private final JoystickButton extendAndRetractPickUpProtectorButton = new JoystickButton(joystick, Constants.BALL_PICKUP_EXTEND_AND_RETRACT_PROTECTOR);
 
   // Initialize Commands
   private CommandBase ballLoaderCommand = new CommandBase() {
@@ -180,10 +187,19 @@ public class RobotContainer {
     }
   };
 
+  private PneumaticPickUpProtectorCommand extendAndRetactPickUpProtectorCommand = new PneumaticPickUpProtectorCommand();
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   private RobotContainer() {
+    try {
+      navx = new AHRS(SPI.Port.kMXP);
+      // ahrs = new AHRS(SerialPort.Port.kUSB1);
+      navx.enableLogging(true);
+    } catch (RuntimeException ex) {
+    DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+    }
     configureButtonBindings();
     showOnShuffleBoard();
   }
@@ -216,9 +232,10 @@ public class RobotContainer {
     extendAndRetactControlPanelButton.toggleWhenPressed(extendAndRetractControlPanelModuleCommand);
     goToColorButton.whenPressed(goToColorCommand);
 
-    cancelAllCommandsButton.whenPressed(cancelAllCommands);
-
+    // cancelAllCommandsButton.whenPressed(cancelAllCommands);
     activateClimbingButton.toggleWhenPressed(activateAndDiactivateClimbing);
+
+    extendAndRetractPickUpProtectorButton.whenPressed(extendAndRetactPickUpProtectorCommand);
     
     // for the standart drive command
     DriveSubsystem.getInstance();

@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import ch.team6417.lib.utils.LatchedBoolean;
 import ch.team6417.lib.utils.LatchedBoolean.EdgeDetection;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -27,7 +25,7 @@ public class IsConnected extends CommandBase {
 
     overRotations = new LatchedBoolean(EdgeDetection.RISING);
     finished = false;
-    m_subsystem.isConected = false;
+    m_subsystem.isConected = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
