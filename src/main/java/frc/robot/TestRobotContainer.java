@@ -24,6 +24,7 @@ import frc.robot.commands.PneumaticPickupModuleCommand;
 import frc.robot.commands.SetMotorForRotationsCommand;
 import frc.robot.commands.ShootBallCommand;
 import frc.robot.commands.TransportBallCommand;
+import frc.robot.commands.resetClimber;
 import frc.robot.commands.TestCommands.StopAllBallSubsystemsCommand;
 import frc.robot.commands.TestCommands.StopTankDriveCommand;
 import frc.robot.subsystems.BallPickUpSubsystem;
@@ -41,6 +42,7 @@ public class TestRobotContainer {
     private final String ControlPanelTab = "ControlPanel Test";
     private final String BallSubsystemsTab = "BallSubsystems Test";
     private final String DriveSubsystemsTab = "DriveSubsystem Test";
+    private final String ClimberTab = "ClimberSubsystem Test";
 
     private BallPickUpSubsystem mBallPickUpSubsystem;
     private BallShooterSubsystem mBallShooterSubsystem;
@@ -138,6 +140,16 @@ public class TestRobotContainer {
     }
 
     private static void showOnShuffleBoard() {
+
+        /**
+         * Informations displayed on the Climber Tab
+         */
+
+         /**
+          * Commands
+          */
+
+        new ShuffleBoardInformation(mInstance.ClimberTab, "Reset Climbing Mechanism", new resetClimber());
 
         /**
          * Informtions displayed on the ControlPanel Tab

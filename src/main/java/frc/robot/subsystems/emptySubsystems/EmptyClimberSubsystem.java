@@ -91,4 +91,14 @@ public class EmptyClimberSubsystem extends ClimberSubsystem {
     public boolean getRightLimit() {
         return false;
     }
+
+    @Override
+    public void setClimberRight(double speed) {
+        
+    }
+
+    @Override
+    public void setClimberLeft(double speed) {
+        
+    }
 }

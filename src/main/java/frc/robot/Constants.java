@@ -153,4 +153,10 @@ public final class Constants {
   public static final double standardClimberSpeed = 0.5;
 
   public static final double CLIMBER_TOP_POSITION = 95.5; // In encoder ticks
+
+  /**
+   * Autonomous constatnts
+   */
+
+  public static final double DISTANCE_TO_DRIVE_OVER_LINE = 1;
 }

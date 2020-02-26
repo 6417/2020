@@ -187,6 +187,14 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
+  public void setClimberRight(double speed) {
+    climber_motor_right.set(speed);
+  }
+
+  public void setClimberLeft(double speed) {
+    climber_motor_left.set(speed);
+  }
+
   public boolean getRightLimit() {
     return right_limit.get();
   }
