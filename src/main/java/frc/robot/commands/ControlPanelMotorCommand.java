@@ -34,7 +34,6 @@ public class ControlPanelMotorCommand extends CommandBase {
   @Override
   public void execute() {
     mSubsystem.setMotor(speed.getAsDouble());
-    System.out.println("ControlPanelMotorCommand initialized");
   }
 
   // Called once the command ends or is interrupted.

@@ -27,6 +27,12 @@ public class EmptyClimberSubsystem extends ClimberSubsystem {
     }
 
     @Override
+    public void climb(double speed) {
+        climberPIDRight.setReference(0, ControlType.kVelocity);
+        climberPIDLeft.setReference(0, ControlType.kVelocity);
+    }
+
+    @Override
     public void stopClimber() {
         
     }
@@ -74,5 +80,15 @@ public class EmptyClimberSubsystem extends ClimberSubsystem {
     @Override
     public void initSendable(SendableBuilder builder) {
         
+    }
+
+    @Override
+    public boolean getLeftLimit() {
+        return true;
+    }
+
+    @Override
+    public boolean getRightLimit() {
+        return false;
     }
 }

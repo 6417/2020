@@ -20,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ClimbStopCommand;
+import frc.robot.commands.ClimbToBottomCommand;
+import frc.robot.commands.ClimbToTopCommand;
 import frc.robot.commands.ClimbUPCommand;
 import frc.robot.commands.ControlPanelPneumaticCommandGroup;
 import frc.robot.commands.GoToColorCommandGroup;
@@ -72,6 +74,7 @@ public class RobotContainer {
   // private final JoystickButton cancelAllCommandsButton = new JoystickButton(joystick, Constants.CANCEL_ALL_COMMANDS_BUTTON_NUMBER);
   private final JoystickButton goToColorButton = new JoystickButton(joystick, Constants.GO_TO_COLOR_BUTTON_NUMBER);
   private final JoystickButton extendAndRetractPickUpProtectorButton = new JoystickButton(joystick, Constants.BALL_PICKUP_EXTEND_AND_RETRACT_PROTECTOR);
+  private final JoystickButton climbToTopAndBottomPositionButton = new JoystickButton(joystick, Constants.CLIMB_TO_BOTTOM_BUTTON_NUMBER);
 
   // Initialize Commands
   private CommandBase ballLoaderCommand = new CommandBase() {
@@ -145,6 +148,28 @@ public class RobotContainer {
   public ShootBallCommand shootBallCommand = new ShootBallCommand();
 
   private PickUpCommand pickUpCommand = new PickUpCommand();
+
+  private CommandBase climbToTopAndBottomCommand = new CommandBase() {
+    private ClimbToTopCommand climbToTopCommand = new ClimbToTopCommand();
+    private ClimbToBottomCommand climbToBottomCommand = new ClimbToBottomCommand();
+
+    @Override
+    public void initialize() {
+      CommandScheduler.getInstance().cancel(climbToBottomCommand);
+      climbToTopCommand.schedule();
+    }
+
+    public void end(boolean interrupted) {
+      if (interrupted) {
+        CommandScheduler.getInstance().cancel(climbToTopCommand);
+        climbToBottomCommand.schedule();
+      }
+    }
+
+    public boolean isFinished() {
+      return false;
+    }
+  };
 
   private CommandBase activateAndDiactivateClimbing =  new CommandBase() {
     private ClimbUPCommand mClimbUPCommand;
@@ -236,6 +261,8 @@ public class RobotContainer {
     activateClimbingButton.toggleWhenPressed(activateAndDiactivateClimbing);
 
     extendAndRetractPickUpProtectorButton.whenPressed(extendAndRetactPickUpProtectorCommand);
+
+    climbToTopAndBottomPositionButton.toggleWhenPressed(climbToTopAndBottomCommand);
     
     // for the standart drive command
     DriveSubsystem.getInstance();

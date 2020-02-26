@@ -53,16 +53,16 @@ public final class Constants {
     public static final int SHOOT_BUTTON_NUMBER = 1;
     public static final int AIM_BUTTON_NUMBER = 4;
 
-    // Other Buttons
-    public static final int CANCEL_ALL_COMMANDS_BUTTON_NUMBER = 8;
+    // Climbing Buttons
     public static final int ACTIVATE_CLIMBING_BUTTON_NUMBER = 6;
+    public static final int CLIMB_TO_BOTTOM_BUTTON_NUMBER = 4;
 
     /**
      * Activate subsystems constants
     */
     public static final boolean CONTROL_PANEL_SUBSYSTEM_ENABLED = true;
     public static boolean DRIVE_SUBSYSTEM_ENABLED = true;
-    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = true;
+    public static final boolean PNEUMATIC_SUBSYSTEM_ENABLED = false;
     public static final boolean BALL_SHOOTER_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_TRANSPORT_SUBSYSTEM_ENABLED = true;
     public static final boolean BALL_PICKUP_SUBSYSTEM_ENABLED = true;
@@ -116,7 +116,7 @@ public final class Constants {
 
  // Standart speed constants used in all ball Subsystems
 
- public static final DoubleSupplier standardShooterSpeed = () -> 0.9;
+ public static final DoubleSupplier standardShooterSpeed = () -> 1;
  public static final DoubleSupplier standardLoaderSpeed = () -> 0.25;
  public static final DoubleSupplier standardTransportSpeed = () -> 0.25;
  public static final DoubleSupplier standardPickUpMotorSpeed = () -> 0.5;
@@ -149,4 +149,8 @@ public final class Constants {
   public static final int MOTOR_CLIMBER_RIGHT_ID = 25;
 
   public static final double CLIMBER_LEVEL_SAFETY_TICKS = 10;
+
+  public static final double standardClimberSpeed = 0.5;
+
+  public static final double CLIMBER_TOP_POSITION = 95.5; // In encoder ticks
 }

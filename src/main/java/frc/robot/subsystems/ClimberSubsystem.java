@@ -106,7 +106,6 @@ public class ClimberSubsystem extends SubsystemBase {
     } else if (mInstance == null) {
       mInstance = new EmptyClimberSubsystem();
     }
-    firstGetInstatce.update(true);
     return mInstance;
   }
 
@@ -133,14 +132,9 @@ public class ClimberSubsystem extends SubsystemBase {
     climberPIDLeft.setReference((-RobotContainer.getInstance().joystick.getY() * 0.5 - positionDifference) * 5700, ControlType.kVelocity);
   }
 
-  /**
-   * @param speed
-   * in percentage
-   */
-
   public void climb(double speed) {
-    climberPIDRight.setReference((speed * 0.5 + positionDifference) * 5700, ControlType.kVelocity);
-    climberPIDLeft.setReference((speed * 0.5 - positionDifference) * 5700, ControlType.kVelocity);
+    climberPIDRight.setReference((-speed * 0.5 + positionDifference) * 5700, ControlType.kVelocity);
+    climberPIDLeft.setReference((-speed * 0.5 - positionDifference) * 5700, ControlType.kVelocity);
   }
 
   public void stopClimber() {
@@ -193,10 +187,20 @@ public class ClimberSubsystem extends SubsystemBase {
     }
   }
 
+  public boolean getRightLimit() {
+    return right_limit.get();
+  }
+
+  public boolean getLeftLimit() {
+    return left_limit.get();
+  }
+
   @Override
   public void initSendable(SendableBuilder builder) {
     builder.addDoubleProperty("Height", () -> getHeight(), ticks -> setHeight((int)ticks));
     builder.addDoubleProperty("Speed", () -> climber_motor_right.get(), speed -> climber_motor_right.set(speed));
+    builder.addBooleanProperty("right limit", () -> right_limit.get(), null);
+    builder.addBooleanProperty("left limit", () -> left_limit.get(), null);
   }
 
 }

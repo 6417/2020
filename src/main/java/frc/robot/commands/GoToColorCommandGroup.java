@@ -7,19 +7,33 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.ControlPanelSubsystem;
 import frc.robot.subsystems.ControlPanelSubsystem.ColorDetected;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class GoToColorCommandGroup extends ParallelRaceGroup {
+public class GoToColorCommandGroup extends SequentialCommandGroup {
   /**
    * Creates a new GoToColorCommand.
    */
   public GoToColorCommandGroup(ColorDetected aimColor) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(new IsConnected(), new GoToColorCommand(aimColor));
+    super(new CommandBase() {
+      @Override
+      public void initialize() {
+        ControlPanelSubsystem.getInstance().resetEncoder();
+      }
+
+      @Override
+        public boolean isFinished() {
+          return true;
+        }
+    }, new WaitCommand(0.02), new ParallelRaceGroup(new IsConnected(), new GoToColorCommand(aimColor)));
   }
 }

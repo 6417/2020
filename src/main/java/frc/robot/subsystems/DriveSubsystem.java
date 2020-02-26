@@ -49,7 +49,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   protected void constructor() {
     if (firsGetInstance.update(true)) {
-      navx = RobotContainer.navx;
+      try {
+        navx = new AHRS(SPI.Port.kMXP);
+        // ahrs = new AHRS(SerialPort.Port.kUSB1);
+        navx.enableLogging(true);
+      } catch (RuntimeException ex) {
+        DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
+      }
+
       tankLeftFront = new CANSparkMax(Constants.Tank_Left_FRONT_ID, MotorType.kBrushless);
       tankLeftBack = new CANSparkMax(Constants.Tank_Left_BACK_ID, MotorType.kBrushless);
       tankRightFront = new CANSparkMax(Constants.Tank_Right_FRONT_ID, MotorType.kBrushless);
@@ -103,7 +110,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void drive(){
-    diffdrive.arcadeDrive(-RobotContainer.joystick.getY(), RobotContainer.steeringWheel.getX(), true);
+    diffdrive.arcadeDrive(-RobotContainer.joystick.getY(), RobotContainer.joystick.getX(), true);
   }
 
   public void drive(double xSpeed, double ySpeed) {

@@ -21,16 +21,16 @@ public class IsConnected extends CommandBase {
   @Override
   public void initialize() {
     cColor = m_subsystem.getColor();
-    ControlPanelSubsystem.getInstance().resetEncoder();
-
     overRotations = new LatchedBoolean(EdgeDetection.RISING);
     finished = false;
     m_subsystem.isConected = true;
+    System.out.println("conected command initalized encoder: " + ControlPanelSubsystem.getInstance().getEncoderValue());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(cColor ==  m_subsystem.getColor());
     if (overRotations.update(Math.abs(m_subsystem.getEncoderValue()) >= 5120)) {
       finished = (cColor ==  m_subsystem.getColor());
       m_subsystem.isConected = (cColor !=  m_subsystem.getColor());
@@ -43,6 +43,7 @@ public class IsConnected extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("isConected end interupted :" + interrupted);
   }
 
   // Returns true when the command should end.

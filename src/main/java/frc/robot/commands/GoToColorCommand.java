@@ -49,6 +49,7 @@ public class GoToColorCommand extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("go to color end interupted: " + interrupted);
         mSubsystem.stopMotor();
     }
 

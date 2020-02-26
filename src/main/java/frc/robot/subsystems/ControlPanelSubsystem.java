@@ -151,6 +151,7 @@ public class ControlPanelSubsystem extends SubsystemBase {
   }
 
   public void resetEncoder() {
+    System.out.println("encoder reseted");
     motor.setSelectedSensorPosition(0);
   }
 
